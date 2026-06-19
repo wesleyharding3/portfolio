@@ -8,6 +8,19 @@
 
   document.documentElement.classList.add("js");
 
+  /* screenshot aid: ?reveal=all shows every section immediately (no scroll needed) */
+  var revealAll = location.search.indexOf("reveal=all") !== -1;
+  if (revealAll) {
+    document.addEventListener("DOMContentLoaded", function () {
+      document.querySelectorAll(".reveal,.reveal-l").forEach(function (e) { e.classList.add("in"); });
+      document.querySelectorAll("[data-n]").forEach(function (n) {
+        var t = parseFloat(n.getAttribute("data-n"));
+        n.textContent = t >= 1000 ? Math.round(t).toLocaleString() : Math.round(t).toString();
+      });
+      document.querySelectorAll(".bar__fill[data-w]").forEach(function (b) { b.style.width = b.getAttribute("data-w"); });
+    });
+  }
+
   /* --- sticky topbar state --- */
   var topbar = document.querySelector(".topbar");
   function onScroll() {
@@ -72,21 +85,16 @@
     });
   }
 
-  /* --- live chapter counter in the rail --- */
-  var chEl = document.querySelector("[data-chapter]");
-  var sections = Array.prototype.slice.call(document.querySelectorAll("section[data-ch]"));
-  var total = sections.length;
-  function pad(n) { return (n < 10 ? "0" : "") + n; }
-  if (chEl && total) {
+  /* --- live editorial running-head in the rail --- */
+  var rhEl = document.querySelector("[data-rh-target]");
+  var rhSections = Array.prototype.slice.call(document.querySelectorAll("section[data-rh]"));
+  if (rhEl && rhSections.length) {
     var co = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
-        if (e.isIntersecting) {
-          var idx = sections.indexOf(e.target) + 1;
-          chEl.textContent = "CH " + pad(idx) + " / " + pad(total);
-        }
+        if (e.isIntersecting) rhEl.textContent = e.target.getAttribute("data-rh");
       });
-    }, { threshold: 0.4 });
-    sections.forEach(function (s) { co.observe(s); });
+    }, { threshold: 0.35 });
+    rhSections.forEach(function (s) { co.observe(s); });
   }
 
   /* --- current year --- */

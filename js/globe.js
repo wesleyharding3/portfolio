@@ -109,7 +109,7 @@
           if (!started || !prevFront) { ctx.beginPath(); ctx.moveTo(pr.sx, pr.sy); started = true; }
           else { ctx.lineTo(pr.sx, pr.sy); }
           // stroke incrementally so alpha follows depth
-          ctx.strokeStyle = "rgba(91,134,216," + alpha.toFixed(3) + ")";
+          ctx.strokeStyle = "rgba(205,193,172," + alpha.toFixed(3) + ")";
           ctx.stroke();
           ctx.beginPath(); ctx.moveTo(pr.sx, pr.sy);
         }
@@ -125,11 +125,11 @@
       var glow = 0.15 + face * 0.7;
       ctx.beginPath();
       ctx.arc(pr.sx, pr.sy, r + 4 * face, 0, TAU);
-      ctx.fillStyle = "rgba(155,184,245," + (glow * 0.16).toFixed(3) + ")";
+      ctx.fillStyle = "rgba(232,133,106," + (glow * 0.16).toFixed(3) + ")";
       ctx.fill();
       ctx.beginPath();
       ctx.arc(pr.sx, pr.sy, r, 0, TAU);
-      ctx.fillStyle = "rgba(180,205,255," + glow.toFixed(3) + ")";
+      ctx.fillStyle = "rgba(238,230,216," + glow.toFixed(3) + ")";
       ctx.fill();
     }
 
@@ -149,7 +149,7 @@
           d = Math.min(d, 1 - d);
           var head = Math.max(0, 1 - d * 6);
           var base = 0.05 + Math.max(0, pr.z) * 0.10;
-          ctx.strokeStyle = "rgba(155,184,245," + (base + head * 0.55).toFixed(3) + ")";
+          ctx.strokeStyle = "rgba(232,133,106," + (base + head * 0.55).toFixed(3) + ")";
           ctx.lineWidth = 0.8 + head * 1.4;
           ctx.beginPath(); ctx.moveTo(prev.sx, prev.sy); ctx.lineTo(pr.sx, pr.sy); ctx.stroke();
         }
@@ -169,14 +169,14 @@
 
       // halo
       var g = ctx.createRadialGradient(cx, cy, R * 0.2, cx, cy, R * 1.25);
-      g.addColorStop(0, "rgba(91,134,216,0.05)");
-      g.addColorStop(1, "rgba(91,134,216,0)");
+      g.addColorStop(0, "rgba(205,193,172,0.05)");
+      g.addColorStop(1, "rgba(205,193,172,0)");
       ctx.fillStyle = g;
       ctx.beginPath(); ctx.arc(cx, cy, R * 1.25, 0, TAU); ctx.fill();
 
       // limb circle
       ctx.beginPath(); ctx.arc(cx, cy, R, 0, TAU);
-      ctx.strokeStyle = "rgba(91,134,216,0.22)"; ctx.lineWidth = 1; ctx.stroke();
+      ctx.strokeStyle = "rgba(205,193,172,0.22)"; ctx.lineWidth = 1; ctx.stroke();
 
       for (var i = 0; i < grat.length; i++) drawLine(grat[i]);
 
