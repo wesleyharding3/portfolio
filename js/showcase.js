@@ -24,8 +24,9 @@
     { src: "assets/img/showcase/e-keyword.jpg",label: "earth00 / keyword intelligence", sub: "the electric decode" },
     { src: "assets/img/showcase/e-vector.jpg",label: "earth00 / vector lab",     sub: "3D hologram boot-up" }
   ];
-  var LAYER_SRC = { code: "assets/img/showcase/p-code.jpg", raw: "assets/img/showcase/p-raw.jpg" };
+  var LAYER_SRC = { code: "assets/img/showcase/p-vscode.jpg", raw: "assets/img/showcase/p-raw.jpg" };
   var RAW_CAP = { label: "the bare html", sub: "what every browser shows, untouched" };
+  var CODE_CAP = { label: "the code I write", sub: "real source — earth00, in the editor" };
 
   var CLAY = "206,95,68", AMBER = "246,162,58", HOT = "255,240,214";
   function clamp01(x) { return x < 0 ? 0 : x > 1 ? 1 : x; }
@@ -58,6 +59,7 @@
     function settle() { if (--pending === 0) start(); }
 
     var slides = [], cur = 0, nxt = 0, phase = "hold", t0 = 0, raf = 0, running = false;
+    var tcount = 0, underImg = null;
     function now() { return (window.performance && performance.now) ? performance.now() : Date.now(); }
 
     function start() {
@@ -68,7 +70,10 @@
       setCaption(0, true);
       cur = 0; nxt = 0; phase = "hold";
       var frz = (location.search.match(/[?&]frz=([0-9.]+)/) || [])[1];
-      if (frz !== undefined && slides.length > 1) { draw(slides[0], slides[1], parseFloat(frz)); return; }
+      if (frz !== undefined && slides.length > 1) {
+        underImg = /u=code/.test(location.search) ? CODE : RAW;
+        draw(slides[0], slides[1], parseFloat(frz)); return;
+      }
       draw(slides[0], slides[0], 0);
       if (reduce) return;
       running = true; t0 = now(); raf = requestAnimationFrame(loop);
@@ -109,7 +114,12 @@
       var t = now() - t0;
       if (phase === "hold") {
         draw(slides[cur], slides[cur], 0);
-        if (t >= HOLD && slides.length > 1) { nxt = (cur + 1) % slides.length; phase = "trans"; t0 = now(); setCaptionRaw(); }
+        if (t >= HOLD && slides.length > 1) {
+          nxt = (cur + 1) % slides.length; phase = "trans"; t0 = now();
+          underImg = (CODE && tcount % 2 === 0) ? CODE : RAW; tcount++;   // alternate code <-> bare html
+          var uc = (underImg === CODE) ? CODE_CAP : RAW_CAP;
+          _setCap(uc.label, uc.sub, false);
+        }
       } else {
         var p = clamp01(t / TRANS);
         draw(slides[cur], slides[nxt], p);
@@ -125,22 +135,21 @@
       if (p <= 0 || from === to) { coverDraw(fi, 0, 0, W, H, 1, 0, 0); vignette(); return; }
       if (p >= 1) { coverDraw(ti, 0, 0, W, H, 1, 0, 0); vignette(); return; }
 
+      var under = underImg || RAW;
       if (p < BEAT0) {
-        // stage 1: wipe the interface away to reveal the bare HTML (code flashes in first)
+        // stage 1: wipe the interface away to reveal the layer underneath (code editor or bare html)
         var wp = easeInOut(clamp01(p / BEAT0));
-        var codeA = clamp01((0.16 - p) / 0.16);
         blockWipe(fi, function (rx, ry, rw, rh, a, jx, jy) {
-          coverDraw(RAW, rx, ry, rw, rh, a, jx, jy);
-          if (codeA > 0.01) coverDraw(CODE, rx, ry, rw, rh, a * codeA, jx, jy);
+          coverDraw(under, rx, ry, rw, rh, a, jx, jy);
         }, wp, tms);
       } else if (p < BEAT1) {
-        // beat: hold on the full bare HTML — a scanline sweeps it
-        coverDraw(RAW, 0, 0, W, H, 1, 0, 0);
+        // beat: hold on the full underneath layer — a scanline sweeps it
+        coverDraw(under, 0, 0, W, H, 1, 0, 0);
         scanline(((p - BEAT0) / (BEAT1 - BEAT0)) * H);
       } else {
-        // stage 2: wipe the next interface in over the bare HTML
+        // stage 2: wipe the next interface in over it
         var wp2 = easeInOut(clamp01((p - BEAT1) / (1 - BEAT1)));
-        blockWipe(RAW, function (rx, ry, rw, rh, a, jx, jy) {
+        blockWipe(under, function (rx, ry, rw, rh, a, jx, jy) {
           coverDraw(ti, rx, ry, rw, rh, a, jx, jy);
         }, wp2, tms);
       }
