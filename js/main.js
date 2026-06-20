@@ -18,6 +18,11 @@
         n.textContent = t >= 1000 ? Math.round(t).toLocaleString() : Math.round(t).toString();
       });
       document.querySelectorAll(".bar__fill[data-w]").forEach(function (b) { b.style.width = b.getAttribute("data-w"); });
+      var to = (location.search.match(/scroll=([\w-]+)/) || [])[1];
+      if (to && document.getElementById(to)) {
+        document.documentElement.style.scrollBehavior = "auto";
+        document.getElementById(to).scrollIntoView();
+      }
     });
   }
 

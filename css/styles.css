@@ -164,7 +164,7 @@ code { font-family: var(--mono); font-size: .88em; color: var(--accent); }
 .navlinks a::after { content:''; position:absolute; left:0; bottom:-4px; width:100%; height:1px;
   background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform .3s var(--ease); }
 .navlinks a:hover::after { transform: scaleX(1); }
-.avail { font-family: var(--mono); font-size: var(--fs-meta); letter-spacing: .12em; text-transform: uppercase; color: var(--low); }
+.avail { font-size: .92rem; color: var(--low); }
 .avail b { color: var(--mid); font-weight: 500; }
 
 /* ---- 7. HERO ----------------------------------------------------------- */
@@ -358,6 +358,49 @@ code { font-family: var(--mono); font-size: .88em; color: var(--accent); }
 .e00-trail { stroke: rgba(255,200,90,.5); stroke-width:1.4; stroke-linecap:round; vector-effect: non-scaling-stroke; }
 .e00-star { fill: #ffe14b; filter: drop-shadow(0 0 6px rgba(255,210,60,.9)); animation: e00twinkle 3.6s var(--ease) infinite; }
 @keyframes e00twinkle { 0%,100% { opacity:1; } 50% { opacity:.55; } }
+
+/* ---- 24b. UNDER THE HOOD — recessed, collapsible technical detail ------ */
+.uth { margin-top: 30px; border: 1px solid var(--line); border-radius: 3px;
+  background: rgba(0,0,0,.24); overflow: hidden; }
+.uth > summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; padding: 15px 20px; font-family: var(--mono); font-size: var(--fs-meta); letter-spacing: .14em;
+  text-transform: uppercase; color: var(--low); transition: color .2s; }
+.uth > summary:hover { color: var(--mid); }
+.uth > summary::-webkit-details-marker { display: none; }
+.uth > summary::after { content: 'show +'; font-family: var(--mono); font-size: .6rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--accent); }
+.uth[open] > summary::after { content: 'hide \2013'; }
+.uth__body { padding: 4px 20px 22px; display: grid; gap: 16px; }
+.uth__body p, .uth__body li, .uth__body .hard__d, .uth__body .spec__v { font-size: .9rem; color: var(--low); line-height: 1.62; }
+.uth__body .hard__t, .uth__body .spec__k, .uth__body b { color: var(--mid); }
+.uth__row { display: grid; grid-template-columns: minmax(120px,1fr) 2.4fr; gap: clamp(12px,2.5vw,36px);
+  padding: 12px 0; border-top: 1px solid var(--line); }
+.uth__k { font-family: var(--mono); font-size: .68rem; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+
+/* ---- 24c. SERVICES — plain "what I can build for you" ------------------ */
+.services { display: grid; grid-template-columns: repeat(3,1fr); gap: clamp(26px,3.4vw,56px); }
+.service { border-top: 1px solid var(--line-2); padding-top: 24px; }
+.service__n { font-family: var(--serif); font-style: italic; font-size: 1.4rem; color: var(--faint); }
+.service__t { font-family: var(--serif); font-size: clamp(1.4rem,2.3vw,1.85rem); font-weight: 400; color: var(--hi);
+  margin: 14px 0 12px; letter-spacing: -.01em; line-height: 1.12; }
+.service__d { font-size: 1rem; color: var(--mid); }
+
+/* ---- 24d. PROCESS — how working together works (reuses .flow) ---------- */
+.process .flow__t { font-family: var(--serif); font-size: 1.18rem; font-weight: 400; }
+.process .flow__d { text-transform: none; letter-spacing: 0; font-family: var(--sans); font-size: .82rem; color: var(--mid); }
+.cost { margin-top: clamp(40px,5vw,68px); padding: clamp(22px,3vw,34px); border: 1px solid var(--line-2);
+  border-radius: 3px; background: var(--panel); }
+.cost p { font-size: clamp(1.1rem,1.7vw,1.4rem); color: var(--hi); font-family: var(--serif); font-weight: 360; line-height: 1.4; max-width: 40ch; }
+
+/* ---- 24e. MINOR / secondary link --------------------------------------- */
+.minor { font-family: var(--mono); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; color: var(--low); }
+.minor a { color: var(--low); border-bottom: 1px solid var(--line-2); transition: color .2s, border-color .2s; }
+.minor a:hover { color: var(--accent); border-color: var(--accent); }
+
+@media (max-width: 720px) {
+  .services { grid-template-columns: 1fr; }
+  .uth__row { grid-template-columns: 1fr; gap: 4px; }
+}
 
 /* ---- 25. REVEAL / MOTION ----------------------------------------------- */
 .js .reveal { opacity: 0; transform: translateY(18px); transition: opacity .9s var(--ease), transform .9s var(--ease); transition-delay: var(--d,0ms); }
