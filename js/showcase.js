@@ -107,7 +107,7 @@
       ctx.restore(); ctx.globalAlpha = 1;
     }
 
-    var HOLD = 2400, TRANS = 1750, GRID = 3, BEAT0 = 0.40, BEAT1 = 0.60;
+    var HOLD = 2400, TRANS = 1600, GRID = 3, BEAT0 = 0.46, BEAT1 = 0.54;
 
     function loop() {
       if (!running) { cancelAnimationFrame(raf); return; }
