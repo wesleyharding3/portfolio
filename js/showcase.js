@@ -1,13 +1,12 @@
 /* =============================================================================
    SHOWCASE — "from markup to interface"
-   The gallery cycles FINISHED interfaces. Every transition is a two-stage block
-   wipe: first it wipes the current interface away to reveal the bare, unstyled
-   HTML underneath (a quick code flash leading into it) — holds that skeleton a
-   beat — then wipes the next finished interface in over it. So each transition
-   reads: interface -> the naked markup -> the next interface.
-   Each block's leading edge is lit by an electric gradient scanline (earth00's
-   keyword-decode); incoming pixels hologram-flicker in (earth00's vector boot).
-   Hand-coded Canvas2D. No dependencies.
+   The gallery cycles FINISHED interfaces. One interface wipes directly into the
+   next with a slow 3x3 "tic-tac-toe" pull-back — and right at the moving wipe
+   edge, a thin band peeks through to what's underneath: a quick glimpse of the
+   real code (a VS Code shot of the earth00 source) or the bare, unstyled HTML,
+   alternating each transition. There, then gone — like peering behind a curtain.
+   Each edge is lit by an electric gradient scanline (earth00's keyword-decode);
+   pixels hologram-flicker in (earth00's vector boot). Hand-coded Canvas2D.
    ========================================================================== */
 (function () {
   "use strict";
@@ -25,8 +24,6 @@
     { src: "assets/img/showcase/e-vector.jpg",label: "earth00 / vector lab",     sub: "3D hologram boot-up" }
   ];
   var LAYER_SRC = { code: "assets/img/showcase/p-vscode.jpg", raw: "assets/img/showcase/p-raw.jpg" };
-  var RAW_CAP = { label: "the bare html", sub: "what every browser shows, untouched" };
-  var CODE_CAP = { label: "the code I write", sub: "real source — earth00, in the editor" };
 
   var CLAY = "206,95,68", AMBER = "246,162,58", HOT = "255,240,214";
   function clamp01(x) { return x < 0 ? 0 : x > 1 ? 1 : x; }
@@ -96,7 +93,7 @@
     }
 
     function coverDraw(img, clipX, clipY, clipW, clipH, alpha, jx, jy) {
-      if (!img || alpha <= 0) return;
+      if (!img || alpha <= 0 || clipW <= 0 || clipH <= 0) return;
       var iw = img.naturalWidth, ih = img.naturalHeight;
       var sc = Math.max(W / iw, H / ih), dw = iw * sc, dh = ih * sc;
       var dx = (W - dw) / 2 + (jx || 0), dy = (H - dh) / 2 + (jy || 0);
@@ -107,7 +104,7 @@
       ctx.restore(); ctx.globalAlpha = 1;
     }
 
-    var HOLD = 2400, TRANS = 1600, GRID = 3, BEAT0 = 0.46, BEAT1 = 0.54;
+    var HOLD = 2600, TRANS = 2000, GRID = 3, PEEK = 0.17;
 
     function loop() {
       if (!running) { cancelAnimationFrame(raf); return; }
@@ -117,84 +114,53 @@
         if (t >= HOLD && slides.length > 1) {
           nxt = (cur + 1) % slides.length; phase = "trans"; t0 = now();
           underImg = (CODE && tcount % 2 === 0) ? CODE : RAW; tcount++;   // alternate code <-> bare html
-          var uc = (underImg === CODE) ? CODE_CAP : RAW_CAP;
-          _setCap(uc.label, uc.sub, false);
+          setCaption(nxt);
         }
       } else {
         var p = clamp01(t / TRANS);
         draw(slides[cur], slides[nxt], p);
-        if (t >= TRANS) { cur = nxt; phase = "hold"; t0 = now(); setCaption(cur); markDot(cur); }
+        if (t >= TRANS) { cur = nxt; phase = "hold"; t0 = now(); markDot(cur); }
       }
       raf = requestAnimationFrame(loop);
     }
 
-    // two-stage wipe: interface -> bare html -> next interface
+    // one slow wipe from the current interface to the next; the underneath layer
+    // only peeks through a thin band at the moving edge, then is covered.
     function draw(from, to, p) {
-      var tms = now(), fi = from.img, ti = to.img;
+      var tms = now(), fi = from.img, ti = to.img, under = underImg || RAW;
       ctx.clearRect(0, 0, W, H);
       if (p <= 0 || from === to) { coverDraw(fi, 0, 0, W, H, 1, 0, 0); vignette(); return; }
       if (p >= 1) { coverDraw(ti, 0, 0, W, H, 1, 0, 0); vignette(); return; }
 
-      var under = underImg || RAW;
-      if (p < BEAT0) {
-        // stage 1: wipe the interface away to reveal the layer underneath (code editor or bare html)
-        var wp = easeInOut(clamp01(p / BEAT0));
-        blockWipe(fi, function (rx, ry, rw, rh, a, jx, jy) {
-          coverDraw(under, rx, ry, rw, rh, a, jx, jy);
-        }, wp, tms);
-      } else if (p < BEAT1) {
-        // beat: hold on the full underneath layer — a scanline sweeps it
-        coverDraw(under, 0, 0, W, H, 1, 0, 0);
-        scanline(((p - BEAT0) / (BEAT1 - BEAT0)) * H);
-      } else {
-        // stage 2: wipe the next interface in over it
-        var wp2 = easeInOut(clamp01((p - BEAT1) / (1 - BEAT1)));
-        blockWipe(under, function (rx, ry, rw, rh, a, jx, jy) {
-          coverDraw(ti, rx, ry, rw, rh, a, jx, jy);
-        }, wp2, tms);
-      }
-      vignette();
-    }
-
-    function scanline(y) {
-      ctx.save();
-      ctx.shadowColor = "rgba(" + CLAY + ",0.8)"; ctx.shadowBlur = 18;
-      var g = ctx.createLinearGradient(0, y - 24, 0, y);
-      g.addColorStop(0, "rgba(" + AMBER + ",0)"); g.addColorStop(1, "rgba(" + AMBER + ",0.16)");
-      ctx.fillStyle = g; ctx.fillRect(0, y - 24, W, 24);
-      var lg = ctx.createLinearGradient(0, 0, W, 0);
-      lg.addColorStop(0, "rgba(" + HOT + ",0)"); lg.addColorStop(.5, "rgba(" + HOT + ",0.85)"); lg.addColorStop(1, "rgba(" + HOT + ",0)");
-      ctx.fillStyle = lg; ctx.fillRect(0, y - 1.5, W, 3);
-      ctx.restore();
-    }
-
-    function blockWipe(baseImg, drawReveal, wp, tms) {
-      var bw = W / GRID, bh = H / GRID;
-      var dip = (Math.abs(wp - 0.30) < 0.045 || Math.abs(wp - 0.62) < 0.045) ? 0.6 : 1;
+      var wp = easeInOut(p), bw = W / GRID, bh = H / GRID;
       for (var r = 0; r < GRID; r++) {
         for (var c = 0; c < GRID; c++) {
           var i = r * GRID + c, bx = c * bw, by = r * bh;
           var order = (r + c) / ((GRID - 1) * 2);
-          var bp = clamp01((wp - order * 0.55) / 0.45);
-          coverDraw(baseImg, bx, by, bw, bh, 1, 0, 0);
+          var bp = clamp01((wp - order * 0.28) / 0.72);
+          coverDraw(fi, bx, by, bw, bh, 1, 0, 0);          // current interface (the curtain)
           if (bp <= 0) continue;
           var horiz = ((r + c) % 2) === 0;
-          var jk = bp < 0.5 ? (0.5 - bp) * 7 : 0;
+          var jk = bp < 0.5 ? (0.5 - bp) * 6 : 0;
           var jx = Math.sin(tms * 0.035 + i) * jk, jy = Math.cos(tms * 0.04 + i) * jk;
-          var flick = bp < 0.45 ? (0.5 + 0.5 * (0.5 + 0.5 * Math.sin(tms * 0.045 + i * 1.7))) : 1;
-          var a = clamp01(flick * dip);
-          var rx = bx, ry = by, rw = bw, rh = bh, edge;
+          var flick = bp < 0.4 ? (0.55 + 0.45 * (0.5 + 0.5 * Math.sin(tms * 0.045 + i * 1.7))) : 1;
+          var a = clamp01(flick);
+
+          var rw = bw, rh = bh, edge;
           if (horiz) { rw = bw * bp; edge = bx + rw; } else { rh = bh * bp; edge = by + rh; }
-          if (rw > 0.5 && rh > 0.5) drawReveal(rx, ry, rw, rh, a, jx, jy);
-          if (bp > 0.86) {
-            ctx.save(); ctx.beginPath(); ctx.rect(bx, by, bw, bh); ctx.clip();
-            ctx.globalAlpha = (1 - (bp - 0.86) / 0.14) * 0.08;
-            ctx.fillStyle = "rgba(" + AMBER + ",1)"; ctx.fillRect(bx, by, bw, bh);
-            ctx.restore(); ctx.globalAlpha = 1;
+          if (rw > 0.5 && rh > 0.5) {
+            coverDraw(ti, bx, by, rw, rh, a, jx, jy);                          // next interface fills the opened gap
+            // a thin band right at the moving seam peeks through to what's underneath; ramps in & out
+            var band = (horiz ? bw : bh) * PEEK * clamp01(bp / 0.10) * clamp01((1 - bp) / 0.14);
+            if (band > 1) {
+              if (horiz) { var bs = Math.max(bx, edge - band); coverDraw(under, bs, by, edge - bs, rh, a, jx, jy); }
+              else { var bs2 = Math.max(by, edge - band); coverDraw(under, bx, bs2, rw, edge - bs2, a, jx, jy); }
+            }
           }
           if (bp < 0.999) drawEdge(horiz, bx, by, bw, bh, edge);
         }
       }
+      vignette();
     }
 
     function drawEdge(horiz, bx, by, bw, bh, pos) {
@@ -234,7 +200,6 @@
       else { root.classList.add("cap-out"); clearTimeout(capT); capT = setTimeout(apply, 240); }
     }
     function setCaption(i, instant) { var s = slides[i]; _setCap(s.label, s.sub, instant); }
-    function setCaptionRaw() { _setCap(RAW_CAP.label, RAW_CAP.sub, false); }
     function buildDots() {
       if (!dotsWrap) return; dotsWrap.innerHTML = "";
       slides.forEach(function (_, i) { var d = document.createElement("span"); d.className = "sc-dot" + (i === 0 ? " on" : ""); dotsWrap.appendChild(d); });
