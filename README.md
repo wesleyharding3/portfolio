@@ -1,8 +1,9 @@
 # Wesley Harding — Portfolio
 
 A static personal portfolio site. Hand-coded HTML / CSS / JS — no framework, no build
-step, no dependencies. Dark editorial design with a quiet "mission control" voice
-(call signs, coordinates, mono labels, a hand-built canvas wireframe globe).
+step, no dependencies. Dark editorial design (Fraunces · Geist · Fragment Mono) with a
+choreographed load-in: decoded kickers, a flash-in name, a typed claim, and transition
+styles borrowed from earth00's vector_3d materialize studies.
 
 **Live:** _add your GitHub Pages / domain URL here_
 
@@ -24,9 +25,9 @@ step, no dependencies. Dark editorial design with a quiet "mission control" voic
 ```
 index.html          all content, one long-scroll page
 css/styles.css       design system + per-project brand palettes
-js/globe.js          hand-rolled Canvas2D wireframe globe (no deps)
-js/main.js           sticky nav, scroll reveals, chapter counter, count-ups
-assets/img/          optimized project imagery
+js/showcase.js       Canvas2D interface gallery — 4 alternating transitions
+js/main.js           shrinking nav, reveal variants, kicker decode, hero typing
+assets/img/          optimized project imagery (+ storefronts/ live-site stills)
 favicon*.png         site icons
 Wesley_Harding_Portfolio.pdf
 ```
