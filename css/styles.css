@@ -368,17 +368,6 @@ code { font-family: var(--mono); font-size: .88em; color: var(--accent); }
   background: radial-gradient(120% 90% at 50% 0%, #0f0b06 0%, #000 74%);
 }
 .s-earth00 ::selection { background: #f6a23a; color: #140d04; }
-.e00-globe-wrap { display: grid; place-items: center; position: relative; }
-.e00-globe-wrap::before { content:''; position:absolute; width:78%; aspect-ratio:1; border-radius:50%;
-  background: radial-gradient(circle, rgba(255,160,40,.14), transparent 65%); }
-.e00-globe { width: clamp(260px,34vw,440px); aspect-ratio: 1; position: relative;
-  filter: drop-shadow(0 0 26px rgba(255,150,30,.16)); animation: e00spin 150s linear infinite; }
-@keyframes e00spin { to { transform: rotate(360deg); } }
-.e00-grid ellipse, .e00-grid path { fill:none; stroke: rgba(255,160,40,.30); stroke-width:.8; vector-effect: non-scaling-stroke; }
-.e00-grid .rim { stroke: rgba(255,170,55,.62); stroke-width:1.2; }
-.e00-trail { stroke: rgba(255,200,90,.5); stroke-width:1.4; stroke-linecap:round; vector-effect: non-scaling-stroke; }
-.e00-star { fill: #ffe14b; filter: drop-shadow(0 0 6px rgba(255,210,60,.9)); animation: e00twinkle 3.6s var(--ease) infinite; }
-@keyframes e00twinkle { 0%,100% { opacity:1; } 50% { opacity:.55; } }
 
 /* ---- 24b. UNDER THE HOOD — recessed, collapsible technical detail ------ */
 .uth { margin-top: 30px; border: 1px solid var(--line); border-radius: 3px;
@@ -515,7 +504,6 @@ code { font-family: var(--mono); font-size: .88em; color: var(--accent); }
   .js .reveal--wipe { clip-path: none; }
   .js [data-hero] .hero__name .ln, .js [data-hero] .hero__statement,
   .js [data-hero] .hero-slide, .js [data-hero] .hero-fade { opacity: 1 !important; transform: none !important; animation: none !important; }
-  .e00-globe, .e00-star { animation: none; }
 }
 @media print {
   .fx-grain, .topbar { display: none !important; }
