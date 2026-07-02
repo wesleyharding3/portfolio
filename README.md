@@ -2,8 +2,7 @@
 
 A static personal portfolio site. Hand-coded HTML / CSS / JS — no framework, no build
 step, no dependencies. Dark editorial design (Fraunces · Geist · Fragment Mono) with a
-choreographed load-in: decoded kickers, a flash-in name, a typed claim, and transition
-styles borrowed from earth00's vector_3d materialize studies.
+choreographed load-in: decoded kickers, a flash-in name, a typed claim.
 
 **Live:** _add your GitHub Pages / domain URL here_
 
@@ -25,7 +24,6 @@ styles borrowed from earth00's vector_3d materialize studies.
 ```
 index.html          all content, one long-scroll page
 css/styles.css       design system + per-project brand palettes
-js/showcase.js       Canvas2D interface gallery — 4 alternating transitions
 js/main.js           shrinking nav, reveal variants, kicker decode, hero typing
 assets/img/          optimized project imagery (+ storefronts/ live-site stills)
 favicon*.png         site icons
