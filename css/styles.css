@@ -1,7 +1,7 @@
 /* =============================================================================
    WESLEY HARDING — PORTFOLIO
-   Dark editorial / magazine. Fraunces (display voice) · Geist (quiet body)
-   · Geist Mono (metadata only). Warm ink-black canvas, one clay accent.
+   Dark editorial / magazine. Fraunces (display voice) · Geist (quiet body
+   + metadata). Warm ink-black canvas, one clay accent.
    Hand-coded. No framework, no build step.
    ========================================================================== */
 
@@ -38,7 +38,8 @@
   /* type */
   --sans:  "Geist", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --serif: "Fraunces", Georgia, "Times New Roman", serif;
-  --mono:  "Fragment Mono", "Courier New", ui-monospace, Menlo, monospace;
+  /* metadata voice — retired the monospace; Geist carries it now */
+  --mono:  "Geist", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
   /* metrics */
   --maxw: 1280px;
