@@ -170,8 +170,14 @@ code { font-family: var(--mono); font-size: .88em; color: var(--accent); }
 .avail b { color: var(--mid); font-weight: 500; }
 
 /* ---- 7. HERO ----------------------------------------------------------- */
-.hero { position: relative; padding-top: clamp(140px, 22vh, 260px); padding-bottom: clamp(48px, 9vh, 120px); overflow: hidden; }
+.hero { position: relative; padding-top: clamp(140px, 22vh, 260px); padding-bottom: clamp(48px, 9vh, 120px); overflow: hidden;
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: clamp(30px, 5vw, 90px); align-items: center; }
 .hero__kicker { display: block; margin-bottom: 30px; }
+.hero__portrait { width: clamp(210px, 25vw, 330px); margin: 0; padding: 8px;
+  border: 1px solid var(--line-2); border-radius: 26px;
+  background: linear-gradient(160deg, var(--panel-hi), var(--panel));
+  box-shadow: 0 32px 60px -34px rgba(0,0,0,.9); position: relative; z-index: 3; }
+.hero__portrait img { width: 100%; border-radius: 19px; }
 .hero__name { margin: 0 0 34px; position: relative; z-index: 3; }
 .hero__name .ln { display: block; }
 .hero__name em { font-style: italic; color: var(--accent); }
@@ -204,6 +210,9 @@ code { font-family: var(--mono); font-size: .88em; color: var(--accent); }
   transition: opacity .7s var(--ease), transform .7s var(--ease); }
 .js [data-hero] .hero-fade { opacity: 0; transition: opacity .9s var(--ease) .25s; }
 .js [data-hero] .hero-fade--2 { transition-delay: .55s; }
+.js [data-hero] .hero__portrait { opacity: 0; transform: translateX(34px);
+  transition: opacity 1s var(--ease) .5s, transform 1s var(--ease) .5s; }
+.js [data-hero].go .hero__portrait { opacity: 1; transform: none; }
 .js [data-hero].cta .hero-slide { opacity: 1; transform: none; }
 .js [data-hero].cta .hero-fade, .js [data-hero].cta .hero-fade--2 { opacity: 1; }
 
@@ -354,7 +363,7 @@ code { font-family: var(--mono); font-size: .88em; color: var(--accent); }
 .footer__row a:hover { color: var(--accent); }
 
 /* ---- 23. PROJECT WORDMARKS / BRAND ------------------------------------- */
-.wtf-lines { width: clamp(210px, 32vw, 420px); opacity: .94; }
+.wtf-lines { width: clamp(210px, 32vw, 420px); opacity: .94; filter: invert(1) brightness(0.94); }
 .e00-mark { width: clamp(84px, 11vw, 140px); height: auto;
   filter: drop-shadow(0 0 26px rgba(255,160,40,.28)); }
 
@@ -486,6 +495,8 @@ code { font-family: var(--mono); font-size: .88em; color: var(--accent); }
 }
 @media (max-width: 720px) {
   .navlinks { display: none; }
+  .hero { grid-template-columns: 1fr; }
+  .hero__portrait { width: min(66vw, 280px); }
   .cols-3 { grid-template-columns: 1fr; }
   .imgrid--wtf { grid-template-columns: 1fr; }
   .imgrid--wtf .figure:first-child { grid-column: auto; }
@@ -503,7 +514,8 @@ code { font-family: var(--mono); font-size: .88em; color: var(--accent); }
   .js .reveal { opacity: 1; transform: none; }
   .js .reveal--wipe { clip-path: none; }
   .js [data-hero] .hero__name .ln, .js [data-hero] .hero__statement,
-  .js [data-hero] .hero-slide, .js [data-hero] .hero-fade { opacity: 1 !important; transform: none !important; animation: none !important; }
+  .js [data-hero] .hero-slide, .js [data-hero] .hero-fade,
+  .js [data-hero] .hero__portrait { opacity: 1 !important; transform: none !important; animation: none !important; }
 }
 @media print {
   .fx-grain, .topbar { display: none !important; }
