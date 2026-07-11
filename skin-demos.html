@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skin iterations — hero loading onto the scaffold</title>
+<style>
+  * { margin:0; box-sizing:border-box; }
+  body { background:#fff; color:#111; font:14px/1.5 "Helvetica Neue",Helvetica,Arial,sans-serif; padding:40px clamp(20px,4vw,64px); }
+  h1 { font:italic 900 26px/1 Georgia,serif; margin-bottom:6px; }
+  .sub { color:#888; font-size:13px; margin-bottom:8px; max-width:64ch; }
+  .bar { display:flex; gap:18px; align-items:center; margin:22px 0 30px; flex-wrap:wrap; }
+  button { font:inherit; font-size:12.5px; padding:7px 14px; border:1px solid #111; background:#fff; cursor:pointer; }
+  button:hover { background:#111; color:#fff; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:clamp(16px,2vw,28px); }
+  .tile { border:1px solid rgba(0,0,0,.14); position:relative; aspect-ratio:3/4; overflow:hidden; cursor:pointer; }
+  .tile canvas { width:100%; height:100%; display:block; }
+  .tile .lbl { position:absolute; left:12px; bottom:11px; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:#444;
+    background:rgba(255,255,255,.72); padding:2px 6px; }
+  .tile .idx { position:absolute; right:12px; top:10px; font-size:11px; color:#999; letter-spacing:.1em; background:rgba(255,255,255,.72); padding:1px 5px; }
+  .tile:hover { border-color:rgba(0,0,0,.4); }
+</style>
+</head>
+<body>
+  <h1>Loading onto the scaffold</h1>
+  <p class="sub">Six ways the hero image can appear to be built onto the lattice. Same still, same scaffold, different install. Click a tile to replay it. (On the site the image would settle at ~60% opacity beneath the name.)</p>
+  <div class="bar">
+    <button id="replay">↻ Replay all</button>
+    <span class="sub" style="margin:0">1 triangulated skin · 2 curtain-wall glazing · 3 node bloom · 4 render pipeline · 5 packet delivery · 6 blueprint develop</span>
+  </div>
+  <div class="grid" id="grid"></div>
+
+<script>
+(function () {
+  var IMG_SRC = "assets/img/stores/bealice/home.jpg";
+  var LEAD = 0.5, DUR = 3.0, HOLD = 1.6;         // scaffold breath · skin install · hold
+  var FINAL_A = 0.92;                             // demo reveals near-full for clarity
+
+  function clamp01(v){return v<0?0:v>1?1:v;}
+  function smooth(v){v=clamp01(v);return v*v*(3-2*v);}
+  function easeOut(v){v=clamp01(v);return 1-(1-v)*(1-v);}
+  function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+
+  // ---- shared scaffold (the boot lattice, held at its final frame) ----------
+  var ELV=0.5, FOCAL=5.2;
+  function buildScaffold(w, h) {
+    var STEPS=4, GP=[]; for(var g=0;g<=STEPS;g++) GP.push(-1+2*g/STEPS);
+    var az=0.72, cx=w/2, cy=h/2, spread=Math.min(w,h)*0.66;
+    var ca=Math.cos(az), sa=Math.sin(az), ce=Math.cos(ELV), se=Math.sin(ELV);
+    function proj(p){ var x=p.x*ca+p.z*sa, z=-p.x*sa+p.z*ca, y=p.y;
+      var y2=y*ce-z*se, z2=y*se+z*ce, s=FOCAL/(FOCAL-z2);
+      return { x:cx+x*s*spread, y:cy-y2*s*spread }; }
+    var segs=[], nodes=[], EPS=1e-6;
+    function is1(v){return Math.abs(Math.abs(v)-1)<EPS;} function is0(v){return Math.abs(v)<EPS;}
+    function mk(a,b,u,wv){ var fx=(is1(u)?1:0)+(is1(wv)?1:0);
+      var op = (is0(u)&&is0(wv))?0.5 : fx===2?0.26 : fx===1?0.14 : 0.07;
+      segs.push({A:proj(a),B:proj(b),op:op}); }
+    GP.forEach(function(u){GP.forEach(function(wv){
+      mk({x:-1,y:u,z:wv},{x:1,y:u,z:wv},u,wv);
+      mk({x:u,y:-1,z:wv},{x:u,y:1,z:wv},u,wv);
+      mk({x:u,y:wv,z:-1},{x:u,y:wv,z:1},u,wv);
+    });});
+    GP.forEach(function(x){GP.forEach(function(y){GP.forEach(function(z){ nodes.push(proj({x:x,y:y,z:z})); });});});
+    return { segs:segs, nodes:nodes };
+  }
+  function drawScaffold(ctx, sc) {
+    ctx.lineCap="round";
+    sc.segs.forEach(function(s){
+      ctx.strokeStyle="rgba(140,140,140,"+(s.op*0.55).toFixed(3)+")";
+      ctx.lineWidth=0.7;
+      ctx.beginPath(); ctx.moveTo(s.A.x,s.A.y); ctx.lineTo(s.B.x,s.B.y); ctx.stroke();
+    });
+  }
+  function drawCoverInfo(img, w, h) {
+    var sc=Math.max(w/img.naturalWidth, h/img.naturalHeight);
+    var sw=w/sc, sh=h/sc;
+    return { sx:(img.naturalWidth-sw)/2, sy:(img.naturalHeight-sh)/2, sw:sw, sh:sh };
+  }
+  function drawCover(ctx, img, w, h){ var c=drawCoverInfo(img,w,h); ctx.drawImage(img,c.sx,c.sy,c.sw,c.sh,0,0,w,h); }
+
+  // ---- triangle grid (for 1 & 4) ---------------------------------------------
+  function triGrid(w, h, cols, rows) {
+    var tris=[], cw=w/cols, ch=h/rows;
+    for (var r=0;r<rows;r++) for (var c=0;c<cols;c++){
+      var x=c*cw, y=r*ch, alt=(r+c)%2===0;
+      var p1=[x,y],p2=[x+cw,y],p3=[x+cw,y+ch],p4=[x,y+ch];
+      var t1=alt?[p1,p2,p3]:[p1,p2,p4], t2=alt?[p1,p3,p4]:[p2,p3,p4];
+      [t1,t2].forEach(function(t){
+        var cx=(t[0][0]+t[1][0]+t[2][0])/3, cy=(t[0][1]+t[1][1]+t[2][1])/3;
+        tris.push({pts:t, cx:cx, cy:cy});
+      });
+    }
+    return tris;
+  }
+  function pathTri(ctx,t){ ctx.beginPath(); ctx.moveTo(t.pts[0][0],t.pts[0][1]); ctx.lineTo(t.pts[1][0],t.pts[1][1]); ctx.lineTo(t.pts[2][0],t.pts[2][1]); ctx.closePath(); }
+
+  // =============================== THE SIX ====================================
+  var SKINS = [
+
+    { name:"triangulated skin",
+      init:function(st){ st.tris=triGrid(st.w,st.h,6,8);
+        var maxD=0; st.tris.forEach(function(t){ t.d=Math.hypot(t.cx,t.cy); if(t.d>maxD)maxD=t.d; });
+        st.tris.forEach(function(t){ t.delay=(t.d/maxD)*0.72; }); },
+      draw:function(ctx,st,p){
+        st.tris.forEach(function(t){
+          var a=smooth((p-t.delay)/0.26)*FINAL_A; if(a<=0.01) return;
+          ctx.save(); pathTri(ctx,t); ctx.clip(); ctx.globalAlpha=a; drawCover(ctx,st.img,st.w,st.h); ctx.restore();
+          if(a<FINAL_A*0.98){ ctx.save(); pathTri(ctx,t); ctx.strokeStyle="rgba(120,120,120,"+(0.3*(1-a/FINAL_A)).toFixed(2)+")"; ctx.lineWidth=0.6; ctx.stroke(); ctx.restore(); }
+        });
+      } },
+
+    { name:"curtain-wall glazing",
+      init:function(st){ var cols=5, rows=8; st.panes=[]; var cw=st.w/cols, chh=st.h/rows;
+        for(var r=0;r<rows;r++) for(var c=0;c<cols;c++)
+          st.panes.push({x:c*cw,y:r*chh,w:cw,h:chh, ord:(rows-1-r)*cols + ((r%2)?(cols-1-c):c)});
+        var N=st.panes.length; st.panes.forEach(function(pn){ pn.delay=(pn.ord/N)*0.78; }); },
+      draw:function(ctx,st,p){
+        st.panes.forEach(function(pn){
+          var lt=clamp01((p-pn.delay)/0.2); if(lt<=0) return;
+          var s=0.965+0.035*easeOut(lt), a=smooth(lt)*FINAL_A;
+          ctx.save(); ctx.beginPath(); ctx.rect(pn.x,pn.y,pn.w,pn.h); ctx.clip();
+          ctx.globalAlpha=a;
+          var mx=pn.x+pn.w/2, my=pn.y+pn.h/2;
+          ctx.translate(mx,my); ctx.scale(s,s); ctx.translate(-mx,-my);
+          drawCover(ctx,st.img,st.w,st.h);
+          ctx.restore();
+          if(lt<0.55){ ctx.save(); ctx.globalAlpha=0.3*(1-lt/0.55); ctx.fillStyle="#fff"; ctx.fillRect(pn.x,pn.y,pn.w,pn.h); ctx.restore(); }
+        });
+      } },
+
+    { name:"node bloom",
+      init:function(st){ st.blooms=st.sc.nodes.map(function(n){
+          var d=Math.hypot(n.x-st.w/2, n.y-st.h/2);
+          return { x:n.x, y:n.y, d:d };
+        });
+        var maxD=0; st.blooms.forEach(function(b){ if(b.d>maxD)maxD=b.d; });
+        st.blooms.forEach(function(b){ b.delay=(b.d/maxD)*0.5; });
+        st.maxR=Math.min(st.w,st.h)*0.30; },
+      draw:function(ctx,st,p){
+        ctx.save(); ctx.beginPath();
+        var any=false;
+        st.blooms.forEach(function(b){
+          var lt=easeOut((p-b.delay)/0.55); if(lt<=0) return;
+          any=true; var r=Math.max(0.5, st.maxR*lt);
+          ctx.moveTo(b.x+r,b.y); ctx.arc(b.x,b.y,r,0,6.2832);
+        });
+        if(any){ ctx.clip(); ctx.globalAlpha=FINAL_A*smooth(p*4); drawCover(ctx,st.img,st.w,st.h); }
+        ctx.restore();
+      } },
+
+    { name:"render pipeline",
+      init:function(st){ st.tris=triGrid(st.w,st.h,6,8);
+        var maxD=0; st.tris.forEach(function(t){ t.d=Math.hypot(t.cx,t.cy); if(t.d>maxD)maxD=t.d; });
+        st.tris.forEach(function(t,i){ t.delay=(t.d/maxD)*0.3; t.shade=205+((i*7)%4)*8; });
+        st.oc=document.createElement("canvas"); },
+      draw:function(ctx,st,p){
+        // pass 2: flat-shaded mesh
+        st.tris.forEach(function(t){
+          var a=smooth((p-t.delay)/0.14); if(a<=0.01) return;
+          ctx.save(); pathTri(ctx,t); ctx.globalAlpha=a*0.9;
+          ctx.fillStyle="rgb("+t.shade+","+t.shade+","+t.shade+")"; ctx.fill(); ctx.restore();
+        });
+        // pass 3: texture streams in, low-res → sharp
+        if(p>0.42){
+          var q=clamp01((p-0.42)/0.55), steps=[14,28,56,112,224,0], idx=Math.min(steps.length-1, Math.floor(q*steps.length));
+          var res=steps[idx], a=FINAL_A*smooth(clamp01(q*3));
+          ctx.save(); ctx.globalAlpha=a;
+          if(res===0){ ctx.imageSmoothingEnabled=true; drawCover(ctx,st.img,st.w,st.h); }
+          else { var ph=Math.max(2,Math.round(res*st.h/st.w));
+            if(st.oc.width!==res||st.oc.height!==ph){ st.oc.width=res; st.oc.height=ph; }
+            var octx=st.oc.getContext("2d"); drawCover(octx,st.img,res,ph);
+            ctx.imageSmoothingEnabled=false; ctx.drawImage(st.oc,0,0,st.w,st.h); ctx.imageSmoothingEnabled=true; }
+          ctx.restore();
+        }
+      } },
+
+    { name:"packet delivery",
+      init:function(st){ var cols=5, rows=7; st.cells=[]; var cw=st.w/cols, chh=st.h/rows;
+        var rnd=mulberry(777);
+        for(var r=0;r<rows;r++) for(var c=0;c<cols;c++){
+          st.cells.push({x:c*cw,y:r*chh,w:cw,h:chh, cx:c*cw+cw/2, cy:r*chh+chh/2, delay:rnd()*0.62, travel:0.24});
+        } },
+      draw:function(ctx,st,p){
+        st.cells.forEach(function(cl){
+          var lt=(p-cl.delay)/cl.travel;
+          if(lt>=1){ // landed — cell pops in
+            var a=smooth(clamp01((p-cl.delay-cl.travel)/0.14))*FINAL_A;
+            ctx.save(); ctx.beginPath(); ctx.rect(cl.x,cl.y,cl.w,cl.h); ctx.clip();
+            ctx.globalAlpha=a; drawCover(ctx,st.img,st.w,st.h); ctx.restore();
+          } else if(lt>0){ // packet riding the column line
+            var y=-6+(cl.cy+6)*easeOut(lt);
+            ctx.save();
+            ctx.strokeStyle="rgba(120,120,120,0.25)"; ctx.lineWidth=0.7;
+            ctx.beginPath(); ctx.moveTo(cl.cx,Math.max(0,y-18)); ctx.lineTo(cl.cx,y); ctx.stroke();
+            ctx.fillStyle="rgba(40,40,40,0.85)"; ctx.fillRect(cl.cx-1.7,y-1.7,3.4,3.4);
+            ctx.restore();
+          }
+        });
+      } },
+
+    { name:"blueprint develop",
+      init:function(st){
+        // one-time Sobel edge trace of the still, drawn like a drafted elevation
+        var s=220, ph=Math.round(s*st.h/st.w);
+        var oc=document.createElement("canvas"); oc.width=s; oc.height=ph;
+        var octx=oc.getContext("2d"); drawCover(octx,st.img,s,ph);
+        var d=octx.getImageData(0,0,s,ph), g=new Float32Array(s*ph);
+        for(var i=0;i<s*ph;i++){ g[i]=0.299*d.data[i*4]+0.587*d.data[i*4+1]+0.114*d.data[i*4+2]; }
+        var out=octx.createImageData(s,ph);
+        for(var y=1;y<ph-1;y++) for(var x=1;x<s-1;x++){
+          var idx=y*s+x;
+          var gx=-g[idx-s-1]-2*g[idx-1]-g[idx+s-1]+g[idx-s+1]+2*g[idx+1]+g[idx+s+1];
+          var gy=-g[idx-s-1]-2*g[idx-s]-g[idx-s+1]+g[idx+s-1]+2*g[idx+s]+g[idx+s+1];
+          var m=Math.min(255,Math.sqrt(gx*gx+gy*gy)*1.35);
+          var o=idx*4; out.data[o]=70; out.data[o+1]=70; out.data[o+2]=70; out.data[o+3]=m>46?Math.min(210,m):0;
+        }
+        octx.putImageData(out,0,0); st.edge=oc; },
+      draw:function(ctx,st,p){
+        // trace wipes in top→bottom, then the photograph develops inside it
+        var wipe=clamp01(p/0.34);
+        if(wipe>0){ ctx.save(); ctx.beginPath(); ctx.rect(0,0,st.w,st.h*easeOut(wipe)); ctx.clip();
+          ctx.globalAlpha=1-smooth(clamp01((p-0.6)/0.34));
+          ctx.drawImage(st.edge,0,0,st.w,st.h); ctx.restore(); }
+        var dev=smooth(clamp01((p-0.4)/0.5));
+        if(dev>0){ ctx.save(); ctx.globalAlpha=dev*FINAL_A; drawCover(ctx,st.img,st.w,st.h); ctx.restore(); }
+      } },
+  ];
+
+  // ---- mount tiles + run ------------------------------------------------------
+  var grid=document.getElementById("grid"), tiles=[];
+  var img=new Image(); img.src=IMG_SRC;
+  img.onload=function(){
+    SKINS.forEach(function(skin, i){
+      var wrap=document.createElement("div"); wrap.className="tile";
+      var cv=document.createElement("canvas"); wrap.appendChild(cv);
+      var lbl=document.createElement("span"); lbl.className="lbl"; lbl.textContent=skin.name; wrap.appendChild(lbl);
+      var ix=document.createElement("span"); ix.className="idx"; ix.textContent="0"+(i+1); wrap.appendChild(ix);
+      grid.appendChild(wrap);
+      var st={ img:img, start:null };
+      function size(){
+        var r=wrap.getBoundingClientRect(), dpr=Math.min(devicePixelRatio||1,2);
+        st.w=Math.round(r.width); st.h=Math.round(r.height);
+        cv.width=st.w*dpr; cv.height=st.h*dpr;
+        var ctx=cv.getContext("2d"); ctx.setTransform(dpr,0,0,dpr,0,0);
+        st.ctx=ctx; st.sc=buildScaffold(st.w,st.h); skin.init(st);
+      }
+      size();
+      wrap.addEventListener("click",function(){ st.start=null; });
+      tiles.push({st:st, skin:skin});
+    });
+    requestAnimationFrame(loop);
+    var rt; addEventListener("resize",function(){ clearTimeout(rt); rt=setTimeout(function(){ location.reload(); },300); });
+  };
+
+  function loop(ts){
+    tiles.forEach(function(t){
+      var st=t.st;
+      if(st.start==null) st.start=ts;
+      var cyc=(LEAD+DUR+HOLD)*1000, local=((ts-st.start)%cyc)/1000;
+      var p=clamp01((local-LEAD)/DUR);
+      var ctx=st.ctx;
+      ctx.clearRect(0,0,st.w,st.h);
+      ctx.fillStyle="#fff"; ctx.fillRect(0,0,st.w,st.h);
+      drawScaffold(ctx,st.sc);
+      t.skin.draw(ctx,st,p);
+    });
+    requestAnimationFrame(loop);
+  }
+  document.getElementById("replay").addEventListener("click",function(){ tiles.forEach(function(t){ t.st.start=null; }); });
+  addEventListener("keydown",function(e){ if(e.key==="r"||e.key==="R") tiles.forEach(function(t){ t.st.start=null; }); });
+})();
+</script>
+</body>
+</html>

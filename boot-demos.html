@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boot-up iterations — Wesley Harding</title>
+<style>
+  :root { --ink:#111; --line:rgba(0,0,0,.14); --grey:110,110,110; --glow:20,20,20; }
+  * { margin:0; box-sizing:border-box; }
+  body { background:#fff; color:var(--ink); font:14px/1.5 "Helvetica Neue",Helvetica,Arial,sans-serif; padding:40px clamp(20px,4vw,64px); }
+  h1 { font:italic 900 26px/1 Georgia,serif; margin-bottom:6px; }
+  .sub { color:#888; font-size:13px; margin-bottom:8px; max-width:60ch; }
+  .bar { display:flex; gap:18px; align-items:center; margin:22px 0 30px; flex-wrap:wrap; }
+  button { font:inherit; font-size:12.5px; letter-spacing:.02em; padding:7px 14px; border:1px solid var(--ink); background:#fff; cursor:pointer; }
+  button:hover { background:var(--ink); color:#fff; }
+  label.tog { font-size:12.5px; color:#666; display:flex; gap:7px; align-items:center; cursor:pointer; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:clamp(16px,2vw,28px); }
+  .tile { border:1px solid var(--line); position:relative; aspect-ratio:1/1; overflow:hidden; }
+  .tile svg { width:100%; height:100%; display:block; }
+  .tile .lbl { position:absolute; left:12px; bottom:11px; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:#555; }
+  .tile .idx { position:absolute; right:12px; top:10px; font-size:11px; color:#bbb; letter-spacing:.1em; }
+  .tile:hover { border-color:rgba(0,0,0,.4); }
+  /* dark / amber (earth00-faithful) mode */
+  body.dark { background:#0a0703; color:#f3e6cf; }
+  body.dark h1 { color:#ffd98a; } body.dark .sub { color:#9c876a; }
+  body.dark button { border-color:#e0b24a; color:#ffd98a; background:transparent; }
+  body.dark button:hover { background:#e0b24a; color:#0a0703; }
+  body.dark .tile { border-color:rgba(224,178,74,.22); }
+  body.dark .tile .lbl { color:#c9a24a; } body.dark .tile .idx { color:#7a6636; }
+</style>
+</head>
+<body>
+  <h1>Boot-up iterations</h1>
+  <p class="sub">The earth00 lattice materialize, ported faithfully — five styles. Pick one for the split-half boot. Shown on white (portfolio context); toggle the amber view to see the earth00-native look.</p>
+  <div class="bar">
+    <button id="replay">↻ Replay all</button>
+    <label class="tog"><input type="checkbox" id="darktog"> earth00 amber view</label>
+    <span class="sub" style="margin:0">click any tile to replay just that one</span>
+  </div>
+  <div class="grid" id="grid"></div>
+
+<script>
+(function () {
+  var SVGNS = "http://www.w3.org/2000/svg";
+  var STYLES = ["diag", "edges", "cloud", "shock", "holo"];
+
+  // ---- geometry: the 3D lattice cube (12 edges + 3 centre axes + 12 crosses) --
+  var GP = [-1, 0, 1];
+  function buildLattice() {
+    var L = [];
+    function mk(a, b, f1, f2, axis) {
+      var fx = (Math.abs(f1) === 1 ? 1 : 0) + (Math.abs(f2) === 1 ? 1 : 0);
+      var central = (f1 === 0 && f2 === 0), edge = (fx === 2), cross = (fx === 1 && (f1 === 0 || f2 === 0));
+      var op, sw;
+      if (central) { op = 0.92; sw = 0.8; } else if (edge) { op = 0.40; sw = 0.6; }
+      else if (cross) { op = 0.30; sw = 0.5; } else { op = 0.10; sw = 0.35; }
+      L.push({ a: { x: a[0], y: a[1], z: a[2] }, b: { x: b[0], y: b[1], z: b[2] }, baseOp: op, baseSw: sw, edge: edge, central: central });
+    }
+    for (var i = 0; i < GP.length; i++) for (var j = 0; j < GP.length; j++) {
+      mk([-1, GP[i], GP[j]], [1, GP[i], GP[j]], GP[i], GP[j], "x");
+      mk([GP[i], -1, GP[j]], [GP[i], 1, GP[j]], GP[i], GP[j], "y");
+      mk([GP[i], GP[j], -1], [GP[i], GP[j], 1], GP[i], GP[j], "z");
+    }
+    // per-line intro fields
+    function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+    var rnd = mulberry(20260708);
+    L.forEach(function (l) {
+      var mx=(l.a.x+l.b.x)/2,my=(l.a.y+l.b.y)/2,mz=(l.a.z+l.b.z)/2;
+      l.mid={x:mx,y:my,z:mz}; l.rMid=Math.hypot(mx,my,mz);
+      l.diagA=((l.a.x+l.a.y+l.a.z)+3)/6; l.diagB=((l.b.x+l.b.y+l.b.z)+3)/6;
+      l.app=rnd()*0.5; l.flick=rnd(); l.edgeOrd=-1;
+    });
+    // edges order (band by z, then angle) + count
+    var eds = L.filter(function(l){return l.edge;});
+    eds.sort(function(A,B){ function sc(l){var m=l.mid,band=m.z<-0.5?0:m.z>0.5?2:1;return band*10+(Math.atan2(m.y,m.x)+Math.PI);} return sc(A)-sc(B); });
+    eds.forEach(function(l,i){ l.edgeOrd=i; });
+    return { lines: L, edgeN: eds.length || 1 };
+  }
+
+  // ---- projection: 3/4 view with perspective (matches earth00's proj) --------
+  var ELV = 0.52, AZ = 0.72, FOCAL = 4.2, SPREAD = 92, CX = 150, CY = 150;
+  function proj(p) {
+    var ca=Math.cos(AZ), sa=Math.sin(AZ);
+    var x=p.x*ca+p.z*sa, z=-p.x*sa+p.z*ca, y=p.y;
+    var ce=Math.cos(ELV), se=Math.sin(ELV);
+    var y2=y*ce-z*se, z2=y*se+z*ce;
+    var s=FOCAL/(FOCAL-z2);
+    return { sx:CX+x*s*SPREAD, sy:CY-y2*s*SPREAD, scale:s };
+  }
+
+  // ---- helpers ---------------------------------------------------------------
+  function clamp01(v){return v<0?0:v>1?1:v;}
+  function smooth(v){v=clamp01(v);return v*v*(3-2*v);}
+  function easeOut(v){v=clamp01(v);return 1-(1-v)*(1-v);}
+  function eob(v){var c1=1.70158,c3=c1+1;return 1+c3*Math.pow(v-1,3)+c1*Math.pow(v-1,2);}
+
+  // ---- render one frame of a style (ported from earth00 renderIntro) ---------
+  function renderIntro(style, p, tile) {
+    var L = tile.lines, geo = tile.geo;
+    var jx=0, jy=0;
+    if (style==="holo" && p<0.55){ var k=(0.55-p)*1.4; jx=Math.sin(p*54)*k*2.2; jy=Math.cos(p*66)*k*2.2; }
+    tile.scene.setAttribute("transform", (jx||jy)?("translate("+jx.toFixed(2)+" "+jy.toFixed(2)+")"):"");
+
+    for (var i=0;i<L.length;i++){
+      var Ln=L[i], el=tile.els[i];
+      var f=1,opMul=1,glow=0,scl=1,startA=true,dashArr=null;
+      if (style==="diag"){
+        var front=p*1.14, dN=Math.min(Ln.diagA,Ln.diagB), dF=Math.max(Ln.diagA,Ln.diagB);
+        startA=Ln.diagA<=Ln.diagB; f=clamp01((front-dN)/Math.max(1e-4,dF-dN));
+        opMul=smooth(clamp01((front-dN)/0.10)); var mid=(dN+dF)/2;
+        glow=(front>dN&&front<dF+0.06)?clamp01(1-Math.abs(front-mid)/0.28):0;
+      } else if (style==="edges"){
+        if (Ln.edge){ var A0=0.16,B0=0.60,w=(B0-A0)/geo.edgeN,s0=A0+Ln.edgeOrd*w;
+          if(p<s0){f=0;opMul=0;}else{f=clamp01((p-s0)/w);startA=(Ln.a.x+Ln.a.y+Ln.a.z)<=(Ln.b.x+Ln.b.y+Ln.b.z);glow=(f<1?0.9:0);}
+        } else { var C0=0.58; if(p<C0){f=0;opMul=0;}else{var u=clamp01((p-C0)/0.42);var s1=clamp01(u*1.25-Ln.rMid*0.14);var gg=0.5*easeOut(s1);dashArr=[gg,1-2*gg,gg];f=1;opMul=(s1>0?1:0);glow=(s1>0.02&&s1<0.98)?0.5:0;} }
+      } else if (style==="cloud"){
+        var frontC=p*1.62, loc=clamp01((frontC-Ln.rMid)/0.30), h=0.5*easeOut(loc);
+        dashArr=[0,(0.5-h),(2*h),(0.5-h),0]; f=1; opMul=loc>0?1:0; glow=(loc>0.05&&loc<0.6)?(1-loc/0.6)*0.55:0;
+      } else if (style==="shock"){
+        var wave=p*1.95, act=clamp01((wave-Ln.rMid+0.16)/0.32); scl=eob(act); f=1;
+        opMul=smooth(clamp01(act*1.5)); glow=act>0&&act<0.55?clamp01(1-act/0.55)*1.1:0;
+      } else if (style==="holo"){
+        if(p<Ln.app){opMul=0;}else{var since=p-Ln.app;var flick=since<0.20?(0.35+0.65*(0.5+0.5*Math.sin(p*60+Ln.flick*6.28))):1;var dip=(Math.abs(p-0.30)<0.025||Math.abs(p-0.55)<0.025)?0.25:1;opMul=flick*dip;} f=1; glow=p>0.84?(1-(p-0.84)/0.16)*0.8:0;
+      }
+      var a3=scl===1?Ln.a:{x:Ln.a.x*scl,y:Ln.a.y*scl,z:Ln.a.z*scl};
+      var b3=scl===1?Ln.b:{x:Ln.b.x*scl,y:Ln.b.y*scl,z:Ln.b.z*scl};
+      var A=proj(a3), B=proj(b3), sP=startA?A:B, eP=startA?B:A;
+      el.setAttribute("x1",(dashArr?A.sx:sP.sx).toFixed(1)); el.setAttribute("y1",(dashArr?A.sy:sP.sy).toFixed(1));
+      el.setAttribute("x2",(dashArr?B.sx:eP.sx).toFixed(1)); el.setAttribute("y2",(dashArr?B.sy:eP.sy).toFixed(1));
+      if(dashArr){ el.setAttribute("stroke-dasharray",dashArr.map(function(v){return v.toFixed(3);}).join(" ")); el.setAttribute("stroke-dashoffset","0"); }
+      else { el.setAttribute("stroke-dasharray","1"); el.setAttribute("stroke-dashoffset",(1-f).toFixed(3)); }
+      el.setAttribute("opacity",clamp01(Ln.baseOp*opMul*(1+glow*1.6)).toFixed(3));
+      el.setAttribute("stroke", tile.color(glow));
+      el.setAttribute("stroke-width",(Ln.baseSw*1.7*(1+glow*1.4)).toFixed(2));
+    }
+    // edges: corner pulse for p<0.30
+    if (tile.corners) tile.corners.forEach(function(c){
+      if(p<0.30){ var o=proj(c.p), a=smooth(clamp01(p/0.12))*(0.55+0.45*Math.sin(p*30));
+        c.el.setAttribute("cx",o.sx.toFixed(1)); c.el.setAttribute("cy",o.sy.toFixed(1));
+        c.el.setAttribute("r",(1.7*o.scale).toFixed(2)); c.el.setAttribute("opacity",(0.9*a).toFixed(2));
+      } else c.el.setAttribute("opacity",0);
+    });
+  }
+
+  // ---- build the tiles -------------------------------------------------------
+  var grid = document.getElementById("grid");
+  var tiles = STYLES.map(function (style, idx) {
+    var geo = buildLattice();
+    var wrap = document.createElement("div"); wrap.className = "tile";
+    var svg = document.createElementNS(SVGNS, "svg"); svg.setAttribute("viewBox", "0 0 300 300");
+    var scene = document.createElementNS(SVGNS, "g"); svg.appendChild(scene);
+    var els = geo.lines.map(function () {
+      var ln = document.createElementNS(SVGNS, "line"); ln.setAttribute("pathLength", "1"); ln.setAttribute("stroke-linecap","round");
+      scene.appendChild(ln); return ln;
+    });
+    var corners = null;
+    if (style === "edges") {
+      corners = [];
+      [-1,1].forEach(function(x){[-1,1].forEach(function(y){[-1,1].forEach(function(z){
+        var c=document.createElementNS(SVGNS,"circle"); c.setAttribute("opacity","0"); scene.appendChild(c);
+        corners.push({p:{x:x,y:y,z:z}, el:c});
+      });});});
+    }
+    wrap.appendChild(svg);
+    var lbl=document.createElement("span"); lbl.className="lbl"; lbl.textContent=style; wrap.appendChild(lbl);
+    var ix=document.createElement("span"); ix.className="idx"; ix.textContent="0"+(idx+1); wrap.appendChild(ix);
+    grid.appendChild(wrap);
+
+    var tile = {
+      style: style, geo: geo, lines: geo.lines, els: els, scene: scene, corners: corners,
+      start: null, dur: 2400, pause: 750,
+      color: function (glow) {
+        if (document.body.classList.contains("dark"))
+          return glow > 0.05 ? "rgba(255,232,190," + (0.55 + Math.min(1, glow)).toFixed(2) + ")" : "rgba(224,178,74,0.95)";
+        return glow > 0.05 ? "rgba(20,20,20,0.92)" : "rgba(90,90,90,0.95)";
+      }
+    };
+    wrap.addEventListener("click", function () { tile.start = null; });
+    return tile;
+  });
+
+  function frame(ts) {
+    tiles.forEach(function (t) {
+      if (t.start == null) t.start = ts;
+      var e = ts - t.start, cycle = t.dur + t.pause;
+      var pt = e % cycle, p = pt < t.dur ? pt / t.dur : 1;
+      renderIntro(t.style, clamp01(p), t);
+    });
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  document.getElementById("replay").addEventListener("click", function () { tiles.forEach(function (t) { t.start = null; }); });
+  document.getElementById("darktog").addEventListener("change", function (e) { document.body.classList.toggle("dark", e.target.checked); });
+})();
+</script>
+</body>
+</html>

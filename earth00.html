@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>earth00 — Wesley Harding</title>
+<meta name="description" content="earth00 — reads thousands of news stories in 48 languages and figures out which ones are about the same event. Website, iOS app, and daily briefings.">
+<meta name="theme-color" content="#ffffff">
+
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="earth00 — Wesley Harding">
+<meta property="og:description" content="News in 48 languages, clustered by event — website, iOS app, and daily briefings.">
+<meta property="og:image" content="assets/img/showcase/e-globe.jpg">
+
+<link rel="stylesheet" href="css/styles.css?v=12">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+
+<div class="frame">
+
+  <nav class="side" aria-label="Site">
+    <a class="side__name" href="index.html">Wesley Harding</a>
+    <p class="side__loc">Los Angeles</p>
+    <div class="side__group">
+      <span class="side__label">Work</span>
+      <a href="bealice.html">BEALICE</a>
+      <a href="wear-the-future.html">Wear the Future</a>
+      <a href="inventory.html">Inventory</a>
+      <a href="earth00.html" aria-current="page">earth00</a>
+    </div>
+    <div class="side__group">
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="side__foot">
+      <p>Available for projects</p>
+      <a href="mailto:wesleyharding3@gmail.com">wesleyharding3@gmail.com</a>
+      <p>&copy; 2026</p>
+    </div>
+  </nav>
+
+  <main class="content" id="content">
+    <header class="head">
+      <h1 class="e00-lockup"><img src="assets/img/logos/earth00-mark.png" alt="" width="160" height="160"><span>earth00</span></h1>
+      <p class="meta">News intelligence — website, iOS app &amp; daily briefings · personal project · 2025– · <a href="https://earth00.com" target="_blank" rel="noopener">earth00.com&nbsp;&#8599;</a></p>
+    </header>
+
+    <p>earth00 reads thousands of news stories in 48 languages and figures out which ones
+    are about the same event. The hard part isn't collecting the news — it's realizing
+    that an article in Mandarin and one in Arabic are the same story, when they don't
+    share a single word.</p>
+
+    <p class="dim">It's running <button class="figref" data-fig-ref="live">live in the
+    window</button> right now — the real site, sandboxed. Spin the globe.</p>
+
+    <p class="dim">Пекин &nbsp;·&nbsp; 北京 &nbsp;·&nbsp; بكين — the same city, written three
+    ways, recognized as one: <i>beijing</i>. That's the whole trick, at scale.</p>
+
+    <p>The result is one picture of the world's news: a
+    <button class="figref" data-fig-ref="globe">3D globe</button> of where coverage is
+    happening, a <button class="figref" data-fig-ref="feed">feed of story threads</button>
+    that groups hundreds of articles into events, and an
+    <button class="figref" data-fig-ref="app">iOS app</button> that carries it all in a pocket.</p>
+
+    <p>And people watch: a daily briefing is generated and auto-published across platforms —
+    about 50,000 combined impressions a week, without a hand on the wheel.</p>
+
+    <section>
+      <span class="label">Under the hood</span>
+      <dl class="rows">
+        <div class="row"><dt>Stack</dt><dd>Node.js · PostgreSQL + pgvector · Claude Haiku · DeepL · local transformers · Three.js</dd></div>
+        <div class="row"><dt>Read</dt><dd>Script-aware extraction across Latin, Cyrillic, Arabic, and CJK; a frequency prefilter drops ~45% of language-model calls before they happen.</dd></div>
+        <div class="row"><dt>Normalize</dt><dd>Non-English keywords map to one canonical English form via a three-layer cascade — local list, then Wikidata, then the model. About $1.80 a day at steady state.</dd></div>
+        <div class="row"><dt>Group</dt><dd>A local CPU model embeds every article at $0 per run; nearest-neighbor search clusters coverage into story threads.</dd></div>
+        <div class="row"><dt>Scale</dt><dd>~266K articles per cycle · 72 tables · 24 scheduled workers · ships as a native iOS app</dd></div>
+        <div class="row"><dt>Code</dt><dd><a href="https://github.com/wesleyharding3/earth1000" target="_blank" rel="noopener">github.com/wesleyharding3/earth1000&nbsp;&#8599;</a></dd></div>
+      </dl>
+    </section>
+
+    <p class="endnote">A side project, and a hard one — if I can untangle the world's news
+    across 48 languages, your inventory and customer data are well within reach.</p>
+  </main>
+
+  <aside class="vitrine" aria-label="Figures">
+    <div class="vitrine__stage">
+      <figure data-fig="live" class="on">
+        <iframe data-src="https://earth00.com" title="earth00 — the live site" sandbox="allow-scripts allow-same-origin" loading="lazy"></iframe>
+        <figcaption>earth00.com — live, sandboxed in the window.</figcaption>
+      </figure>
+      <figure data-fig="globe">
+        <img src="assets/img/showcase/e-globe.jpg" alt="earth00 — 3D globe with country borders and news activity" loading="lazy">
+        <figcaption>The globe — where the world's coverage is happening.</figcaption>
+      </figure>
+      <figure data-fig="feed">
+        <img src="assets/img/showcase/e-feed.jpg" alt="earth00 news feed — 427 story threads clustered from 39,503 articles" loading="lazy">
+        <figcaption>Story threads — hundreds of articles, grouped by event.</figcaption>
+      </figure>
+      <figure data-fig="app">
+        <img src="assets/img/earth00-geo.jpg" alt="earth00 iOS app — a story with the countries and sources behind its coverage" loading="lazy">
+        <figcaption>The iOS app — a story and where its coverage came from.</figcaption>
+      </figure>
+    </div>
+  </aside>
+
+</div>
+
+<script src="js/vitrine.js" defer></script>
+</body>
+</html>

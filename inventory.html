@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wear the Future — Inventory — Wesley Harding</title>
+<meta name="description" content="Wear the Future's inventory — the dashboard and app that run a Los Angeles fashion showroom: a QR code on every garment, so the house always knows where each piece is.">
+<meta name="theme-color" content="#ffffff">
+
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Wear the Future — Inventory — Wesley Harding">
+<meta property="og:description" content="The dashboard and app that run a Los Angeles fashion showroom — a QR code on every garment.">
+<meta property="og:image" content="assets/img/showcase/wtf-admin.jpg">
+
+<link rel="stylesheet" href="css/styles.css?v=12">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+
+<div class="frame">
+
+  <nav class="side" aria-label="Site">
+    <a class="side__name" href="index.html">Wesley Harding</a>
+    <p class="side__loc">Los Angeles</p>
+    <div class="side__group">
+      <span class="side__label">Work</span>
+      <a href="bealice.html">BEALICE</a>
+      <a href="wear-the-future.html">Wear the Future</a>
+      <a href="inventory.html" aria-current="page">Inventory</a>
+      <a href="earth00.html">earth00</a>
+    </div>
+    <div class="side__group">
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="side__foot">
+      <p>Available for projects</p>
+      <a href="mailto:wesleyharding3@gmail.com">wesleyharding3@gmail.com</a>
+      <p>&copy; 2026</p>
+    </div>
+  </nav>
+
+  <main class="content" id="content">
+    <header class="head">
+      <h1 class="brand-logo"><img class="wtf-wordmark" src="assets/img/logos/wtf-wordmark.png" alt="Wear the Future" width="592" height="120"><span class="head__tag">inventory</span></h1>
+      <p class="meta">Inventory dashboard &amp; app for Wear the Future · 2025– · private client system</p>
+    </header>
+
+    <p>A QR code on every garment, so a real Los Angeles fashion house always knows where
+    each piece is — who has it, why, and when it's due back. Stylists, editors, and
+    celebrities borrow sample garments to photograph and wear; a staffer scans the tag
+    with a phone to check a piece out or back in, and nothing gets lost.</p>
+
+    <p>It's the house's working system, used day to day by 5 team members, 30 designers,
+    and 50 stylists and talents. The <button class="figref" data-fig-ref="admin">dashboard</button>
+    shows the whole collection at a glance — every piece, its status, who has it, what it's
+    worth. When a borrowed piece shows up in a magazine or on a red carpet, the
+    <button class="figref" data-fig-ref="press">press view</button> ties that coverage back to
+    the exact loan — 246 placements so far, turned into a number a brand can actually see.</p>
+
+    <p>The system runs several brands at once, and each only ever sees its own pieces —
+    kept separate by the database itself, not by hoping every line of code remembers to ask.
+    The same QR code prints on the binder page and the hanger tag, so
+    <button class="figref" data-fig-ref="rack">the rack</button> and the records never drift apart.</p>
+
+    <section>
+      <span class="label">How a scan works</span>
+      <ol class="steps">
+        <li>A phone scans the tag on the garment</li>
+        <li>The system finds the exact piece</li>
+        <li>Out or back — who has it, why, and the due date</li>
+        <li>The event is logged to a permanent history</li>
+        <li>The status updates for everyone, immediately</li>
+      </ol>
+    </section>
+
+    <section>
+      <span class="label">What made it hard</span>
+      <dl class="rows">
+        <div class="row"><dt>Privacy</dt><dd>Several brands share one system; the isolation rule lives in the database, so a mistake in the code can never leak one client's inventory to another.</dd></div>
+        <div class="row"><dt>Payments</dt><dd>Stylists pay a fee to reserve pieces — confirmed on the server, where the amount can't be tampered with from a browser.</dd></div>
+        <div class="row"><dt>Proof</dt><dd>Press coverage links back to the loan that produced it, turning PR into measurable return.</dd></div>
+        <div class="row"><dt>Two worlds</dt><dd>One code joins the physical garment to its digital record — the binder, the hanger, and the database agree.</dd></div>
+      </dl>
+    </section>
+
+    <section>
+      <span class="label">Under the hood</span>
+      <dl class="rows">
+        <div class="row"><dt>Stack</dt><dd>Next.js 15 · Supabase / Postgres · Stripe · TypeScript · Vercel</dd></div>
+        <div class="row"><dt>Isolation</dt><dd>28 row-level-security policies enforced in Postgres, with anti-escalation triggers; correctness lives in the schema, where it can't be forgotten.</dd></div>
+        <div class="row"><dt>Payments</dt><dd>Stripe Checkout fulfilled by a signature-verified webhook that recomputes the amount server-side.</dd></div>
+        <div class="row"><dt>Earned media</dt><dd>A tier-weighted, time-decayed ranking turns placements into an indexed ROI.</dd></div>
+        <div class="row"><dt>Scope</dt><dd>9 tables · 12 enums · 11 SQL functions · 25 typed, validated API routes</dd></div>
+        <div class="row"><dt>Code</dt><dd><a href="https://github.com/wesleyharding3/wtf" target="_blank" rel="noopener">github.com/wesleyharding3/wtf&nbsp;&#8599;</a></dd></div>
+      </dl>
+    </section>
+
+    <section>
+      <span class="label">Working today / next</span>
+      <ul class="plain">
+        <li>Scan-in / scan-out with a permanent history; separate views for owner, brands, and stylists; payments, press value, printable binder &amp; hanger tags</li>
+        <li>Next: the companion app in every pocket, automatic overdue reminders, self-serve stylist onboarding</li>
+      </ul>
+    </section>
+
+    <p class="endnote">Related: <a href="wear-the-future.html">Wear the Future</a> — the public
+    storefront in front of this system.</p>
+  </main>
+
+  <aside class="vitrine" aria-label="Figures">
+    <div class="vitrine__stage">
+      <figure data-fig="admin" class="on">
+        <img src="assets/img/showcase/wtf-admin.jpg" alt="Inventory dashboard — 70 pieces tracked with status, holder, and due date per piece" fetchpriority="high">
+        <figcaption>The inventory view — every piece, its status, its due date.</figcaption>
+      </figure>
+      <figure data-fig="press">
+        <img src="assets/img/showcase/wtf-press.jpg" alt="Press view — 246 placements, 185.9M total reach, coverage timeline and ranked features" loading="lazy">
+        <figcaption>The press view — coverage tied back to the loans that produced it.</figcaption>
+      </figure>
+      <figure data-fig="rack">
+        <img src="assets/img/wtf-scarves-cover.jpg" alt="Printed scarves from the collection on a rack — the physical inventory the system tracks" loading="lazy">
+        <figcaption>The physical inventory — tracked piece by piece.</figcaption>
+      </figure>
+    </div>
+  </aside>
+
+</div>
+
+<script src="js/vitrine.js" defer></script>
+</body>
+</html>

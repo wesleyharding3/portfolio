@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Systems — Wesley Harding</title>
+<meta name="description" content="The part that keeps it running — six chapters of the engineering underneath: database architecture, analytics pipelines, routing and APIs, auth and payments, servers and observability, and shipping safely.">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="stylesheet" href="css/styles.css?v=12">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+
+<header class="chapters-top">
+  <a class="home" href="index.html">Wesley Harding</a>
+  <div class="chapters-top__navs">
+    <nav aria-label="Domains">
+      <a href="frontend.html">Websites</a>
+      <a href="backend.html" aria-current="page">Systems</a>
+    </nav>
+    <span class="chapters-top__div" aria-hidden="true"></span>
+    <nav class="chapters-top__util" aria-label="Site">
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="mailto:wesleyharding3@gmail.com">Email</a>
+    </nav>
+  </div>
+</header>
+
+<main class="chapters" id="content">
+  <p class="chapters__kicker">The part that keeps it running</p>
+  <h1 class="chapters__title">SYSTEMS</h1>
+  <p class="chapters__sub">Six sheets, drawn like the engineering documents they are — the
+  schema, the pipelines, and the guarantees underneath everything the front shows.</p>
+
+  <ol class="chaplist">
+    <li>
+      <span class="ch-no">01</span>
+      <div class="ch-body">
+        <h2>Database architecture</h2>
+        <p>normalized &middot; indexed &middot; row-level secure &middot; ACID &middot; triggers &middot; WAL</p>
+        <figure class="ch-fig"><img src="assets/img/hero/backend-board.jpg" alt="Sheet 01 — database architecture drawn as a circuit board: tables as chips, foreign keys as copper traces" loading="eager"></figure>
+      </div>
+      <span class="ch-state ch-state--live">On the homepage</span>
+    </li>
+    <li>
+      <span class="ch-no">02</span>
+      <div class="ch-body">
+        <h2>The analytics pipeline</h2>
+        <p>event ingestion &middot; BRIN-indexed &middot; real-time rollups &middot; view time &middot; conversion</p>
+        <figure class="ch-fig"><img src="assets/img/sheets/sheet-2.jpg" alt="Sheet 02 — analytics pipeline: raw events flowing into a BRIN-indexed table, rolled up every 5 minutes" loading="lazy"></figure>
+      </div>
+    </li>
+    <li>
+      <span class="ch-no">03</span>
+      <div class="ch-body">
+        <h2>Routing &amp; APIs</h2>
+        <p>typed routes &middot; versioned endpoints &middot; the machine-facing navigation</p>
+        <figure class="ch-fig"><img src="assets/img/sheets/sheet-3.jpg" alt="Sheet 03 — a versioned, typed route table with one request traced through auth into its handler" loading="lazy"></figure>
+      </div>
+    </li>
+    <li>
+      <span class="ch-no">04</span>
+      <div class="ch-body">
+        <h2>Auth, sessions &amp; payments</h2>
+        <p>signature-verified webhooks &middot; RLS &middot; idempotency &middot; the ledger</p>
+        <figure class="ch-fig"><img src="assets/img/sheets/sheet-4.jpg" alt="Sheet 04 — a Stripe webhook checked for signature and idempotency before it ever reaches the ledger" loading="lazy"></figure>
+      </div>
+    </li>
+    <li>
+      <span class="ch-no">05</span>
+      <div class="ch-body">
+        <h2>Servers, workers &amp; observability</h2>
+        <p>cron &middot; queues &middot; logs &middot; who finds out first when something breaks at 2am</p>
+        <figure class="ch-fig"><img src="assets/img/sheets/sheet-5.jpg" alt="Sheet 05 — cron and queued workers feeding structured logs, alerting on failure" loading="lazy"></figure>
+      </div>
+    </li>
+    <li>
+      <span class="ch-no">06</span>
+      <div class="ch-body">
+        <h2>Shipping safely</h2>
+        <p>migrations &middot; backups &middot; CI &middot; preview deploys &middot; rollback</p>
+        <figure class="ch-fig"><img src="assets/img/sheets/sheet-6.jpg" alt="Sheet 06 — lint, test, build, and preview before every promotion to production, with rollback one switch away" loading="lazy"></figure>
+      </div>
+    </li>
+  </ol>
+</main>
+
+</body>
+</html>

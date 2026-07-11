@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter storyboard — Websites &amp; Systems</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600;1,800&family=Caveat:wght@500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Archivo+Black&family=Oswald:wght@400;500&family=Inter:wght@400;500;600&family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; box-sizing:border-box; }
+  body { background:#fff; color:#141310; font:14px/1.55 "Helvetica Neue",Helvetica,Arial,sans-serif; padding:44px clamp(20px,4vw,70px) 90px; }
+  h1 { font:italic 900 28px/1 Georgia,serif; }
+  .lede { color:#777; font-size:13px; max-width:70ch; margin:8px 0 6px; }
+  .tone { font-size:12px; color:#999; max-width:70ch; margin-bottom:14px; }
+  .fontrow { display:flex; flex-wrap:wrap; gap:10px 22px; align-items:baseline; border:1px solid rgba(0,0,0,.12); padding:14px 18px; margin:18px 0 40px; }
+  .fontrow span { white-space:nowrap; }
+  .f-georgia { font:italic 900 19px Georgia,serif; }
+  .f-playfair { font:italic 600 19px "Playfair Display",serif; }
+  .f-caveat { font:600 21px Caveat,cursive; }
+  .f-plex { font:500 13px "IBM Plex Mono",monospace; }
+  .f-archivo { font:400 15px "Archivo Black",sans-serif; }
+  .f-oswald { font:500 15px Oswald,sans-serif; letter-spacing:.06em; text-transform:uppercase; }
+  .f-inter { font:500 14px Inter,sans-serif; }
+  .f-garamond { font:italic 400 17px "EB Garamond",serif; }
+  .fontrow .role { font-size:10px; color:#aaa; letter-spacing:.12em; text-transform:uppercase; margin-left:4px; }
+
+  h2.side { font:400 12px/1 "Helvetica Neue",sans-serif; letter-spacing:.34em; text-transform:uppercase; color:#141310;
+    border-top:1px solid #141310; padding-top:14px; margin:44px 0 22px; }
+  .panels { display:grid; grid-template-columns:repeat(auto-fit,minmax(430px,1fr)); gap:clamp(18px,2.4vw,32px); }
+  .panel { border:1px solid rgba(0,0,0,.16); }
+  .panel__head { display:flex; justify-content:space-between; align-items:baseline; padding:10px 14px; border-bottom:1px solid rgba(0,0,0,.12); }
+  .panel__head b { font-size:13px; letter-spacing:.04em; }
+  .panel__head .tech { font-size:9.5px; color:#999; letter-spacing:.14em; text-transform:uppercase; }
+  /* the visual sketch: a 16:10 stage with positioned ingredients */
+  .stage { position:relative; aspect-ratio:16/10; background:#fbfaf8; overflow:hidden; border-bottom:1px solid rgba(0,0,0,.12); }
+  .stage .ph { position:absolute; background:#eae7e1; border:1px solid rgba(0,0,0,.14); overflow:hidden; }
+  .stage .ph img { width:100%; height:100%; object-fit:cover; object-position:top; display:block; }
+  .stage .ph .tag { position:absolute; left:6px; bottom:5px; font-size:8.5px; letter-spacing:.1em; color:#666;
+    background:rgba(255,255,255,.85); padding:1px 5px; text-transform:uppercase; }
+  .stage .cap { position:absolute; color:#141310; }
+  .stage .note { position:absolute; font-size:9px; color:#b06f14; letter-spacing:.06em; max-width:150px; line-height:1.45; }
+  .beats { padding:12px 14px; font-size:12.5px; color:#555; }
+  .beats li { margin:0 0 7px 16px; }
+  .beats .pos { color:#b06f14; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; margin-right:5px; }
+  .amber { color:#b06f14; }
+</style>
+</head>
+<body>
+  <h1>Chapter storyboard</h1>
+  <p class="lede">Twelve scenes — six per half. Captions are set <em>inside</em> each scene (behind objects, as code
+  comments, as pen notes, as the UI's own text) and their position rotates panel to panel. Real work appears
+  where it proves the point.</p>
+  <p class="tone">Copy rule: flat statements a shop owner cares about. No arc, no pitch, no "this matters."</p>
+
+  <div class="fontrow">
+    <span class="f-georgia">Georgia Italic <span class="role">name &amp; brand voice</span></span>
+    <span class="f-playfair">Playfair Display <span class="role">magazine captions</span></span>
+    <span class="f-caveat">Caveat <span class="role">pen notes</span></span>
+    <span class="f-plex">IBM Plex Mono <span class="role">code &amp; sheets</span></span>
+    <span class="f-archivo">ARCHIVO BLACK <span class="role">tags</span></span>
+    <span class="f-oswald">Oswald <span class="role">menus / condensed UI</span></span>
+    <span class="f-inter">Inter <span class="role">realistic app UI</span></span>
+    <span class="f-garamond">EB Garamond <span class="role">the fine print</span></span>
+  </div>
+
+  <h2 class="side">Websites — the part your customers see</h2>
+  <div class="panels">
+
+    <div class="panel"><div class="panel__head"><b>W1 · The first moment</b><span class="tech">built · behind-3D</span></div>
+      <div class="stage">
+        <div class="ph" style="inset:0"><img src="assets/img/hero/frontend-obelisk.jpg" alt=""><span class="tag">wind loop · built</span></div>
+        <div class="cap" style="top:30%;left:6%;font:italic 900 21px Georgia,serif;">A first page that looks expensive.</div>
+        <div class="note" style="right:4%;bottom:8%;">caption exits behind the crystal · sub-line fades under it: “It loads before they blink.”</div>
+      </div>
+      <ul class="beats">
+        <li><span class="pos">mid-left travel</span>“A first page that looks expensive.” — Georgia italic, large, passes behind the obelisk</li>
+        <li><span class="pos">lower-left small</span>“It loads before they blink.” — tracked caps, small</li>
+      </ul>
+    </div>
+
+    <div class="panel"><div class="panel__head"><b>W2 · The body</b><span class="tech">building now · behind + pen + typed</span></div>
+      <div class="stage">
+        <div class="ph" style="left:8%;top:6%;width:56%;height:88%"><img src="assets/img/stores/bealice/home.jpg" alt=""><span class="tag">bealice.com — real</span></div>
+        <div class="cap" style="top:38%;left:2%;font:italic 600 19px 'Playfair Display',serif;">Your words, set like a magazine.</div>
+        <div class="cap" style="right:3%;top:14%;transform:rotate(-2deg);font:600 17px Caveat,cursive;color:#22201c;">photos rearrange<br>for any screen —</div>
+        <div class="cap" style="left:24%;bottom:6%;font:500 10.5px 'IBM Plex Mono',monospace;background:#fff;border:1px solid #999;padding:3px 7px;">Silk &amp; Soul — $148▊</div>
+        <div class="note" style="right:3%;bottom:9%;">page scrolls itself · caption slides behind the floating product card · pen note top-right · price typed bottom-center</div>
+      </div>
+      <ul class="beats">
+        <li><span class="pos">mid-left travel</span>“Your words, set like a magazine.” — Playfair italic, behind the product card</li>
+        <li><span class="pos">top-right margin</span>“Photos and text that rearrange for any screen.” — Caveat pen, tilted</li>
+        <li><span class="pos">bottom-center typed</span>“Change a price yourself — it updates everywhere.” — typed into an editor pill; the page price flips</li>
+      </ul>
+    </div>
+
+    <div class="panel"><div class="panel__head"><b>W3 · Wayfinding</b><span class="tech">caption inside the menu</span></div>
+      <div class="stage">
+        <div class="ph" style="left:0;top:0;width:34%;height:100%"><img src="assets/img/stores/bealice/menu.jpg" alt=""><span class="tag">real menu</span></div>
+        <div class="cap" style="left:5%;top:44%;font:500 13px Oswald,sans-serif;letter-spacing:.1em;text-transform:uppercase;border-bottom:1px solid #141310;">Three clicks to anything</div>
+        <div class="ph" style="right:5%;top:12%;width:52%;height:66%"><img src="assets/img/stores/bealice/shop.jpg" alt=""><span class="tag">pages flipping</span></div>
+        <div class="cap" style="right:6%;bottom:6%;font:400 11px 'Helvetica Neue',sans-serif;color:#555;">Customers stop asking where things are.</div>
+      </div>
+      <ul class="beats">
+        <li><span class="pos">menu item, mid-left</span>“Three clicks to anything” — set as a real item in the opened menu (Oswald), highlights as the cursor passes</li>
+        <li><span class="pos">bottom-right small</span>“Customers stop asking where things are.” — quiet, plain</li>
+        <li>pages flip through real store screens as the cursor clicks: home → shop → product</li>
+      </ul>
+    </div>
+
+    <div class="panel"><div class="panel__head"><b>W4 · The account</b><span class="tech">caption as UI text</span></div>
+      <div class="stage">
+        <div class="ph" style="left:6%;top:10%;width:40%;height:56%;background:#fff"><span class="tag">checkout card · mock</span></div>
+        <div class="cap" style="left:9%;top:20%;font:600 13px Inter,sans-serif;">Pay with Apple&nbsp;Pay</div>
+        <div class="cap" style="left:9%;top:32%;font:400 12px Inter,sans-serif;color:#666;">•••• 4242 &nbsp;·&nbsp; under a minute</div>
+        <div class="ph" style="right:8%;top:6%;width:26%;height:82%;background:#fff"><span class="tag">phone · email</span></div>
+        <div class="cap" style="right:10%;top:26%;width:21%;font:600 11.5px Inter,sans-serif;">Subject: Your sign-in link — no password to forget</div>
+        <div class="note" style="left:8%;bottom:8%;">the caption IS the email subject · receipt prints in mono at the end</div>
+      </div>
+      <ul class="beats">
+        <li><span class="pos">right phone, subject line</span>“Your sign-in link — no password to forget” — the email’s own subject</li>
+        <li><span class="pos">left card</span>checkout completes in-scene; “under a minute” sits as the card’s helper text</li>
+        <li><span class="pos">bottom mono</span>a receipt prints: order · total · “kept for your records”</li>
+      </ul>
+    </div>
+
+    <div class="panel"><div class="panel__head"><b>W5 · The dashboard</b><span class="tech">behind the bars</span></div>
+      <div class="stage">
+        <div class="ph" style="inset:6% 6% 12% 6%"><img src="assets/img/showcase/wtf-admin.jpg" alt=""><span class="tag">real inventory system</span></div>
+        <div class="cap" style="left:10%;bottom:16%;font:italic 600 17px 'Playfair Display',serif;background:linear-gradient(#fff,#fff) bottom/100% 0 no-repeat;">Today’s sales, without asking anyone.</div>
+        <div class="note" style="right:7%;bottom:2.5%;">counters tick up · caption slides behind the chart columns as they grow</div>
+      </div>
+      <ul class="beats">
+        <li><span class="pos">lower-left travel</span>“Today’s sales, without asking anyone.” — slides behind the growing chart bars</li>
+        <li><span class="pos">inside a stat tile</span>“412 items tracked · nothing lost” — as the tile’s own label</li>
+      </ul>
+    </div>
+
+    <div class="panel"><div class="panel__head"><b>W6 · Trust</b><span class="tech">caption as the document</span></div>
+      <div class="stage">
+        <div class="ph" style="left:14%;top:8%;width:44%;height:84%;background:#fffefb"></div>
+        <div class="cap" style="left:17%;top:16%;width:38%;font:italic 400 13.5px 'EB Garamond',serif;line-height:1.7;color:#333;">…your data stays yours. We keep only what an order needs, and the legal pages read like the rest of the site — <b>clear.</b></div>
+        <div class="cap" style="right:8%;bottom:14%;font:400 13px 'Archivo Black',sans-serif;border:2px solid #141310;padding:7px 10px;transform:rotate(-7deg);">WCAG&nbsp;AA</div>
+        <div class="note" style="left:17%;bottom:4%;">one sentence of the fine print enlarges as the caption · the badge stamps down like a seal</div>
+      </div>
+      <ul class="beats">
+        <li><span class="pos">center document</span>the caption is a sentence *inside* the terms, set in Garamond; it enlarges gently while the rest stays small</li>
+        <li><span class="pos">lower-right stamp</span>“WCAG AA” presses in like a rubber stamp; “works for customers who browse differently” beneath, small</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="side">Systems — the part that keeps it running</h2>
+  <div class="panels">
+
+    <div class="panel"><div class="panel__head"><b>S1 · Database architecture</b><span class="tech">built · sheet + flow</span></div>
+      <div class="stage">
+        <div class="ph" style="inset:0"><img src="assets/img/hero/backend-board.jpg" alt=""><span class="tag">sheet 01 · built</span></div>
+        <div class="note" style="left:5%;bottom:8%;background:rgba(255,255,255,.85);padding:4px 6px;">add during flow: “Every order, customer and item has one home.” rides the replica bus as a label</div>
+      </div>
+      <ul class="beats">
+        <li><span class="pos">on the bus</span>“Every order, customer and item has one home.” — travels the trace like freight</li>
+      </ul>
+    </div>
+
+    <div class="panel"><div class="panel__head"><b>S2 · In-situ analytics</b><span class="tech">code comment + behind + pen</span></div>
+      <div class="stage">
+        <div class="ph" style="left:5%;top:8%;width:26%;height:30%;background:#fff"><span class="tag">mini storefront wireframe</span></div>
+        <div class="cap" style="left:38%;top:12%;font:500 11px 'IBM Plex Mono',monospace;color:#3c3a35;">SELECT count(*) FROM events…<br><span class="amber">-- how many people almost bought</span></div>
+        <div class="cap" style="left:8%;bottom:26%;font:italic 600 15px 'Playfair Display',serif;">We count what matters: visits, carts, sales.</div>
+        <div class="cap" style="right:5%;bottom:10%;transform:rotate(-2.4deg);font:600 15px Caveat,cursive;">view time ↑ when pages load fast</div>
+        <div class="note" style="right:5%;top:8%;">event dots stream wireframe → counters · funnel bars fill over the travelling caption</div>
+      </div>
+      <ul class="beats">
+        <li><span class="pos">upper-center code</span>the query types; plain English arrives as its amber comment</li>
+        <li><span class="pos">lower-left travel</span>“We count what matters…” — slides behind the funnel bars</li>
+        <li><span class="pos">lower-right pen</span>“view time ↑ when pages load fast” — annotation by the sparkline</li>
+      </ul>
+    </div>
+
+    <div class="panel"><div class="panel__head"><b>S3 · Routing &amp; APIs</b><span class="tech">captions as station labels</span></div>
+      <div class="stage">
+        <div class="cap" style="left:8%;top:22%;font:500 11px 'IBM Plex Mono',monospace;">/shop → /product/silk-scarf → /cart</div>
+        <div class="cap" style="left:22%;top:48%;font:400 12px 'Helvetica Neue',sans-serif;color:#555;">every button leads somewhere real</div>
+        <div class="cap" style="right:6%;bottom:16%;font:500 11px 'IBM Plex Mono',monospace;"><span class="amber">-- other software can order from you too</span></div>
+        <div class="note" style="right:6%;top:10%;">a request dot hops node to node, stamping ✓ at each · a lost dot (404) gets caught and walked home</div>
+      </div>
+      <ul class="beats">
+        <li><span class="pos">diagonal path</span>route names appear as stations the dot passes through</li>
+        <li><span class="pos">mid-center small</span>“every button leads somewhere real” — under the path</li>
+        <li><span class="pos">lower-right comment</span>API endpoint gets the amber layman comment</li>
+      </ul>
+    </div>
+
+    <div class="panel"><div class="panel__head"><b>S4 · Auth &amp; payments</b><span class="tech">caption as ledger entries</span></div>
+      <div class="stage">
+        <div class="cap" style="left:8%;top:14%;font:500 11px 'IBM Plex Mono',monospace;">webhook received · signature <span class="amber">VERIFIED ✓</span></div>
+        <div class="cap" style="left:8%;top:44%;font:500 11.5px 'IBM Plex Mono',monospace;line-height:2;">2026-07-09&nbsp;&nbsp;order&nbsp;#1841&nbsp;&nbsp;+$148.00<br>2026-07-09&nbsp;&nbsp;order&nbsp;#1841&nbsp;&nbsp;+$148.00&nbsp;&nbsp;<span class="amber">← written down twice</span></div>
+        <div class="cap" style="right:7%;bottom:12%;font:400 12px 'Helvetica Neue',sans-serif;color:#555;">money is checked before it’s believed</div>
+        <div class="note" style="right:7%;top:12%;">a key glyph draws for sign-in · the envelope arrives, gets its seal checked in amber</div>
+      </div>
+      <ul class="beats">
+        <li><span class="pos">upper-left mono</span>the webhook check plays out in the sheet’s own language</li>
+        <li><span class="pos">center ledger</span>the caption IS the double ledger line + amber aside</li>
+        <li><span class="pos">lower-right small</span>“money is checked before it’s believed”</li>
+      </ul>
+    </div>
+
+    <div class="panel"><div class="panel__head"><b>S5 · Workers &amp; observability</b><span class="tech">caption inside the log</span></div>
+      <div class="stage">
+        <div class="cap" style="left:7%;top:12%;font:500 10.5px 'IBM Plex Mono',monospace;line-height:2;color:#3c3a35;">01:00&nbsp;&nbsp;backup.nightly&nbsp;&nbsp;<span class="amber">ok</span><br>02:00&nbsp;&nbsp;inventory.recount&nbsp;&nbsp;<span class="amber">ok</span><br>02:10&nbsp;&nbsp;<span style="color:#141310;font-weight:700">robots doing the boring work — while you sleep</span><br>03:00&nbsp;&nbsp;press.scan&nbsp;&nbsp;<span class="amber">ok</span></div>
+        <div class="cap" style="right:6%;top:18%;font:600 12px Inter,sans-serif;border:1px solid #b06f14;color:#b06f14;padding:5px 9px;">alert → my phone, 02:11</div>
+        <div class="cap" style="left:10%;bottom:10%;font:400 12px 'Helvetica Neue',sans-serif;color:#555;">if something breaks, I know before you do</div>
+        <div class="note" style="right:6%;bottom:12%;">24 clock dots fire on schedule · one log line flips red · the alert chip slides in</div>
+      </div>
+      <ul class="beats">
+        <li><span class="pos">left log stream</span>the caption scrolls past as a log line among real ones</li>
+        <li><span class="pos">upper-right chip</span>the alert is the caption: “alert → my phone, 02:11”</li>
+        <li><span class="pos">bottom-left small</span>“if something breaks, I know before you do”</li>
+      </ul>
+    </div>
+
+    <div class="panel"><div class="panel__head"><b>S6 · Shipping safely</b><span class="tech">comment + etched label</span></div>
+      <div class="stage">
+        <div class="cap" style="left:7%;top:14%;font:500 11px 'IBM Plex Mono',monospace;">ALTER TABLE products ADD size text;<br><span class="amber">-- rehearsed on a copy before touching the real thing</span></div>
+        <div class="cap" style="left:10%;bottom:30%;font:500 12px 'IBM Plex Mono',monospace;">tests&nbsp; 34/34 <span class="amber">✓</span></div>
+        <div class="cap" style="right:7%;bottom:14%;font:400 13px 'Archivo Black',sans-serif;">ROLLBACK&nbsp;←</div>
+        <div class="cap" style="right:7%;bottom:7%;font:400 11px 'Helvetica Neue',sans-serif;color:#555;">yesterday’s version is one switch away</div>
+        <div class="note" style="right:7%;top:12%;">migration applies line-by-line · checks tick green · the rollback lever sits ready, labeled like machinery</div>
+      </div>
+      <ul class="beats">
+        <li><span class="pos">upper-left code</span>the migration + amber layman comment</li>
+        <li><span class="pos">mid checks</span>tests tick to 34/34 ✓</li>
+        <li><span class="pos">lower-right etched</span>“ROLLBACK ←” as a machine label; the plain line beneath</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

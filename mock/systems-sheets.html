@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>systems-sheets — chapter figure source</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; box-sizing:border-box; }
+  html,body { background:#0a0a09; }
+  #stage { width:900px; height:540px; position:relative; }
+  svg { display:block; }
+  text { user-select:none; }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script>
+(function () {
+  var NS = "http://www.w3.org/2000/svg";
+  var W = 900, H = 540;
+  var svg = document.createElementNS(NS, "svg");
+  svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+  svg.setAttribute("width", W); svg.setAttribute("height", H);
+  document.getElementById("stage").appendChild(svg);
+  function E(tag, at, parent) {
+    var el = document.createElementNS(NS, tag);
+    for (var k in at) el.setAttribute(k, at[k]);
+    (parent || svg).appendChild(el); return el;
+  }
+  var MONO = "'IBM Plex Mono', Menlo, monospace";
+  var BG = "#0a0a09", INK = "#f2efe6", CHIP_INK = "#1c1b19", DIM = "#a39c8e", COPPER = "#a29c90", AMBER = "#c77f1f";
+
+  E("rect", { x:0, y:0, width:W, height:H, fill:BG });
+  var grid = E("g", { stroke:"#fff", "stroke-opacity":"0.05", "stroke-width":"0.5" });
+  for (var gx = 24; gx <= W - 24; gx += 18) E("line", { x1:gx, y1:24, x2:gx, y2:H-24 }, grid);
+  for (var gy = 24; gy <= H - 24; gy += 18) E("line", { x1:24, y1:gy, x2:W-24, y2:gy }, grid);
+  E("rect", { x:16, y:16, width:W-32, height:H-32, fill:"none", stroke:INK, "stroke-width":"1" });
+  [[30,30],[W-30,30],[30,H-30],[W-30,H-30]].forEach(function (f) {
+    E("circle", { cx:f[0], cy:f[1], r:5, fill:"none", stroke:DIM, "stroke-width":"0.8" });
+  });
+
+  function chip(x, y, w, h, title, sub, big) {
+    var g = E("g", {});
+    E("rect", { x:x, y:y, width:w, height:h, fill:"#fff", stroke:CHIP_INK, "stroke-width": big?1.4:1 }, g);
+    E("circle", { cx:x+10, cy:y+10, r:2.2, fill:"none", stroke:"#9a9488", "stroke-width":"0.9" }, g);
+    var pw = 6, pitch = 16;
+    for (var px = x+12; px < x+w-8; px += pitch) {
+      E("line", { x1:px, y1:y-pw, x2:px, y2:y, stroke:COPPER, "stroke-width":"1.1" }, g);
+      E("line", { x1:px, y1:y+h, x2:px, y2:y+h+pw, stroke:COPPER, "stroke-width":"1.1" }, g);
+    }
+    var tx = x+w/2, ty = y+h/2;
+    E("text", { x:tx, y:ty-(sub?3:-4), "text-anchor":"middle", "font-family":MONO, "font-weight":"600",
+      "font-size": big?13:11, fill:CHIP_INK, "letter-spacing":"0.03em" }, g).textContent = title;
+    if (sub) E("text", { x:tx, y:ty+13, "text-anchor":"middle", "font-family":MONO, "font-size":8, fill:"#6b665c" }, g).textContent = sub;
+    return { x:x, y:y, w:w, h:h, cx:tx, cy:ty };
+  }
+  var traces = E("g", { fill:"none", stroke:COPPER, "stroke-width":"1.1", "stroke-opacity":"0.75" });
+  function via(x, y, amber) { E("circle", { cx:x, cy:y, r:2.2, fill:BG, stroke: amber?AMBER:COPPER, "stroke-width":"1.1" }); }
+  function route(pts, opt) {
+    opt = opt || {};
+    var d = "M" + pts[0][0] + " " + pts[0][1];
+    for (var i = 1; i < pts.length; i++) d += " L" + pts[i][0] + " " + pts[i][1];
+    E("path", { d:d, fill:"none", stroke: opt.amber?AMBER:COPPER, "stroke-width": opt.amber?1.6:1.1,
+      "stroke-opacity": opt.amber?0.95:0.7, "stroke-dasharray": opt.dash?"4 3":"none" }, traces);
+    for (var j = 1; j < pts.length - 1; j++) via(pts[j][0], pts[j][1], opt.amber);
+  }
+  function lbl(x, y, s, amber) {
+    E("text", { x:x, y:y, "font-family":MONO, "font-size":"8.5", fill: amber?AMBER:DIM }).textContent = s;
+  }
+  function pill(x, y, w, s, amber) {
+    E("rect", { x:x, y:y-13, width:w, height:19, rx:9.5, fill:"none", stroke: amber?AMBER:DIM, "stroke-width":"1" });
+    E("text", { x:x+w/2, y:y+1, "text-anchor":"middle", "font-family":MONO, "font-size":8.5, fill: amber?AMBER:INK }).textContent = s;
+  }
+
+  function titleBlock(no, name, tags, payoff) {
+    var TB = { x:34, y:H-118, w:W-260, h:88 };
+    E("rect", { x:TB.x, y:TB.y, width:TB.w, height:TB.h, fill:"none", stroke:INK, "stroke-width":"1" });
+    [26, 50].forEach(function (dy) { E("line", { x1:TB.x, y1:TB.y+dy, x2:TB.x+TB.w, y2:TB.y+dy, stroke:INK, "stroke-width":"0.6" }); });
+    E("text", { x:TB.x+10, y:TB.y+17, "font-family":MONO, "font-size":10.5, "font-weight":600, fill:INK, "letter-spacing":"0.04em" }).textContent = "SHEET " + no + " / 06 — " + name.toUpperCase();
+    E("text", { x:TB.x+10, y:TB.y+41, "font-family":MONO, "font-size":9, fill:"#8a857c", "letter-spacing":"0.02em" }).textContent = tags;
+    E("text", { x:TB.x+10, y:TB.y+66, "font-family":MONO, "font-size":9, fill:AMBER }).textContent = payoff;
+  }
+
+  var params = new URLSearchParams(location.search);
+  var sheet = params.get("sheet") || "2";
+
+  if (sheet === "2") {
+    chip(60, 70, 130, 62, "events", "raw stream");
+    chip(340, 70, 170, 62, "analytics_events", "brin(ts)", true);
+    chip(650, 70, 160, 62, "rollups", "materialized");
+    route([[190,101],[340,101]], { amber:true }); lbl(215,93,"insert",true);
+    route([[510,101],[650,101]], { amber:true, dash:true }); lbl(535,93,"every 5m",true);
+    pill(60, 200, 150, "view time  4:12", true);
+    pill(240, 200, 170, "conversion  3.1%", true);
+    pill(440, 200, 190, "carts today  412", false);
+    lbl(60, 260, "add_to_cart → checkout_start → order_placed");
+    lbl(60, 280, "one append-only table. every dashboard reads from it.");
+    titleBlock("02", "Analytics pipeline", "event ingestion · BRIN-indexed · real-time rollups", "we count what customers do, not what they say.");
+  }
+
+  if (sheet === "3") {
+    var rows = [["GET","/v1/products",false],["GET","/v1/products/:slug",false],["POST","/v1/cart",true],["POST","/v1/checkout",true],["GET","/v1/orders/:id",false],["POST","/v1/webhooks/stripe",false]];
+    rows.forEach(function (r, i) {
+      var y = 66 + i*30;
+      pill(60, y, 46, r[0], r[2]);
+      E("text", { x:118, y:y+3, "font-family":MONO, "font-size":10, fill:INK }).textContent = r[1];
+      E("text", { x:400, y:y+3, "font-family":MONO, "font-size":8.5, fill:"#8a857c" }).textContent = "v1 · typed · zod-validated";
+    });
+    route([[106,171],[520,171],[520,260]], { amber:true }); lbl(526,258,"auth ✓",true);
+    route([[520,260],[520,300],[650,300]], { amber:true }); lbl(560,318,"handler",true);
+    chip(650, 270, 160, 56, "checkout()", "typed handler", true);
+    titleBlock("03", "Routing & APIs", "typed routes · versioned endpoints · zero surprise payloads", "every button leads somewhere real.");
+  }
+
+  if (sheet === "4") {
+    chip(60, 70, 150, 60, "sessions", "fk user_id");
+    chip(320, 70, 180, 60, "webhook_events", "uq idempotency_key", true);
+    chip(650, 70, 160, 60, "ledger", "append-only");
+    route([[210,100],[320,100]], { amber:true });
+    route([[500,100],[650,100]], { amber:true }); lbl(520,90,"COMMIT",true);
+    pill(60, 190, 190, "signature verified ✓", true);
+    pill(280, 190, 170, "replay blocked ✓", true);
+    pill(480, 190, 190, "amount recomputed ✓", true);
+    lbl(60, 250, "stripe → signature check → idempotency key → ledger write");
+    lbl(60, 270, "the server re-checks the price. it never trusts the client's number.");
+    titleBlock("04", "Auth, sessions & payments", "signature-verified webhooks · RLS · idempotency", "money is checked before it's believed.");
+  }
+
+  if (sheet === "5") {
+    chip(60, 70, 130, 56, "cron", "scheduler");
+    chip(250, 70, 130, 56, "queue", "jobs");
+    [0,1,2].forEach(function (i) { chip(440 + i*90, 70, 76, 56, "worker " + (i+1), null); });
+    chip(60, 190, 220, 56, "logs", "structured, searchable", true);
+    chip(340, 190, 200, 56, "alert", "paged in < 60s", true);
+    route([[190,98],[250,98]], { amber:true });
+    route([[380,98],[440,98]], { amber:true, dash:true });
+    route([[478,126],[170,190]], { amber:true }); lbl(200,182,"on failure",true);
+    route([[280,218],[340,218]], { amber:true });
+    lbl(60, 285, "nightly rebuilds, retried automatically · 6 scheduled workers");
+    titleBlock("05", "Servers, workers & observability", "cron · queues · structured logs · paging", "if something breaks at 2am, i know first.");
+  }
+
+  if (sheet === "6") {
+    var stages = ["lint","test","build","preview"];
+    stages.forEach(function (s, i) { pill(60 + i*130, 90, 110, s, i < 3); });
+    route([[170,90],[190,90]], { amber:true }); route([[300,90],[320,90]], { amber:true }); route([[430,90],[450,90]], { amber:true });
+    chip(640, 60, 220, 60, "production", "serving traffic", true);
+    route([[560,90],[640,90]], { amber:true }); lbl(573,78,"promote",true);
+    route([[750,120],[750,160],[400,160],[400,120]], { dash:true }); lbl(410,155,"rollback — one switch back");
+    chip(60, 190, 220, 60, "migrations", "reviewed, reversible");
+    lbl(60, 280, "every deploy ships behind a preview URL first · nothing reaches production untested");
+    titleBlock("06", "Shipping safely", "migrations · backups · CI · preview deploys · rollback", "yesterday's version is one switch away.");
+  }
+})();
+</script>
+</body>
+</html>

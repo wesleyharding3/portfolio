@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>wind-render — hero video frame source</title>
+<style>
+  /* Offline frame renderer: headless Chrome calls renderFrame(n), screenshots the
+     canvas. Palms sway via masked displacement; whole frame "breathes" 1.2%.
+     All frequencies are integer cycles per 5s → frame 150 === frame 0 (loops). */
+  * { margin:0; } body { background:#fff; }
+  canvas { display:block; }
+</style>
+</head>
+<body>
+<canvas id="out" width="1920" height="1080"></canvas>
+<script>
+(function () {
+  var W = 1920, H = 1080, FPS = 30, T = 5;            // 150 frames, seamless loop
+  var out = document.getElementById("out"), octx = out.getContext("2d");
+  var work = document.createElement("canvas"); work.width = W; work.height = H;
+  var wctx = work.getContext("2d");
+
+  var base = null, weight = null;                      // ImageData + Float32 mask
+  window.__ready = false;
+
+  function load(src) {
+    return new Promise(function (res, rej) {
+      var im = new Image();
+      im.onload = function () { res(im); }; im.onerror = rej;
+      im.src = src;
+    });
+  }
+  Promise.all([load("wind-base.png"), load("wind-mask.png")]).then(function (ims) {
+    var c = document.createElement("canvas"); c.width = W; c.height = H;
+    var cc = c.getContext("2d", { willReadFrequently: true });
+    cc.drawImage(ims[0], 0, 0, W, H);
+    base = cc.getImageData(0, 0, W, H);
+    cc.drawImage(ims[1], 0, 0, W, H);
+    var m = cc.getImageData(0, 0, W, H).data;
+    weight = new Float32Array(W * H);
+    for (var i = 0; i < W * H; i++) weight[i] = m[i * 4] / 255;
+    window.__ready = true;
+  });
+
+  var TAU = Math.PI * 2;
+  window.renderFrame = function (n) {
+    if (!base) return false;
+    var t = n / FPS;
+    var src = base.data;
+    var od = wctx.createImageData(W, H), dst = od.data;
+    // wind: two traveling waves (2 and 4 cycles per loop) + gentle vertical
+    var w1 = TAU * 2 * t / T, w2 = TAU * 4 * t / T, w3 = TAU * 6 * t / T;
+    for (var y = 0; y < H; y++) {
+      var row = y * W;
+      for (var x = 0; x < W; x++) {
+        var idx = row + x, o = idx * 4, wgt = weight[idx];
+        if (wgt < 0.004) {                              // rigid: copy through
+          dst[o] = src[o]; dst[o+1] = src[o+1]; dst[o+2] = src[o+2]; dst[o+3] = 255;
+          continue;
+        }
+        var ph = x * 0.006 + y * 0.0025;
+        var dx = wgt * (4.2 * Math.sin(w1 + ph) + 2.0 * Math.sin(w2 + ph * 1.7 + 1.3));
+        var dy = wgt * (1.4 * Math.sin(w1 + ph * 1.2 + 0.7) + 0.7 * Math.sin(w3 + ph * 0.8));
+        // bilinear sample at (x-dx, y-dy)
+        var sx = x - dx, sy = y - dy;
+        if (sx < 0) sx = 0; else if (sx > W - 1.001) sx = W - 1.001;
+        if (sy < 0) sy = 0; else if (sy > H - 1.001) sy = H - 1.001;
+        var x0 = sx | 0, y0 = sy | 0, fx = sx - x0, fy = sy - y0;
+        var a = (y0 * W + x0) * 4, b = a + 4, cIdx = a + W * 4, d = cIdx + 4;
+        var w00 = (1-fx)*(1-fy), w10 = fx*(1-fy), w01 = (1-fx)*fy, w11 = fx*fy;
+        dst[o]   = src[a]*w00 + src[b]*w10 + src[cIdx]*w01 + src[d]*w11;
+        dst[o+1] = src[a+1]*w00 + src[b+1]*w10 + src[cIdx+1]*w01 + src[d+1]*w11;
+        dst[o+2] = src[a+2]*w00 + src[b+2]*w10 + src[cIdx+2]*w01 + src[d+2]*w11;
+        dst[o+3] = 255;
+      }
+    }
+    wctx.putImageData(od, 0, 0);
+    // no camera motion at all — the crystal and necklace stay dead-rigid;
+    // only the masked palms (including their refractions inside the glass) move
+    octx.clearRect(0, 0, W, H);
+    octx.drawImage(work, 0, 0);
+    return true;
+  };
+})();
+</script>
+</body>
+</html>

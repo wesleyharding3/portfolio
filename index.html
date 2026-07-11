@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Wesley Harding — Websites, databases &amp; the systems that connect them</title>
-<meta name="description" content="I build custom websites, databases, and the systems that connect them — software that keeps track of your inventory, customers, and operations so you don't have to. Los Angeles.">
-<meta name="theme-color" content="#100e0c">
+<meta name="description" content="Custom websites, databases, and the systems that connect them — software that keeps track of inventory, customers, and operations. Los Angeles.">
+<meta name="theme-color" content="#ffffff">
 
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
@@ -13,420 +13,356 @@
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="Wesley Harding — Websites, databases &amp; the systems that connect them">
-<meta property="og:description" content="Software that keeps track of your inventory, customers, and operations so you don't have to.">
-<meta property="og:image" content="favicon-512.png">
+<meta property="og:description" content="Software that keeps track of inventory, customers, and operations — Los Angeles.">
+<meta property="og:image" content="assets/img/wes-portrait.jpg">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..500;1,9..144,300..480&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-<script>document.documentElement.className += ' js';</script>
-<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/styles.css?v=12">
 </head>
 <body>
+<a class="skip" href="#content">Skip to content</a>
 
-<!-- topbar -->
-<header class="topbar">
-  <a class="brand" href="#top">Wesley Harding<span class="dot">.</span></a>
-  <nav class="navlinks" aria-label="Sections">
-    <a href="#index">Work</a>
-    <a href="#services">Services</a>
-    <a href="#about">About</a>
-    <a href="#contact">Contact</a>
-  </nav>
-  <span class="avail">Available for <b>projects</b></span>
-</header>
+<main class="intro" id="content">
 
-<main id="top">
-
-  <!-- ===================== MASTHEAD / HERO ===================== -->
-  <section class="hero shell" data-hero>
-    <div class="hero__main">
-      <span class="kicker hero__kicker" data-decode>Custom websites, databases, and the systems that connect them — Los Angeles</span>
-      <h1 class="display hero__name">
-        <span class="ln" style="--fd:.1s">Wesley</span>
-        <span class="ln" style="--fd:.55s">Harding</span>
-      </h1>
-      <div class="hero__statement">
-        <p class="claim" data-typer>I build systems end to end, connecting the physical to the digital — <em>software that keeps track so you don't have to.</em></p>
-      </div>
-      <div class="hero__cta">
-        <a class="btn btn--primary hero-slide" href="#contact">Let's talk about your project <span class="arr">&rarr;</span></a>
-        <a class="btn btn--ghost hero-fade" href="mailto:wesleyharding3@gmail.com">wesleyharding3@gmail.com</a>
-      </div>
-      <p class="minor hero-fade hero-fade--2" style="margin-top:22px">Prefer the code? <a href="https://github.com/wesleyharding3" target="_blank" rel="noopener">github.com/wesleyharding3</a></p>
+  <!-- two halves. white at first; after the intro each boots to its hero.
+       front: obelisk still → wind loop on hover. back: the circuit board. -->
+  <div class="halves" aria-hidden="true">
+    <div class="half half--front">
+      <img class="half__still" src="assets/img/hero/frontend-obelisk.jpg" alt="" loading="eager">
+      <video class="half__video" src="assets/img/hero/frontend-obelisk.mp4"
+             muted loop playsinline preload="auto" aria-hidden="true"></video>
     </div>
-    <figure class="hero__portrait">
-      <img src="assets/img/wes-portrait.jpg" alt="Wesley Harding" width="1200" height="1600" fetchpriority="high">
-    </figure>
-  </section>
+    <div class="half half--back"><img class="half__still" src="assets/img/hero/backend-board.jpg" alt="" loading="eager"></div>
+  </div>
+  <div class="seam" aria-hidden="true"><span class="seam__dot"></span></div>
 
-  <!-- ===================== TWO-SYSTEM SUMMARY ===================== -->
-  <section class="section shell" style="padding-block:clamp(36px,6vh,84px)">
-    <p class="capline reveal reveal--flash">Systems I built and run end to end — <em>the same kind of thing I can build for your business.</em></p>
-  </section>
+  <!-- the doors: each half is a page — click through to its chapters -->
+  <a class="enter enter--front" href="frontend.html" aria-label="Websites — enter the chapters">
+    <span class="mock__tag">
+      <span class="mock__tagBig">WEBSITES</span>
+      <span class="mock__go">Enter the chapters&nbsp;&rarr;</span>
+    </span>
+  </a>
+  <a class="enter enter--back" href="backend.html" aria-label="Systems — enter the chapters">
+    <span class="mock__tag mock__tag--right">
+      <span class="mock__go">Enter the chapters&nbsp;&rarr;</span>
+    </span>
+  </a>
 
-  <!-- ===================== WORK / INDEX ===================== -->
-  <section class="section shell" id="index">
-    <div class="runhead reveal"><span class="kicker">Work</span><span class="runhead__idx">Three systems, in the wild</span></div>
-    <div class="toc">
-      <a class="toc__row reveal" href="#wtf">
-        <span class="toc__folio">01</span>
-        <span><span class="toc__title">Showroom Inventory</span><span class="toc__claim" style="display:block;margin-top:10px">A QR code on every garment, so a real LA fashion house always knows where each piece is — who has it, and when it's due back.</span></span>
-        <span class="toc__meta">Inventory · scanning<br>payments · 2025</span>
-      </a>
-      <a class="toc__row reveal" href="#earth00" style="--d:90ms">
-        <span class="toc__folio">02</span>
-        <span><span class="toc__title">earth00</span><span class="toc__claim" style="display:block;margin-top:10px">Reads thousands of news stories in 48 languages and figures out which ones are about the same event.</span></span>
-        <span class="toc__meta">Data · automation<br>2025</span>
-      </a>
-      <a class="toc__row reveal" href="#storefronts" style="--d:180ms">
-        <span class="toc__folio">03</span>
-        <span><span class="toc__title">Two storefronts</span><span class="toc__claim" style="display:block;margin-top:10px">BEALICE — a high-fashion handbag label out of Minnesota — and the showroom's own shop: two live Shopify storefronts.</span></span>
-        <span class="toc__meta">Design · Shopify<br>2026</span>
-      </a>
-    </div>
-  </section>
+  <!-- top nav: options ride above a rule that draws across -->
+  <header class="topnav">
+    <nav class="topnav__items" aria-label="Site">
+      <a class="ni" style="--n:0" href="#m-about" data-open="m-about">About</a>
+      <a class="ni" style="--n:1" href="#m-contact" data-open="m-contact">Contact</a>
+      <a class="ni" style="--n:2" href="mailto:wesleyharding3@gmail.com">Email</a>
+    </nav>
+    <span class="topnav__rule" aria-hidden="true"></span>
+  </header>
 
-  <!-- ===================== FEATURE 01 — SHOWROOM ===================== -->
-  <section class="section section--dark" id="wtf">
-    <div class="shell">
-      <div class="feature__head reveal">
-        <span class="dateline">Feature 01 — a real Los Angeles fashion house</span>
-        <img class="wtf-lines feature__title reveal--wipe" src="assets/img/wtf-lines.png" alt="Wear the Future — wordmark" loading="lazy">
-        <h2 class="title reveal--flash" style="font-size:clamp(1.6rem,4vw,2.6rem)">Showroom Inventory</h2>
-      </div>
-
-      <p class="claim reveal" style="--d:80ms;margin-top:34px;max-width:24ch">A QR code on every garment — so the showroom always knows <em>where each piece is</em>, who has it, and when it's due back.</p>
-
-      <div class="grid cols-2" style="margin-top:clamp(48px,6vw,86px);align-items:start">
-        <div class="reveal">
-          <p class="body dropcap">A real fashion house in Los Angeles runs its day on this. Stylists, editors, and celebrities borrow sample garments to photograph and wear; each piece has a QR code. A staffer scans it with a phone to check it out or back in, and the system records who took it, why, and when it's due back. Nothing gets lost, and anyone on the team can see the truth at a glance.</p>
-          <p class="body" style="margin-top:1.1em">It runs several brands at once, and each one only ever sees its own pieces — kept separate by the database itself, not by hoping every line of code remembers to ask.</p>
-          <p class="body" style="margin-top:1.1em">And it isn't just the dashboard: I'm building the showroom an app to go with it, so clients and administrators can reach the business's crucial knowledge anywhere there's internet service.</p>
-        </div>
-        <div class="imgrid imgrid--wtf reveal reveal--wipe" style="--d:120ms">
-          <div class="figure"><img src="assets/img/wtf-scarves-cover.jpg" alt="Three printed scarves from the America 250 collection on a rack" loading="lazy"></div>
-          <div class="figure"><img src="assets/img/wtf-scarf-paisley.jpg" alt="Blue and red paisley scarf" loading="lazy"></div>
-          <div class="figure"><img src="assets/img/wtf-scarf-folk.jpg" alt="Floral folk-print headscarf" loading="lazy"></div>
-        </div>
-      </div>
-      <p class="figcap caption reveal" style="margin-top:14px">Fig. 01 — a real collection. The physical inventory the system tracks, piece by piece.</p>
-
-      <!-- business stats up top -->
-      <div class="beat reveal">
-        <div class="figures">
-          <div class="figure-n"><span class="figure-n__n"><span data-n="246">246</span></span><span class="figure-n__l">real press placements tracked across 14 brands</span></div>
-          <div class="figure-n"><span class="figure-n__n"><span data-n="3">3</span></span><span class="figure-n__l">types of users — owner, brand, stylist — one app</span></div>
-        </div>
-      </div>
-
-      <!-- how a scan works -->
-      <div class="beat reveal">
-        <span class="kicker beat__k">How a scan works</span>
-        <div class="diagram">
-          <div class="flow">
-            <div class="flow__node"><span class="flow__n">01</span><div class="flow__t">Scan</div><div class="flow__d">phone scans<br>the tag</div></div>
-            <div class="flow__node"><span class="flow__n">02</span><div class="flow__t">Look up</div><div class="flow__d">find the<br>exact piece</div></div>
-            <div class="flow__node"><span class="flow__n">03</span><div class="flow__t">Out or back</div><div class="flow__d">who has it,<br>why, due date</div></div>
-            <div class="flow__node"><span class="flow__n">04</span><div class="flow__t">Record</div><div class="flow__d">logged to a<br>permanent history</div></div>
-            <div class="flow__node"><span class="flow__n">05</span><div class="flow__t">Update</div><div class="flow__d">status updated<br>for everyone</div></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- what made it hard (plain first sentence each) -->
-      <div class="beat reveal">
-        <span class="kicker beat__k">What made it hard</span>
-        <p class="lead" style="margin-bottom:34px;max-width:60ch">Most of the work is invisible — making sure the system stays correct even when it's busy, shared, and handling money.</p>
-        <div class="hard cols-2" style="grid-template-columns:1fr 1fr">
-          <div class="hard__item"><div class="hard__n">i.</div><div class="hard__t">Keeping each brand's inventory private</div><p class="hard__d">Several brands share one system, and each can only ever see its own pieces. That rule lives in the database itself — so a mistake in the code can never leak one client's inventory to another.</p></div>
-          <div class="hard__item"><div class="hard__n">ii.</div><div class="hard__t">Handling payments safely</div><p class="hard__d">Stylists pay a one-time fee to reserve pieces. The payment is confirmed on the server, where the amount can't be tampered with from a browser.</p></div>
-          <div class="hard__item"><div class="hard__n">iii.</div><div class="hard__t">Proving the press was worth it</div><p class="hard__d">When a borrowed piece shows up in a magazine or on a red carpet, the system ties that coverage back to the exact loan — turning PR into a number a brand can actually see.</p></div>
-          <div class="hard__item"><div class="hard__n">iv.</div><div class="hard__t">One code, two worlds</div><p class="hard__d">A single QR code links the physical garment to its digital record. The same code prints on the binder page and the hanger tag, so the rack and the records never drift apart.</p></div>
-        </div>
-
-        <details class="uth reveal">
-          <summary>Under the hood — for the technically minded</summary>
-          <div class="uth__body">
-            <span class="uth__lead">Next.js 15 (App Router) · Supabase / Postgres · Stripe · TypeScript · Vercel. <a class="textlink" href="https://github.com/wesleyharding3/wtf" target="_blank" rel="noopener">github.com/wesleyharding3/wtf</a></span>
-            <div class="uth__row"><span class="uth__k">Isolation</span><span><b>28 row-level-security policies</b> enforced in Postgres, with <code>security definer</code> helper functions (locked <code>search_path</code> to avoid policy recursion) and anti-escalation triggers that block a user from changing their own role, org, or billing flags. Correctness lives in the schema, where it can't be forgotten.</span></div>
-            <div class="uth__row"><span class="uth__k">Payments</span><span>Stripe Checkout with the card saved on file, fulfilled by a <b>signature-verified webhook</b> that recomputes the amount server-side and never trusts the client.</span></div>
-            <div class="uth__row"><span class="uth__k">Earned media</span><span>A check-out's purpose links the loan to the coverage it produced; a tier-weighted, time-decayed EMV ranking turns press into an indexed ROI — never a client's raw dollars.</span></div>
-            <div class="uth__row"><span class="uth__k">Tagging</span><span>A single <code>tag_id</code> abstracted across qr / nfc / rfid; in-house QR generation, RLS-scoped so a brand can only ever mint its own codes.</span></div>
-            <div class="uth__row"><span class="uth__k">Scope</span><span>9 tables · 12 enums · 11 SQL functions · 3 derived views · 25 typed, validated API routes.</span></div>
-          </div>
-        </details>
-      </div>
-
-      <!-- the companion app — mock screens -->
-      <div class="beat reveal">
-        <span class="kicker beat__k">The companion app — just entering development</span>
-        <p class="lead" style="margin-bottom:38px;max-width:62ch">The dashboard runs the showroom from a desk. The app puts the same crucial business knowledge — <strong>where every piece is, what's due back, what the press was worth</strong> — in clients' and administrators' hands, anywhere there's internet service.</p>
-        <div class="phones phones--mock reveal">
-          <div class="phone">
-            <div class="am">
-              <div class="am__status"><span>9:41</span><span>&#9679;&#9679;&#9679;</span></div>
-              <div class="am__head"><div class="am__brand">Wear the Future</div><div class="am__title">Today</div></div>
-              <div class="am__body">
-                <div class="am__cards">
-                  <div class="am__card"><div class="am__n">38</div><div class="am__l">pieces out</div></div>
-                  <div class="am__card"><div class="am__n">9</div><div class="am__l">due this week</div></div>
-                  <div class="am__card am__card--wide"><div class="am__n"><em>2</em></div><div class="am__l">overdue — tap to send a reminder</div></div>
-                </div>
-                <div>
-                  <div class="am__row"><span class="am__row-t">Silk Soul — kimono No.4</span><span class="am__row-s">out · editor</span></div>
-                  <div class="am__row"><span class="am__row-t">BEALICE — Beatrice tote</span><span class="am__row-s">due Fri</span></div>
-                  <div class="am__row"><span class="am__row-t">Jendue — wrap dress</span><span class="am__row-s">returned</span></div>
-                </div>
-              </div>
-              <div class="am__foot"><span class="am__dot on"></span><span class="am__dot"></span><span class="am__dot"></span></div>
-            </div>
-          </div>
-          <div class="phone phone--lift">
-            <div class="am">
-              <div class="am__status"><span>9:41</span><span>&#9679;&#9679;&#9679;</span></div>
-              <div class="am__head"><div class="am__brand">Piece</div><div class="am__title">Paisley scarf No.12</div></div>
-              <div class="am__body">
-                <div class="am__img"></div>
-                <div class="am__row"><span class="am__row-t">Status</span><span class="am__pill">out — stylist</span></div>
-                <div class="am__row"><span class="am__row-t">Due back</span><span class="am__row-s">Jul 11</span></div>
-                <div class="am__row"><span class="am__row-t">Last scan</span><span class="am__row-s">DTLA · 2d ago</span></div>
-                <div class="am__qr"></div>
-              </div>
-              <div class="am__foot"><span class="am__dot"></span><span class="am__dot on"></span><span class="am__dot"></span></div>
-            </div>
-          </div>
-          <div class="phone">
-            <div class="am">
-              <div class="am__status"><span>9:41</span><span>&#9679;&#9679;&#9679;</span></div>
-              <div class="am__head"><div class="am__brand">Earned media</div><div class="am__title">This month</div></div>
-              <div class="am__body">
-                <div class="am__cards">
-                  <div class="am__card am__card--wide"><div class="am__n">246</div><div class="am__l">press placements tracked, all time</div></div>
-                </div>
-                <div>
-                  <div class="am__row"><span class="am__row-t">Vogue online</span><span class="am__pill am__pill--ok">tier 1</span></div>
-                  <div class="am__row"><span class="am__row-t">Red-carpet appearance</span><span class="am__pill am__pill--ok">tier 1</span></div>
-                  <div class="am__row"><span class="am__row-t">Stylist social</span><span class="am__row-s">tier 3</span></div>
-                  <div class="am__row"><span class="am__row-t">Local editorial</span><span class="am__row-s">tier 2</span></div>
-                </div>
-              </div>
-              <div class="am__foot"><span class="am__dot"></span><span class="am__dot"></span><span class="am__dot on"></span></div>
-            </div>
-          </div>
-        </div>
-        <p class="caption" style="margin-top:18px">Fig. 02 — mock screens from the companion app, drawn in code. The real one is in development now.</p>
-      </div>
-
-      <!-- what's built / next -->
-      <div class="beat reveal">
-        <div class="tradeoffs">
-          <div class="tradeoffs__col"><h4>Working today</h4><ul>
-            <li>Scan-in / scan-out, with a permanent history of every piece</li>
-            <li>Separate views for the owner, each brand, and stylists</li>
-            <li>Payments, press-coverage value, and printable binder &amp; hanger tags</li>
-          </ul></div>
-          <div class="tradeoffs__col tradeoffs__col--next"><h4>Next on the list</h4><ul>
-            <li>The companion app — the whole business, from a phone</li>
-            <li>Automatic reminders when a piece is overdue</li>
-            <li>Self-serve onboarding for new stylists</li>
-          </ul></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== FEATURE 02 — earth00 ===================== -->
-  <section class="section s-earth00" id="earth00">
-    <div class="shell">
-      <div class="feature__head reveal">
-        <span class="dateline">Feature 02 — the deep end</span>
-        <img class="e00-mark feature__title reveal--flash" src="favicon-192.png" alt="earth00" width="192" height="192">
-        <p class="claim" style="margin-top:14px;max-width:26ch">Reads thousands of news stories in dozens of languages and figures out which ones are <em>about the same event.</em></p>
-      </div>
-
-      <p class="lead reveal" style="margin-top:clamp(36px,5vw,64px);max-width:62ch">A side project, and a hard one. <strong>If I can untangle the world's news across 48 languages, your inventory and customer data are well within reach.</strong></p>
-
-      <!-- multilingual specimen (intuitive proof) -->
-      <div class="specimen reveal">
-        <div class="specimen__row">Пекин &nbsp;·&nbsp; 北京 &nbsp;·&nbsp; بكين</div>
-        <div class="specimen__arrow">recognized as &rarr;</div>
-        <div class="specimen__out">beijing</div>
-        <p class="caption specimen__cap">Fig. 03 — the same city, written three ways, understood as one. That's the whole trick, at scale.</p>
-      </div>
-
-      <!-- what made it hard: plain sentence, depth tucked away -->
-      <div class="beat reveal">
-        <span class="kicker kicker--accent beat__k">What made it hard</span>
-        <p class="lead" style="max-width:62ch">The hard part isn't collecting the news — it's realizing that an article in Mandarin and one in Arabic are the same story, when they don't share a single word.</p>
-
-        <details class="uth">
-          <summary>Under the hood — how it actually works</summary>
-          <div class="uth__body">
-            <span class="uth__lead">Node.js · PostgreSQL + pgvector · Claude Haiku · DeepL · local transformers · Three.js. <a class="textlink" href="https://github.com/wesleyharding3/earth1000" target="_blank" rel="noopener">github.com/wesleyharding3/earth1000</a></span>
-            <div class="uth__row"><span class="uth__k">Read</span><span>Script-aware extraction across Latin, Cyrillic, Arabic, and CJK — language detected from the text itself, with CJK / Thai / Khmer segmentation. A frequency-list prefilter drops ~45% of language-model calls before they happen.</span></div>
-            <div class="uth__row"><span class="uth__k">Normalize</span><span>Claude Haiku maps non-English keywords to one canonical English form; a three-layer cascade resolves entities against a ~21k local list, then Wikidata, then the model. About <b>$1.80 a day</b> at steady state.</span></div>
-            <div class="uth__row"><span class="uth__k">Group</span><span>A local CPU model embeds every article into a 384-dimensional vector at <b>$0 per run</b>; nearest-neighbor search plus union-find clusters coverage into story threads, with a guard against runaway clusters.</span></div>
-            <div class="uth__row"><span class="uth__k">Rank</span><span>Bayesian classification blended with exponential recency decay (24-hour half-life) and diversity cooldowns, so a few loud sources can't dominate.</span></div>
-            <div class="uth__row"><span class="uth__k">Pipeline</span><span>Collect &rarr; read &rarr; group &rarr; rank &rarr; show, over ~266K articles per cycle. 18 source-type handlers · 72 tables · 24 scheduled workers · a 3D globe · a daily AI audio briefing · ships as a native iOS app.</span></div>
-          </div>
-        </details>
-      </div>
-
-      <!-- real screenshots (graspable proof) -->
-      <div class="beat reveal">
-        <span class="kicker kicker--accent beat__k">The finished thing</span>
-        <div class="phones reveal">
-          <div class="phone"><img src="assets/img/earth00-globe.jpg" alt="earth00 3D globe with country borders" loading="lazy"></div>
-          <div class="phone phone--lift"><img src="assets/img/earth00-geo.jpg" alt="earth00 story view with country labels and a source breakdown" loading="lazy"></div>
-          <div class="phone"><img src="assets/img/earth00-stats.jpg" alt="earth00 trending-topics list" loading="lazy"></div>
-        </div>
-        <p class="caption" style="margin-top:18px">Fig. 04 — the live app: a 3D globe, a story with where its coverage came from, and the day's trending topics.</p>
-      </div>
-
-      <!-- reach -->
-      <div class="beat reveal">
-        <span class="kicker kicker--accent beat__k">And people watch</span>
-        <div class="figures">
-          <div class="figure-n"><span class="figure-n__n"><span data-n="50000">50,000</span></span><span class="figure-n__l">combined impressions a week — daily video briefings, auto-published across platforms</span></div>
-          <div class="figure-n"><span class="figure-n__n"><span data-n="48">48</span></span><span class="figure-n__l">languages read, every cycle</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== FEATURE 03 — STOREFRONTS ===================== -->
-  <section class="section" id="storefronts">
-    <div class="shell">
-      <div class="feature__head reveal">
-        <span class="dateline">Feature 03 — retail, live on Shopify</span>
-        <h2 class="title reveal--flash" style="font-size:clamp(1.6rem,4vw,2.6rem)">Two storefronts, one fashion house</h2>
-      </div>
-
-      <p class="claim reveal" style="--d:80ms;margin-top:34px;max-width:26ch">The showroom's own shop — and the handbag label I <em>designed</em> from the ground up.</p>
-
-      <div class="grid cols-2" style="margin-top:clamp(44px,5vw,72px);align-items:start">
-        <div class="reveal">
-          <p class="body dropcap">BEALICE is a high-fashion handbag brand based in Minnesota. I designed the site — the typography, the pacing, the whole feel — and built it on Shopify, so the label runs its own store without a developer on call. <a class="textlink" href="https://bealice.com" target="_blank" rel="noopener">bealice.com</a> is live now.</p>
-          <p class="body" style="margin-top:1.1em">And Wear the Future — the same fashion house whose showroom runs on the inventory system above — has its public face at <a class="textlink" href="https://www.wear-thefuture.com" target="_blank" rel="noopener">wear-thefuture.com</a>: a Shopify storefront that turns the showroom's physical collections into a shoppable catalog, brand by brand.</p>
-        </div>
-        <div class="reveal" style="--d:100ms">
-          <p class="lead">Same discipline, different register: where the inventory system is about <strong>correctness</strong>, a storefront is about <strong>feel</strong> — type, imagery, and rhythm doing the selling. I do both ends.</p>
-        </div>
-      </div>
-
-      <div class="beat reveal">
-        <div class="stillgrid reveal--wipe">
-          <div class="browser">
-            <div class="browser__bar"><span class="browser__dots"><span></span><span></span><span></span></span><span class="browser__url">bealice.com</span></div>
-            <img src="assets/img/storefronts/bealice-home.jpg" alt="bealice.com homepage — high-fashion handbag brand" loading="lazy">
-          </div>
-          <div class="browser">
-            <div class="browser__bar"><span class="browser__dots"><span></span><span></span><span></span></span><span class="browser__url">bealice.com/collections/shop-all</span></div>
-            <img src="assets/img/storefronts/bealice-shop.jpg" alt="bealice.com shop-all collection grid" loading="lazy">
-          </div>
-          <div class="browser">
-            <div class="browser__bar"><span class="browser__dots"><span></span><span></span><span></span></span><span class="browser__url">wear-thefuture.com</span></div>
-            <img src="assets/img/storefronts/wtf-home.jpg" alt="wear-thefuture.com storefront homepage" loading="lazy">
-          </div>
-          <div class="browser">
-            <div class="browser__bar"><span class="browser__dots"><span></span><span></span><span></span></span><span class="browser__url">wear-thefuture.com/collections/silk-soul</span></div>
-            <img src="assets/img/storefronts/wtf-shop.jpg" alt="wear-thefuture.com Silk &amp; Soul collection page" loading="lazy">
-          </div>
-        </div>
-        <p class="figcap caption reveal" style="margin-top:14px">Fig. 05 — stills from both live stores. BEALICE designed end to end; Wear the Future's storefront built as the front of house for the showroom system.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== SERVICES ===================== -->
-  <section class="section shell" id="services">
-    <div class="runhead reveal"><span class="kicker">Services</span><span class="runhead__idx">What I can build for you</span></div>
-    <div class="services reveal">
-      <div class="service"><div class="service__n">i.</div><div class="service__t">A website that looks right and works</div><p class="service__d">A fast, clean site that represents your business properly and does exactly what you need — not a template a thousand other places already use.</p></div>
-      <div class="service"><div class="service__n">ii.</div><div class="service__t">A database to organize and make sense of your stuff</div><p class="service__d">One reliable home for your inventory, customers, orders, or records — so you can actually find things, trust the numbers, and see what's going on.</p></div>
-      <div class="service"><div class="service__n">iii.</div><div class="service__t">The link between the two and your real-world operations</div><p class="service__d">The connection that reaches into what you physically run — scanning inventory, tracking who has what, automating the busywork that eats your day.</p></div>
-    </div>
-
-    <!-- how working together works -->
-    <div class="beat reveal process">
-      <span class="kicker beat__k">How working together works</span>
-      <div class="flow">
-        <div class="flow__node"><span class="flow__n">01</span><div class="flow__t">You tell me the problem</div><div class="flow__d">in plain words — what's slow, lost, or driving you crazy</div></div>
-        <div class="flow__node"><span class="flow__n">02</span><div class="flow__t">I scope it</div><div class="flow__d">a clear plan and a fixed quote, before any work starts</div></div>
-        <div class="flow__node"><span class="flow__n">03</span><div class="flow__t">I build it</div><div class="flow__d">you see progress along the way, not just at the end</div></div>
-        <div class="flow__node"><span class="flow__n">04</span><div class="flow__t">You own it</div><div class="flow__d">it's yours — the code, the data, all of it</div></div>
-      </div>
-      <div class="cost"><p>Every project starts with a free conversation and a clear, fixed quote — you'll know what it costs before anything begins.</p></div>
-    </div>
-  </section>
-
-  <!-- ===================== ABOUT ===================== -->
-  <section class="section section--dark shell" id="about">
-    <div class="runhead reveal"><span class="kicker">About</span><span class="runhead__idx">How I work</span></div>
-    <div class="grid cols-2" style="align-items:start">
-      <div class="reveal">
-        <p class="pullquote">A report that's wrong loses money the same night.</p>
-      </div>
-      <div class="body reveal" style="--d:100ms">
-        <p>Before I wrote software, I spent eight-plus years running restaurant and entertainment operations across Los Angeles, Portland, and San Diego — hands-on with the spreadsheets, schedules, and numbers that kept the doors open. That's where I learned to respect real-world systems: a report that's wrong costs you that same night.</p>
-        <p>So I build the way I'd want a system built for my own business. I'd rather the software itself prevent mistakes than count on everyone to remember the rules. And when something breaks, I find the real cause and fix that — instead of rebuilding from scratch.</p>
-        <p style="color:var(--low)">AWS Cloud Practitioner certified · CompTIA Data+ · finishing a B.S. in Data Science at WGU.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== TOOLS / CAPABILITIES ===================== -->
-  <section class="section shell" id="capabilities">
-    <div class="runhead reveal"><span class="kicker">The tools I use</span><span class="runhead__idx">For the technically minded</span></div>
-    <div class="spec reveal">
-      <div class="spec__row"><div class="spec__k">PostgreSQL</div><div class="spec__v">Schema design, row-level security, PL/pgSQL functions &amp; triggers, pgvector, materialized views, purpose-built indexing.</div></div>
-      <div class="spec__row"><div class="spec__k">TypeScript / Node</div><div class="spec__v">Next.js App Router (server components, route handlers, middleware), typed database layers, and Express services.</div></div>
-      <div class="spec__row"><div class="spec__k">NLP &amp; data</div><div class="spec__v">Multilingual keyword extraction, entity resolution, local transformer embeddings on pgvector, and Python ETL.</div></div>
-      <div class="spec__row"><div class="spec__k">Front-end</div><div class="spec__v">Hand-written CSS design systems (no UI kit), responsive layouts, and Three.js data visualization.</div></div>
-      <div class="spec__row"><div class="spec__k">Payments &amp; auth</div><div class="spec__v">Stripe Checkout + signature-verified webhooks, and secure sign-in (magic-link / invite / password).</div></div>
-      <div class="spec__row"><div class="spec__k">Hosting &amp; infrastructure</div><div class="spec__v">Vercel &amp; Render, cloud storage, security-header hardening, iOS packaging. AWS Cloud Practitioner.</div></div>
-    </div>
-
-    <div class="beat reveal">
-      <span class="kicker beat__k">Beyond the code</span>
-      <div class="spec">
-        <div class="spec__row"><div class="spec__k">Music production</div><div class="spec__v">Composition, sound design, and mixing in Ableton Live.</div></div>
-        <div class="spec__row"><div class="spec__k">3D &amp; animation</div><div class="spec__v">Blender — modeling, animation, and rendered motion graphics.</div></div>
-        <div class="spec__row"><div class="spec__k">Video &amp; content strategy</div><div class="spec__v">Editing and automated publishing pipelines — earth00's daily video briefings earn a combined ~50,000 impressions a week.</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== CONTACT ===================== -->
-  <section class="section shell" id="contact">
-    <div class="runhead reveal"><span class="kicker">Contact</span><span class="runhead__idx">Get in touch</span></div>
-    <div class="grid cols-2" style="align-items:start">
-      <h2 class="contact__big reveal--flash">Let's build something that <em>works.</em></h2>
-      <div class="reveal reveal--right" style="--d:100ms">
-        <p class="lead" style="margin-bottom:30px">Tell me what your business needs and I'll tell you how I'd build it. No jargon, no obligation — just a straight answer.</p>
-        <nav class="contact-list" aria-label="Contact links">
-          <a href="mailto:wesleyharding3@gmail.com"><span><span class="ci__k">Email</span>&nbsp;&nbsp;wesleyharding3@gmail.com</span><span class="arr">&rarr;</span></a>
-          <a href="https://github.com/wesleyharding3" target="_blank" rel="noopener"><span><span class="ci__k">GitHub — see the code</span>&nbsp;&nbsp;github.com/wesleyharding3</span><span class="arr">&rarr;</span></a>
-          <div class="ci"><span><span class="ci__k">Based in</span>&nbsp;&nbsp;Los Angeles, CA</span></div>
-        </nav>
-      </div>
-    </div>
-  </section>
-
-  <footer class="footer shell">
-    <div class="footer__row">
-      <span>Wesley Harding &middot; <span data-year>2026</span></span>
-      <span>Set in Fraunces &amp; Geist &middot; hand-coded, no template</span>
-      <a href="#top">&uarr; Top</a>
-    </div>
-  </footer>
+  <!-- the name, drawn left to right as if by a pen (ink layer + a leading nib
+       trace), then it shrinks and moves to live in the nav's top-left corner.
+       Two ink copies (plain black / plain white, no blend-mode) stand in for
+       one differencing layer — see js/namedraw.js for why. -->
+  <div class="namewrap">
+    <svg class="drawname" viewBox="0 0 1000 210" role="img" aria-label="Wesley Harding">
+      <text class="drawname__ink drawname__ink--b" x="-52" y="150" text-anchor="start">Wesley Harding</text>
+      <text class="drawname__ink drawname__ink--w" x="-52" y="150" text-anchor="start">Wesley Harding</text>
+      <text class="drawname__nib" x="-52" y="150" text-anchor="start" aria-hidden="true">Wesley Harding</text>
+    </svg>
+  </div>
 
 </main>
 
-<div class="fx-grain" aria-hidden="true"></div>
+<!-- ============= THE CHAPTERS — informational, below the fold =============
+     A first sketch: the two-tone split continues past the fold; each side
+     lists its six chapters as plain information (no players, no media). -->
+<section class="chapstrip" aria-label="The chapters">
+  <div class="chapstrip__col chapstrip__col--web">
+    <header class="chapstrip__head">
+      <h2>Websites</h2>
+      <a href="frontend.html">All six&nbsp;&rarr;</a>
+    </header>
+    <ol class="chapstrip__list">
+      <li><a href="frontend.html"><span class="cno">01</span><span class="ct">The first moment</span><span class="cd">Looks expensive. Loads before they blink.</span></a></li>
+      <li><a href="frontend.html"><span class="cno">02</span><span class="ct">The body</span><span class="cd">Words set like a magazine. Photos that rearrange for any screen.</span></a></li>
+      <li><a href="frontend.html"><span class="cno">03</span><span class="ct">Wayfinding</span><span class="cd">Three clicks to anything.</span></a></li>
+      <li><a href="frontend.html"><span class="cno">04</span><span class="ct">The account</span><span class="cd">Sign in by email link. Checkout in under a minute.</span></a></li>
+      <li><a href="frontend.html"><span class="cno">05</span><span class="ct">The dashboard</span><span class="cd">Today&rsquo;s sales, without asking anyone.</span></a></li>
+      <li><a href="frontend.html"><span class="cno">06</span><span class="ct">Trust</span><span class="cd">The fine print reads like the rest of the site.</span></a></li>
+    </ol>
+  </div>
+  <div class="chapstrip__col chapstrip__col--sys">
+    <header class="chapstrip__head">
+      <h2>Systems</h2>
+      <a href="backend.html">All six&nbsp;&rarr;</a>
+    </header>
+    <ol class="chapstrip__list">
+      <li><a href="backend.html"><span class="cno">01</span><span class="ct">Database architecture</span><span class="cd">Every order, customer and item has one home.</span></a></li>
+      <li><a href="backend.html"><span class="cno">02</span><span class="ct">Analytics</span><span class="cd">Counts what customers do &mdash; not what they say.</span></a></li>
+      <li><a href="backend.html"><span class="cno">03</span><span class="ct">Routing &amp; APIs</span><span class="cd">Every button leads somewhere real.</span></a></li>
+      <li><a href="backend.html"><span class="cno">04</span><span class="ct">Auth &amp; payments</span><span class="cd">Money is checked before it&rsquo;s believed.</span></a></li>
+      <li><a href="backend.html"><span class="cno">05</span><span class="ct">Workers &amp; observability</span><span class="cd">Robots do the boring work nightly. If something breaks, I know first.</span></a></li>
+      <li><a href="backend.html"><span class="cno">06</span><span class="ct">Shipping safely</span><span class="cd">Yesterday&rsquo;s version is one switch away.</span></a></li>
+    </ol>
+  </div>
+</section>
 
-<script src="js/main.js" defer></script>
+
+<!-- ===================== SANDBOX MODALS ===================== -->
+
+<!-- BEALICE — faux-browse the live store -->
+<div class="modal" id="m-bealice" role="dialog" aria-modal="true" aria-label="BEALICE storefront">
+  <a class="modal__scrim" href="#" aria-label="Close"></a>
+  <div class="modal__card">
+    <div class="modal__bar">
+      <span class="brandmark"><img class="bealice-wordmark" src="assets/img/logos/bealice-wordmark.png" alt="BEALICE" width="771" height="138"></span>
+      <span class="modal__bar-r">
+        <a class="modal__live" href="https://bealice.com" target="_blank" rel="noopener">bealice.com&nbsp;&#8599;</a>
+        <button class="modal__close" type="button" aria-label="Close">&times;</button>
+      </span>
+    </div>
+    <div class="modal__body">
+      <div class="sandbox">
+        <figure data-fig="home" class="on">
+          <span class="shot">
+            <img src="assets/img/stores/bealice/home.jpg" alt="bealice.com homepage" width="1440" height="900">
+            <button class="hs" style="left:1.4%;top:9.4%;width:5.6%;height:4.5%" data-fig-ref="menu" aria-label="Open menu"></button>
+            <button class="hs" style="left:41.3%;top:85.3%;width:17.5%;height:5.9%" data-fig-ref="shop" aria-label="Shop BeAlice"></button>
+          </span>
+        </figure>
+        <figure data-fig="menu">
+          <span class="shot">
+            <img src="assets/img/stores/bealice/menu.jpg" alt="bealice.com — menu open" width="1440" height="813">
+            <button class="hs" style="left:1.4%;top:10.4%;width:5.6%;height:5%" data-fig-ref="home" aria-label="Close menu"></button>
+            <button class="hs" style="left:1.5%;top:23.5%;width:10.5%;height:6.2%" data-fig-ref="home" aria-label="Home"></button>
+            <button class="hs" style="left:1.5%;top:30%;width:10.5%;height:6.2%" data-fig-ref="shop" aria-label="Shop"></button>
+            <button class="hs" style="left:1.5%;top:36.6%;width:10.5%;height:6.2%" data-fig-ref="about" aria-label="About"></button>
+            <button class="hs" style="left:1.5%;top:43.2%;width:10.5%;height:6.2%" data-fig-ref="contact" aria-label="Contact"></button>
+            <button class="hs" style="left:1.5%;top:49.7%;width:10.5%;height:6.2%" data-fig-ref="blog" aria-label="Blog"></button>
+          </span>
+        </figure>
+        <figure data-fig="shop">
+          <span class="shot">
+            <img src="assets/img/stores/bealice/shop.jpg" alt="bealice.com — Shop All" width="1440" height="900">
+            <button class="hs" style="left:1.4%;top:9.4%;width:5.6%;height:4.5%" data-fig-ref="menu" aria-label="Open menu"></button>
+            <button class="hs" style="left:42.5%;top:9%;width:15%;height:5%" data-fig-ref="home" aria-label="BEALICE — home"></button>
+          </span>
+        </figure>
+        <figure data-fig="about">
+          <span class="shot">
+            <img src="assets/img/stores/bealice/about.jpg" alt="bealice.com — about" width="1440" height="900">
+            <button class="hs" style="left:1.4%;top:9.4%;width:5.6%;height:4.5%" data-fig-ref="menu" aria-label="Open menu"></button>
+            <button class="hs" style="left:42.5%;top:9%;width:15%;height:5%" data-fig-ref="home" aria-label="BEALICE — home"></button>
+          </span>
+        </figure>
+        <figure data-fig="contact">
+          <span class="shot">
+            <img src="assets/img/stores/bealice/contact.jpg" alt="bealice.com — contact" width="1440" height="900">
+            <button class="hs" style="left:1.4%;top:9.4%;width:5.6%;height:4.5%" data-fig-ref="menu" aria-label="Open menu"></button>
+            <button class="hs" style="left:42.5%;top:9%;width:15%;height:5%" data-fig-ref="home" aria-label="BEALICE — home"></button>
+          </span>
+        </figure>
+        <figure data-fig="blog">
+          <span class="shot">
+            <img src="assets/img/stores/bealice/blog.jpg" alt="bealice.com — blog" width="1440" height="813">
+            <button class="hs" style="left:1.4%;top:10.4%;width:5.6%;height:5%" data-fig-ref="menu" aria-label="Open menu"></button>
+            <button class="hs" style="left:42.5%;top:10%;width:15%;height:5.5%" data-fig-ref="home" aria-label="BEALICE — home"></button>
+          </span>
+        </figure>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WEAR THE FUTURE — faux-browse the live store -->
+<div class="modal" id="m-wtf" role="dialog" aria-modal="true" aria-label="Wear the Future storefront">
+  <a class="modal__scrim" href="#" aria-label="Close"></a>
+  <div class="modal__card">
+    <div class="modal__bar">
+      <span class="brandmark"><img class="wtf-wordmark" src="assets/img/logos/wtf-wordmark.png" alt="Wear the Future" width="592" height="120"><span class="tag">storefront</span></span>
+      <span class="modal__bar-r">
+        <a class="modal__live" href="https://www.wear-thefuture.com" target="_blank" rel="noopener">wear-thefuture.com&nbsp;&#8599;</a>
+        <button class="modal__close" type="button" aria-label="Close">&times;</button>
+      </span>
+    </div>
+    <div class="modal__body">
+      <div class="sandbox">
+        <figure data-fig="home" class="on"><span class="shot"><img src="assets/img/stores/wtf/home.jpg" alt="wear-thefuture.com homepage" width="1440" height="900">
+          <button class="hs" style="left:12%;top:2.2%;width:13%;height:4.6%" data-fig-ref="home" aria-label="wearthefuture — home"></button>
+          <button class="hs" style="left:27.3%;top:2.2%;width:4%;height:4.6%" data-fig-ref="home" aria-label="Home"></button>
+          <button class="hs" style="left:32%;top:2.2%;width:5.3%;height:4.6%" data-fig-ref="about" aria-label="About Us"></button>
+          <button class="hs" style="left:38%;top:2.2%;width:3.6%;height:4.6%" data-fig-ref="shop" aria-label="Shop"></button>
+          <button class="hs" style="left:42.3%;top:2.2%;width:5%;height:4.6%" data-fig-ref="services" aria-label="Services"></button>
+          <button class="hs" style="left:48.1%;top:2.2%;width:3.6%;height:4.6%" data-fig-ref="press" aria-label="Press"></button>
+          <button class="hs" style="left:52.5%;top:2.2%;width:4.6%;height:4.6%" data-fig-ref="contact" aria-label="Contact"></button>
+          <button class="hs" style="left:58.2%;top:2.2%;width:4.2%;height:4.6%" data-fig-ref="journal" aria-label="Journal"></button></span></figure>
+        <figure data-fig="about"><span class="shot"><img src="assets/img/stores/wtf/about.jpg" alt="wear-thefuture.com — about us" width="1440" height="900">
+          <button class="hs" style="left:12%;top:2.2%;width:13%;height:4.6%" data-fig-ref="home" aria-label="wearthefuture — home"></button>
+          <button class="hs" style="left:27.3%;top:2.2%;width:4%;height:4.6%" data-fig-ref="home" aria-label="Home"></button>
+          <button class="hs" style="left:32%;top:2.2%;width:5.3%;height:4.6%" data-fig-ref="about" aria-label="About Us"></button>
+          <button class="hs" style="left:38%;top:2.2%;width:3.6%;height:4.6%" data-fig-ref="shop" aria-label="Shop"></button>
+          <button class="hs" style="left:42.3%;top:2.2%;width:5%;height:4.6%" data-fig-ref="services" aria-label="Services"></button>
+          <button class="hs" style="left:48.1%;top:2.2%;width:3.6%;height:4.6%" data-fig-ref="press" aria-label="Press"></button>
+          <button class="hs" style="left:52.5%;top:2.2%;width:4.6%;height:4.6%" data-fig-ref="contact" aria-label="Contact"></button>
+          <button class="hs" style="left:58.2%;top:2.2%;width:4.2%;height:4.6%" data-fig-ref="journal" aria-label="Journal"></button></span></figure>
+        <figure data-fig="shop"><span class="shot"><img src="assets/img/stores/wtf/shop.jpg" alt="wear-thefuture.com — collections" width="1440" height="900">
+          <button class="hs" style="left:12%;top:2.2%;width:13%;height:4.6%" data-fig-ref="home" aria-label="wearthefuture — home"></button>
+          <button class="hs" style="left:27.3%;top:2.2%;width:4%;height:4.6%" data-fig-ref="home" aria-label="Home"></button>
+          <button class="hs" style="left:32%;top:2.2%;width:5.3%;height:4.6%" data-fig-ref="about" aria-label="About Us"></button>
+          <button class="hs" style="left:38%;top:2.2%;width:3.6%;height:4.6%" data-fig-ref="shop" aria-label="Shop"></button>
+          <button class="hs" style="left:42.3%;top:2.2%;width:5%;height:4.6%" data-fig-ref="services" aria-label="Services"></button>
+          <button class="hs" style="left:48.1%;top:2.2%;width:3.6%;height:4.6%" data-fig-ref="press" aria-label="Press"></button>
+          <button class="hs" style="left:52.5%;top:2.2%;width:4.6%;height:4.6%" data-fig-ref="contact" aria-label="Contact"></button>
+          <button class="hs" style="left:58.2%;top:2.2%;width:4.2%;height:4.6%" data-fig-ref="journal" aria-label="Journal"></button></span></figure>
+        <figure data-fig="services"><span class="shot"><img src="assets/img/stores/wtf/services.jpg" alt="wear-thefuture.com — services" width="1440" height="900">
+          <button class="hs" style="left:12%;top:2.2%;width:13%;height:4.6%" data-fig-ref="home" aria-label="wearthefuture — home"></button>
+          <button class="hs" style="left:27.3%;top:2.2%;width:4%;height:4.6%" data-fig-ref="home" aria-label="Home"></button>
+          <button class="hs" style="left:32%;top:2.2%;width:5.3%;height:4.6%" data-fig-ref="about" aria-label="About Us"></button>
+          <button class="hs" style="left:38%;top:2.2%;width:3.6%;height:4.6%" data-fig-ref="shop" aria-label="Shop"></button>
+          <button class="hs" style="left:42.3%;top:2.2%;width:5%;height:4.6%" data-fig-ref="services" aria-label="Services"></button>
+          <button class="hs" style="left:48.1%;top:2.2%;width:3.6%;height:4.6%" data-fig-ref="press" aria-label="Press"></button>
+          <button class="hs" style="left:52.5%;top:2.2%;width:4.6%;height:4.6%" data-fig-ref="contact" aria-label="Contact"></button>
+          <button class="hs" style="left:58.2%;top:2.2%;width:4.2%;height:4.6%" data-fig-ref="journal" aria-label="Journal"></button></span></figure>
+        <figure data-fig="press"><span class="shot"><img src="assets/img/stores/wtf/press.jpg" alt="wear-thefuture.com — press" width="1440" height="900">
+          <button class="hs" style="left:12%;top:2.2%;width:13%;height:4.6%" data-fig-ref="home" aria-label="wearthefuture — home"></button>
+          <button class="hs" style="left:27.3%;top:2.2%;width:4%;height:4.6%" data-fig-ref="home" aria-label="Home"></button>
+          <button class="hs" style="left:32%;top:2.2%;width:5.3%;height:4.6%" data-fig-ref="about" aria-label="About Us"></button>
+          <button class="hs" style="left:38%;top:2.2%;width:3.6%;height:4.6%" data-fig-ref="shop" aria-label="Shop"></button>
+          <button class="hs" style="left:42.3%;top:2.2%;width:5%;height:4.6%" data-fig-ref="services" aria-label="Services"></button>
+          <button class="hs" style="left:48.1%;top:2.2%;width:3.6%;height:4.6%" data-fig-ref="press" aria-label="Press"></button>
+          <button class="hs" style="left:52.5%;top:2.2%;width:4.6%;height:4.6%" data-fig-ref="contact" aria-label="Contact"></button>
+          <button class="hs" style="left:58.2%;top:2.2%;width:4.2%;height:4.6%" data-fig-ref="journal" aria-label="Journal"></button></span></figure>
+        <figure data-fig="contact"><span class="shot"><img src="assets/img/stores/wtf/contact.jpg" alt="wear-thefuture.com — contact" width="1440" height="900">
+          <button class="hs" style="left:12%;top:2.2%;width:13%;height:4.6%" data-fig-ref="home" aria-label="wearthefuture — home"></button>
+          <button class="hs" style="left:27.3%;top:2.2%;width:4%;height:4.6%" data-fig-ref="home" aria-label="Home"></button>
+          <button class="hs" style="left:32%;top:2.2%;width:5.3%;height:4.6%" data-fig-ref="about" aria-label="About Us"></button>
+          <button class="hs" style="left:38%;top:2.2%;width:3.6%;height:4.6%" data-fig-ref="shop" aria-label="Shop"></button>
+          <button class="hs" style="left:42.3%;top:2.2%;width:5%;height:4.6%" data-fig-ref="services" aria-label="Services"></button>
+          <button class="hs" style="left:48.1%;top:2.2%;width:3.6%;height:4.6%" data-fig-ref="press" aria-label="Press"></button>
+          <button class="hs" style="left:52.5%;top:2.2%;width:4.6%;height:4.6%" data-fig-ref="contact" aria-label="Contact"></button>
+          <button class="hs" style="left:58.2%;top:2.2%;width:4.2%;height:4.6%" data-fig-ref="journal" aria-label="Journal"></button></span></figure>
+        <figure data-fig="journal"><span class="shot"><img src="assets/img/stores/wtf/journal.jpg" alt="wear-thefuture.com — journal" width="1440" height="813">
+          <button class="hs" style="left:12%;top:2.4%;width:13%;height:5.1%" data-fig-ref="home" aria-label="wearthefuture — home"></button>
+          <button class="hs" style="left:27.3%;top:2.4%;width:4%;height:5.1%" data-fig-ref="home" aria-label="Home"></button>
+          <button class="hs" style="left:32%;top:2.4%;width:5.3%;height:5.1%" data-fig-ref="about" aria-label="About Us"></button>
+          <button class="hs" style="left:38%;top:2.4%;width:3.6%;height:5.1%" data-fig-ref="shop" aria-label="Shop"></button>
+          <button class="hs" style="left:42.3%;top:2.4%;width:5%;height:5.1%" data-fig-ref="services" aria-label="Services"></button>
+          <button class="hs" style="left:48.1%;top:2.4%;width:3.6%;height:5.1%" data-fig-ref="press" aria-label="Press"></button>
+          <button class="hs" style="left:52.5%;top:2.4%;width:4.6%;height:5.1%" data-fig-ref="contact" aria-label="Contact"></button>
+          <button class="hs" style="left:58.2%;top:2.4%;width:4.2%;height:5.1%" data-fig-ref="journal" aria-label="Journal"></button></span></figure>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INVENTORY — real dashboard screenshots -->
+<div class="modal" id="m-inventory" role="dialog" aria-modal="true" aria-label="Wear the Future inventory system">
+  <a class="modal__scrim" href="#" aria-label="Close"></a>
+  <div class="modal__card">
+    <div class="modal__bar">
+      <span class="brandmark"><img class="wtf-wordmark" src="assets/img/logos/wtf-wordmark.png" alt="Wear the Future" width="592" height="120"><span class="tag">inventory</span></span>
+      <span class="tabs" role="tablist">
+        <button type="button" role="tab" aria-selected="true" data-fig-ref="admin">Dashboard</button>
+        <button type="button" role="tab" aria-selected="false" data-fig-ref="press">Press</button>
+        <button type="button" role="tab" aria-selected="false" data-fig-ref="rack">The rack</button>
+      </span>
+      <span class="modal__bar-r">
+        <span class="modal__note">Private client system</span>
+        <button class="modal__close" type="button" aria-label="Close">&times;</button>
+      </span>
+    </div>
+    <div class="modal__body">
+      <div class="sandbox">
+        <figure data-fig="admin" class="on"><span class="shot"><img src="assets/img/showcase/wtf-admin.jpg" alt="Inventory dashboard — 70 pieces tracked, status and due dates" width="1700" height="1105"></span></figure>
+        <figure data-fig="press"><span class="shot"><img src="assets/img/showcase/wtf-press.jpg" alt="Press view — 246 placements, earned-media value, ranked coverage" width="1700" height="1105"></span></figure>
+        <figure data-fig="rack"><span class="shot"><img src="assets/img/wtf-scarves-cover.jpg" alt="Printed scarves on a rack — the physical inventory the system tracks" width="1000" height="1500"></span></figure>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- earth00 — the real site, live -->
+<div class="modal" id="m-earth00" role="dialog" aria-modal="true" aria-label="earth00">
+  <a class="modal__scrim" href="#" aria-label="Close"></a>
+  <div class="modal__card">
+    <div class="modal__bar">
+      <span class="e00-lockup"><img src="assets/img/logos/earth00-mark.png" alt="" width="160" height="160"><span>earth00</span></span>
+      <span class="tabs" role="tablist">
+        <button type="button" role="tab" aria-selected="true" data-fig-ref="live">Live</button>
+        <button type="button" role="tab" aria-selected="false" data-fig-ref="globe">Globe</button>
+        <button type="button" role="tab" aria-selected="false" data-fig-ref="feed">Feed</button>
+        <button type="button" role="tab" aria-selected="false" data-fig-ref="app">App</button>
+      </span>
+      <span class="modal__bar-r">
+        <a class="modal__live" href="https://earth00.com" target="_blank" rel="noopener">earth00.com&nbsp;&#8599;</a>
+        <button class="modal__close" type="button" aria-label="Close">&times;</button>
+      </span>
+    </div>
+    <div class="modal__body">
+      <div class="sandbox sandbox--live">
+        <figure data-fig="live" class="on"><iframe data-src="https://earth00.com" title="earth00 — the live site" sandbox="allow-scripts allow-same-origin allow-popups"></iframe></figure>
+        <figure data-fig="globe"><span class="shot"><img src="assets/img/showcase/e-globe.jpg" alt="earth00 — 3D globe of world news" width="1700" height="1105"></span></figure>
+        <figure data-fig="feed"><span class="shot"><img src="assets/img/showcase/e-feed.jpg" alt="earth00 — story-thread feed clustered from thousands of articles" width="1700" height="1105"></span></figure>
+        <figure data-fig="app"><span class="shot"><img src="assets/img/earth00-geo.jpg" alt="earth00 iOS app — a story and the sources behind its coverage" width="554" height="1200"></span></figure>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="modal" id="m-about" role="dialog" aria-modal="true" aria-label="About">
+  <a class="modal__scrim" href="#" aria-label="Close"></a>
+  <div class="modal__card">
+    <div class="modal__bar">
+      <span class="modal__title-text">About</span>
+      <button class="modal__close" type="button" aria-label="Close">&times;</button>
+    </div>
+    <div class="modal__body">
+      <div class="panel-text">
+        <p>Before I wrote software, I spent eight-plus years running restaurant and entertainment
+        operations across Los Angeles, Portland, and San Diego — hands-on with the spreadsheets,
+        schedules, and numbers that kept the doors open. That's where I learned to respect
+        real-world systems: a report that's wrong loses money the same night.</p>
+        <p>So I build the way I'd want a system built for my own business. I'd rather the software
+        itself prevent mistakes than count on everyone to remember the rules. And when something
+        breaks, I find the real cause and fix that — instead of rebuilding from scratch.</p>
+        <p class="dim">AWS Cloud Practitioner certified · CompTIA Data+ · finishing a B.S. in Data Science at WGU.</p>
+        <dl class="rows">
+          <div class="row"><dt>PostgreSQL</dt><dd>Schema design, row-level security, functions &amp; triggers, pgvector, purpose-built indexing</dd></div>
+          <div class="row"><dt>TypeScript / Node</dt><dd>Next.js App Router, typed database layers, Express services</dd></div>
+          <div class="row"><dt>NLP &amp; data</dt><dd>Multilingual keyword extraction, entity resolution, local transformer embeddings, Python ETL</dd></div>
+          <div class="row"><dt>Front-end</dt><dd>Hand-written CSS design systems — no UI kit — responsive layouts, Three.js visualization</dd></div>
+          <div class="row"><dt>Payments &amp; auth</dt><dd>Stripe Checkout with signature-verified webhooks; magic-link, invite, and password sign-in</dd></div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="modal" id="m-contact" role="dialog" aria-modal="true" aria-label="Contact">
+  <a class="modal__scrim" href="#" aria-label="Close"></a>
+  <div class="modal__card">
+    <div class="modal__bar">
+      <span class="modal__title-text">Contact</span>
+      <button class="modal__close" type="button" aria-label="Close">&times;</button>
+    </div>
+    <div class="modal__body">
+      <div class="panel-text">
+        <p>Tell me what your business needs and I'll tell you how I'd build it. No jargon, no
+        obligation — just a straight answer. Every project starts with a free conversation and a
+        fixed quote, so you'll know what it costs before anything begins.</p>
+        <ul class="contact-links">
+          <li><span class="k">Email</span><a href="mailto:wesleyharding3@gmail.com">wesleyharding3@gmail.com</a></li>
+          <li><span class="k">GitHub</span><a href="https://github.com/wesleyharding3" target="_blank" rel="noopener">github.com/wesleyharding3&nbsp;&#8599;</a></li>
+          <li><span class="k">Based in</span>Los Angeles, CA</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/namedraw.js" defer></script>
+<script src="js/boot.js" defer></script>
+<script src="js/vitrine.js" defer></script>
 </body>
 </html>

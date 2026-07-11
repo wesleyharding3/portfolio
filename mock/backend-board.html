@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>backend-board — hero source</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  /* Captured as an image at build time — webfonts here never ship to the site. */
+  * { margin:0; box-sizing:border-box; }
+  html,body { background:#0a0a09; }
+  #stage { width:1000px; height:1250px; position:relative; }
+  svg { display:block; }
+  text { user-select:none; }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script>
+(function () {
+  var NS = "http://www.w3.org/2000/svg";
+  var W = 1000, H = 1250;
+  var svg = document.createElementNS(NS, "svg");
+  svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+  svg.setAttribute("width", W); svg.setAttribute("height", H);
+  document.getElementById("stage").appendChild(svg);
+  function E(tag, at, parent) {
+    var el = document.createElementNS(NS, tag);
+    for (var k in at) el.setAttribute(k, at[k]);
+    (parent || svg).appendChild(el); return el;
+  }
+  var MONO = "'IBM Plex Mono', Menlo, monospace";
+  // Systems: a black board. INK is for text/lines drawn directly on the dark
+  // substrate (now light); CHIP_INK stays dark — it's for text and strokes
+  // that sit on the chips' own white bodies, which stay white regardless.
+  var BG = "#0a0a09";
+  var INK = "#f2efe6", CHIP_INK = "#1c1b19", DIM = "#a39c8e", COPPER = "#a29c90", AMBER = "#c77f1f";
+
+  // ---- board substrate --------------------------------------------------------
+  E("rect", { x:0, y:0, width:W, height:H, fill:BG });
+  // ground grid
+  var grid = E("g", { stroke:"#fff", "stroke-opacity":"0.05", "stroke-width":"0.5" });
+  for (var gx = 40; gx <= W - 40; gx += 20) E("line", { x1:gx, y1:40, x2:gx, y2:H-40 }, grid);
+  for (var gy = 40; gy <= H - 40; gy += 20) E("line", { x1:40, y1:gy, x2:W-40, y2:gy }, grid);
+  // board outline + fiducials
+  E("rect", { x:30, y:30, width:W-60, height:H-60, fill:"none", stroke:INK, "stroke-width":"1.2" });
+  [[52,52],[W-52,52],[52,H-52],[W-52,H-52]].forEach(function (f) {
+    E("circle", { cx:f[0], cy:f[1], r:7, fill:"none", stroke:DIM, "stroke-width":"1" });
+    E("line", { x1:f[0]-11, y1:f[1], x2:f[0]+11, y2:f[1], stroke:DIM, "stroke-width":"0.7" });
+    E("line", { x1:f[0], y1:f[1]-11, x2:f[0], y2:f[1]+11, stroke:DIM, "stroke-width":"0.7" });
+  });
+
+  // ---- edge connector (the API edge) ------------------------------------------
+  var fingers = E("g", {});
+  var FY = 150, FN = 9;
+  for (var i = 0; i < FN; i++) {
+    var fy = FY + i * 34;
+    E("rect", { x:30, y:fy, width:26, height:20, fill:"#211f1b", stroke:COPPER, "stroke-width":"1" }, fingers);
+  }
+  [["HTTPS :443", FY+10], ["WSS", FY+78], ["SMTP", FY+146], ["WEBHOOKS IN", FY+214], ["S3", FY+282]].forEach(function (p) {
+    E("text", { x:64, y:p[1]+4, "font-family":MONO, "font-size":"9", fill:DIM }, null).textContent = p[0];
+  });
+  E("text", { x:34, y:FY-14, "font-family":MONO, "font-size":"9", "font-weight":"600", fill:INK }).textContent = "J1 — PUBLIC EDGE";
+
+  // ---- chips -------------------------------------------------------------------
+  // [name, x, y, w, h, sub]
+  var CHIPS = {
+    users:      ["users",            120, 120, 165, 84, "pk id · uq email"],
+    sessions:   ["sessions",         360, 84,  165, 78, "fk user_id"],
+    products:   ["products",         620, 96,  170, 84, "pk id · idx slug"],
+    orders:     ["orders",           150, 316, 170, 92, "fk user_id"],
+    order_items:["order_items",      420, 268, 175, 84, "fk order·product"],
+    payments:   ["payments",         740, 300, 180, 92, "uq intent_id"],
+    core:       ["POSTGRES 15",      360, 430, 280, 150, "ACID · WAL · MVCC"],
+    jobs:       ["jobs",             110, 560, 160, 88, "cron · queue"],
+    analytics:  ["analytics_events", 710, 545, 200, 88, "brin(ts)"],
+    audit:      ["audit_log",        425, 668, 170, 78, "append-only"]
+  };
+  function chip(c, big) {
+    var g = E("g", {});
+    E("rect", { x:c[1], y:c[2], width:c[3], height:c[4], fill:"#fff", stroke:CHIP_INK, "stroke-width": big?1.6:1.1 }, g);
+    // IC notch
+    E("circle", { cx:c[1]+12, cy:c[2]+12, r:2.6, fill:"none", stroke:"#9a9488", "stroke-width":"1" }, g);
+    // pins
+    var pw = 7, pitch = 18;
+    for (var px = c[1]+14; px < c[1]+c[3]-10; px += pitch) {
+      E("line", { x1:px, y1:c[2]-pw, x2:px, y2:c[2], stroke:COPPER, "stroke-width":"1.4" }, g);
+      E("line", { x1:px, y1:c[2]+c[4], x2:px, y2:c[2]+c[4]+pw, stroke:COPPER, "stroke-width":"1.4" }, g);
+    }
+    for (var py = c[2]+16; py < c[2]+c[4]-10; py += pitch) {
+      E("line", { x1:c[1]-pw, y1:py, x2:c[1], y2:py, stroke:COPPER, "stroke-width":"1.4" }, g);
+      E("line", { x1:c[1]+c[3], y1:py, x2:c[1]+c[3]+pw, y2:py, stroke:COPPER, "stroke-width":"1.4" }, g);
+    }
+    var tx = c[1]+c[3]/2, ty = c[2]+c[4]/2;
+    E("text", { x:tx, y:ty-2, "text-anchor":"middle", "font-family":MONO, "font-weight":"600",
+      "font-size": big?17:12.5, fill:CHIP_INK, "letter-spacing":"0.04em" }, g).textContent = c[0];
+    E("text", { x:tx, y:ty+15, "text-anchor":"middle", "font-family":MONO, "font-size": big?10:8.5, fill:"#6b665c" }, g).textContent = c[5];
+    return g;
+  }
+  // traces first (under chips)
+  var traces = E("g", { fill:"none", stroke:COPPER, "stroke-width":"1.2", "stroke-opacity":"0.75" });
+  function via(x, y, amber) { E("circle", { cx:x, cy:y, r:2.6, fill:BG, stroke: amber?AMBER:COPPER, "stroke-width":"1.3" }); }
+  function route(pts, opt) {
+    opt = opt || {};
+    var d = "M" + pts[0][0] + " " + pts[0][1];
+    for (var i = 1; i < pts.length; i++) d += " L" + pts[i][0] + " " + pts[i][1];
+    E("path", { d:d, fill:"none", stroke: opt.amber?AMBER:COPPER, "stroke-width": opt.amber?1.8:1.2,
+      "stroke-opacity": opt.amber?0.95:0.7, "stroke-dasharray": opt.dash?"5 4":"none" }, traces);
+    for (var j = 1; j < pts.length - 1; j++) via(pts[j][0], pts[j][1], opt.amber);
+  }
+  function lbl(x, y, s, amber) {
+    E("text", { x:x, y:y, "font-family":MONO, "font-size":"8.5", fill: amber?AMBER:DIM }).textContent = s;
+  }
+
+  // plain copper routes
+  route([[285,160],[330,160],[330,123],[360,123]]);            lbl(292,152,"fk user_id");
+  route([[525,120],[572,120],[572,138],[620,138]]);
+  route([[790,180],[790,240],[830,240],[830,300]]);            lbl(796,236,"fk product_id");
+  route([[595,310],[650,310],[650,346],[740,346]]);
+  route([[320,360],[372,360],[372,310],[420,310]]);            lbl(326,352,"fk order_id");
+  route([[500,352],[500,430]]);
+  route([[240,408],[240,470],[360,470]]);
+  route([[640,505],[680,505],[680,589],[710,589]]);
+  route([[425,707],[350,707],[350,580],[360,560]]);            lbl(300,700,"triggers →");
+  route([[56,160],[120,160]]);                                  // edge → users
+  route([[56,228],[92,228],[92,362],[150,362]]);                // edge → orders
+  route([[920,346],[948,346]]);                                 // payments → edge R
+  E("text", { x:952, y:338, "font-family":MONO, "font-size":"8.5", fill:DIM, transform:"rotate(90 952 338)" }).textContent = "stripe";
+
+  // the amber query path: users → sessions → orders → payments (one request's life)
+  route([[205,204],[205,258],[150,258],[150,316]], { amber:true });
+  route([[235,408],[235,452],[300,452],[300,505],[360,505]], { amber:true });
+  route([[640,470],[700,470],[700,392],[740,392]], { amber:true });
+  lbl(214,250, "RLS ✓", true);
+  lbl(646,462, "COMMIT", true);
+  // trigger loop (dashed amber): orders → jobs
+  route([[150,380],[86,380],[86,604],[110,604]], { amber:true, dash:true });
+  lbl(94,548, "AFTER INSERT", true);
+
+  // ---- test-point row + long bus through the quiet band ------------------------
+  var busY = 880;
+  route([[110,busY],[850,busY]]);
+  route([[110,busY+14],[850,busY+14]]);
+  for (var tp = 0; tp < 6; tp++) {
+    var tx2 = 180 + tp * 124;
+    E("circle", { cx:tx2, cy:busY, r:4, fill:BG, stroke:INK, "stroke-width":"1.2" });
+    E("text", { x:tx2-9, y:busY-12, "font-family":MONO, "font-size":"8.5", fill:DIM }).textContent = "TP" + (tp+1);
+  }
+  E("text", { x:858, y:busY+4, "font-family":MONO, "font-size":"8.5", fill:DIM }).textContent = "replica bus";
+  E("text", { x:110, y:busY+40, "font-family":MONO, "font-size":"8.5", fill:DIM }).textContent = "prop delay < 1ms · read replicas x2";
+
+  // chips on top
+  for (var key in CHIPS) chip(CHIPS[key], key === "core");
+  // core extras
+  E("rect", { x:376, y:540, width:112, height:22, rx:11, fill:"none", stroke:AMBER, "stroke-width":"1.2" });
+  E("text", { x:432, y:555, "text-anchor":"middle", "font-family":MONO, "font-size":"9.5", fill:AMBER }).textContent = "RLS · 28 POLICIES";
+  E("text", { x:552, y:555, "font-family":MONO, "font-size":"9", fill:DIM }).textContent = "VACUUM nightly";
+  lbl(126,112, "idx btree(email)");
+  lbl(626,88,  "idx gin(tags)");
+  lbl(716,537, "partitioned · monthly");
+
+  // ---- silkscreen title block (the integrated caption) -------------------------
+  var TB = { x:60, y:1010, w:430, h:170 };
+  E("rect", { x:TB.x, y:TB.y, width:TB.w, height:TB.h, fill:"none", stroke:INK, "stroke-width":"1.2" });
+  [36, 62, 118].forEach(function (dy) { E("line", { x1:TB.x, y1:TB.y+dy, x2:TB.x+TB.w, y2:TB.y+dy, stroke:INK, "stroke-width":"0.7" }); });
+  function tb(x, y, s, size, weight, fill) {
+    E("text", { x:x, y:y, "font-family":MONO, "font-size":size||10, "font-weight":weight||400, fill:fill||INK, "letter-spacing":"0.05em" }).textContent = s;
+  }
+  tb(TB.x+12, TB.y+24, "SHEET 01 / 06 — DATABASE ARCHITECTURE", 13, 600);
+  tb(TB.x+12, TB.y+52, "normalized · indexed · row-level secure · ACID", 10.5, 500, "#55504a");
+  tb(TB.x+12, TB.y+82, "triggers · WAL · vacuum · partitions · pgvector", 10.5, 400, DIM);
+  tb(TB.x+12, TB.y+106, "every relation accounted for. nothing leaks.", 10, 400, AMBER);
+  tb(TB.x+12, TB.y+142, "ROUTED BY W. HARDING — LOS ANGELES", 9, 500);
+  tb(TB.x+12, TB.y+160, "REV 2.6 · SCALE 1:1 · DO NOT DUPLICATE", 8.5, 400, DIM);
+
+  // ---- the tagline, etched into the board --------------------------------------
+  var tag = E("text", { x:W-64, y:1118, "text-anchor":"end",
+    "font-family":"'Archivo Black', 'Helvetica Neue', sans-serif", "font-size":"62",
+    fill:INK, "letter-spacing":"0.01em" });
+  tag.textContent = "SYSTEMS";
+  // a trace runs beneath the wordmark and terminates in a via — type as circuitry
+  route([[566,1132],[904,1132]]);
+  via(562, 1132); via(908, 1132, true);
+})();
+</script>
+</body>
+</html>

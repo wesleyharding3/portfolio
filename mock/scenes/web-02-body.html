@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>W2 · The body — scene source</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600&family=Caveat:wght@600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  /* Scene: 1600x900, one 14s loop. Real bealice.com pages scroll themselves;
+     captions live inside the scene — behind the product card, penned in the
+     margin, typed into the editor. Captured to video by the frame pipeline. */
+  * { margin:0; box-sizing:border-box; }
+  html,body { background:#fbfaf8; }
+  #stage { position:relative; width:1600px; height:900px; overflow:hidden; background:#fbfaf8; }
+  :root { --T: 14s; }
+
+  /* ---- the browser, scrolling the real site -------------------------------- */
+  .browser { position:absolute; left:120px; top:70px; width:820px; height:760px;
+    background:#fff; border:1px solid #1c1b19; z-index:2; }
+  .browser__bar { height:34px; border-bottom:1px solid #1c1b19; display:flex; align-items:center; gap:7px; padding:0 12px; }
+  .browser__bar i { width:9px; height:9px; border-radius:50%; border:1px solid #1c1b19; }
+  .browser__url { margin-left:10px; font:500 12px "IBM Plex Mono",monospace; color:#8a857c; letter-spacing:.04em; }
+  .browser__view { position:absolute; inset:35px 0 0 0; overflow:hidden; }
+  /* one continuous page: home flows into shop, scrolled as a single column */
+  .pagecol { position:absolute; left:0; top:0; width:100%;
+    animation: pan var(--T) cubic-bezier(.45,.05,.55,.95) infinite; }
+  .pagecol img { display:block; width:100%; height:auto; }
+  @keyframes pan {
+    0%, 6%   { transform:translateY(0); }
+    40%, 52% { transform:translateY(-180px); }
+    88%, 96% { transform:translateY(-320px); }
+    100%     { transform:translateY(0); }
+  }
+
+  /* ---- the floating product card (the caption passes behind it) ------------ */
+  .card { position:absolute; right:270px; top:210px; width:300px; z-index:5;
+    background:#fff; border:1px solid #1c1b19; padding:14px 14px 12px; }
+  .card img { display:block; width:100%; height:300px; object-fit:cover; object-position:60% 30%; }
+  .card__row { display:flex; justify-content:space-between; align-items:baseline; margin-top:11px; }
+  .card__name { font:500 13px "Helvetica Neue",sans-serif; letter-spacing:.05em; }
+  .price { position:relative; font:500 14px "IBM Plex Mono",monospace; }
+  .price span { display:inline-block; }
+  .price .old { animation: priceOld var(--T) linear infinite; }
+  .price .new { position:absolute; right:0; top:0; opacity:0; color:#b06f14; animation: priceNew var(--T) linear infinite; }
+  @keyframes priceOld { 0%,86% { opacity:1; transform:none; } 88%,100% { opacity:0; transform:translateY(-8px); } }
+  @keyframes priceNew { 0%,86% { opacity:0; transform:translateY(8px); } 90%,98% { opacity:1; transform:none; } 100% { opacity:0; } }
+
+  /* ---- caption 1: travels behind the card ---------------------------------- */
+  .cap1 { position:absolute; top:400px; left:0; width:100%; z-index:4; white-space:nowrap;
+    font:italic 600 62px "Playfair Display",serif; color:#141310;
+    animation: cap1 var(--T) linear infinite; }
+  @keyframes cap1 {
+    0%, 2%   { transform:translateX(102%); opacity:1; }
+    36%      { transform:translateX(-108%); opacity:1; }
+    37%,100% { transform:translateX(-108%); opacity:0; }
+  }
+
+  /* ---- caption 2: pen note, written line by line ---------------------------- */
+  .pen { position:absolute; right:130px; top:120px; z-index:6; transform:rotate(-2.4deg);
+    font:600 34px/1.4 Caveat,cursive; color:#22201c; }
+  .pen span { display:block; clip-path:inset(0 100% 0 0); }
+  .pen .l1 { animation: write var(--T) cubic-bezier(.4,0,.6,1) infinite; }
+  .pen .l2 { animation: write2 var(--T) cubic-bezier(.4,0,.6,1) infinite; }
+  @keyframes write  { 0%,42% { clip-path:inset(0 100% 0 0); } 52%,94% { clip-path:inset(0 -2% 0 0); } 95%,100% { clip-path:inset(0 100% 0 0); } }
+  @keyframes write2 { 0%,52% { clip-path:inset(0 100% 0 0); } 62%,94% { clip-path:inset(0 -2% 0 0); } 95%,100% { clip-path:inset(0 100% 0 0); } }
+
+  /* ---- caption 3: typed into the editor; the page price flips --------------- */
+  .editor { position:absolute; left:50%; bottom:64px; transform:translateX(-50%); z-index:6;
+    background:#fff; border:1px solid #1c1b19; padding:12px 16px;
+    font:500 17px "IBM Plex Mono",monospace; color:#3c3a35; white-space:nowrap;
+    animation: edIn var(--T) ease infinite; }
+  @keyframes edIn { 0%,64% { opacity:0; transform:translate(-50%,10px); } 68%,97% { opacity:1; transform:translate(-50%,0); } 100% { opacity:0; } }
+  .editor .label { color:#8a857c; }
+  .editor .typed { display:inline-block; overflow:hidden; vertical-align:bottom; white-space:nowrap; width:0;
+    animation: typed var(--T) steps(18) infinite; }
+  @keyframes typed { 0%,70% { width:0; } 84%,100% { width:18ch; } }
+  .editor .caret { display:inline-block; width:8px; height:1.1em; background:#1c1b19; vertical-align:text-bottom;
+    animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity:0; } }
+  .editor .hint { display:block; font:400 11px "Helvetica Neue",sans-serif; letter-spacing:.05em; color:#8a857c; margin-top:6px; }
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <div class="browser">
+    <div class="browser__bar"><i></i><i></i><i></i><span class="browser__url">bealice.com</span></div>
+    <div class="browser__view">
+      <div class="pagecol">
+        <img src="../../assets/img/stores/bealice/home.jpg" alt="">
+        <img src="../../assets/img/stores/bealice/shop.jpg" alt="">
+        <img src="../../assets/img/stores/bealice/blog.jpg" alt="">
+      </div>
+    </div>
+  </div>
+
+  <div class="cap1">Your words, set like a magazine.</div>
+
+  <div class="card">
+    <img src="../../assets/img/stores/bealice/shop.jpg" alt="">
+    <div class="card__row">
+      <span class="card__name">SILK &amp; SOUL</span>
+      <span class="price"><span class="old">$132.00</span><span class="new">$148.00</span></span>
+    </div>
+  </div>
+
+  <div class="pen"><span class="l1">photos &amp; text rearrange</span><span class="l2">for any screen —</span></div>
+
+  <div class="editor">
+    <span class="label">price:&nbsp;</span><span class="typed">Silk &amp; Soul — $148</span><span class="caret"></span>
+    <span class="hint">change it yourself — it updates everywhere</span>
+  </div>
+
+</div>
+</body>
+</html>

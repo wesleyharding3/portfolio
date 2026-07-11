@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Integrated type — three ways captions live inside the scene</title>
+<style>
+  * { margin:0; box-sizing:border-box; }
+  body { background:#fff; color:#111; font:14px/1.5 "Helvetica Neue",Helvetica,Arial,sans-serif; padding:40px clamp(20px,4vw,64px); }
+  h1 { font:italic 900 26px/1 Georgia,serif; margin-bottom:6px; }
+  .sub { color:#888; font-size:13px; margin-bottom:24px; max-width:66ch; }
+  .bar { display:flex; gap:18px; align-items:center; margin-bottom:26px; }
+  button { font:inherit; font-size:12.5px; padding:7px 14px; border:1px solid #111; background:#fff; cursor:pointer; }
+  button:hover { background:#111; color:#fff; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:clamp(16px,2vw,28px); }
+  .tile { border:1px solid rgba(0,0,0,.14); position:relative; aspect-ratio:16/10; overflow:hidden; cursor:pointer; background:#fbfaf8; }
+  .tile .lbl { position:absolute; left:12px; bottom:11px; z-index:9; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:#444;
+    background:rgba(255,255,255,.8); padding:2px 7px; }
+  .tile .use { position:absolute; right:12px; top:10px; z-index:9; font-size:10px; color:#999; letter-spacing:.1em; text-transform:uppercase;
+    background:rgba(255,255,255,.8); padding:2px 7px; }
+
+  /* ---- 1. BEHIND — text travels behind scene elements (2.5D) --------------- */
+  .t-behind .bg, .t-behind .fg { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .t-behind .fg { /* only the obelisk shows — everything else cut away */
+    clip-path: polygon(53.5% 0%, 57.5% 0%, 67% 24%, 64.5% 100%, 40.5% 100%, 43% 30%);
+    z-index:3;
+  }
+  .t-behind .cap {
+    position:absolute; top:34%; left:0; width:100%; z-index:2; white-space:nowrap;
+    font:italic 900 clamp(28px,4.6vw,54px)/1 Georgia,serif; color:#141310;
+    transform:translateX(105%);
+  }
+  .t-behind.play .cap { animation: capTravel 9s linear infinite; }
+  @keyframes capTravel { 0% { transform:translateX(105%); } 100% { transform:translateX(-115%); } }
+
+  /* ---- 2. CODE — plain English arrives as the code's own comments ---------- */
+  .t-code { background:#fbfaf8; }
+  .t-code .sheet {
+    position:absolute; inset:clamp(14px,3.5%,26px);
+    border:1px solid #1c1b19; padding:16px 18px; overflow:hidden;
+  }
+  .t-code .sheet::before {
+    content:"SHEET 02 / 06 — IN-SITU ANALYTICS"; display:block;
+    font:600 11px/1 "IBM Plex Mono","Menlo",monospace; letter-spacing:.08em; color:#1c1b19;
+    border-bottom:1px solid #1c1b19; padding-bottom:10px; margin-bottom:14px;
+  }
+  .t-code pre {
+    font:500 clamp(11px,1.6vw,14.5px)/1.75 "Menlo","IBM Plex Mono",monospace; color:#3c3a35; white-space:pre-wrap;
+  }
+  .t-code .c-amber { color:#c77f1f; }
+  .t-code .c-bold  { color:#1c1b19; font-weight:700; }
+  .t-code .caret { display:inline-block; width:7px; height:1.05em; background:#1c1b19; vertical-align:text-bottom;
+    animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity:0; } }
+
+  /* ---- 3. PAPER — a note that writes itself ------------------------------- */
+  .t-paper { background:#fff; }
+  .t-paper .card {
+    position:absolute; inset:clamp(14px,4%,28px);
+    background:#fffefb; border:1px solid rgba(0,0,0,.12);
+    padding:clamp(14px,4%,30px);
+  }
+  .t-paper .brand { font-size:12px; letter-spacing:.42em; color:#141310; margin-bottom:5%; }
+  .t-paper .rule { height:1px; background:rgba(0,0,0,.10); margin:4.5% 0; }
+  .t-paper .note {
+    position:relative; display:inline-block; transform:rotate(-1.6deg); margin-top:2%;
+    font:400 clamp(22px,3.4vw,38px)/1.35 "Snell Roundhand","Savoye LET",cursive; color:#22201c;
+  }
+  .t-paper .note .txt { display:inline-block; clip-path:inset(0 100% 0 0); }
+  .t-paper.play .note .txt { animation: write 5.2s cubic-bezier(.35,0,.66,1) .6s forwards; }
+  @keyframes write { to { clip-path:inset(0 -2% 0 0); } }
+  .t-paper .nib { position:absolute; top:58%; left:0; width:4px; height:4px; border-radius:50%;
+    background:#22201c; opacity:0; }
+  .t-paper.play .nib { animation: nib 5.2s cubic-bezier(.35,0,.66,1) .6s forwards; }
+  @keyframes nib { 0% { left:0%; opacity:.8; } 96% { opacity:.8; } 100% { left:101%; opacity:0; } }
+</style>
+</head>
+<body>
+  <h1>Integrated type</h1>
+  <p class="sub">Three ways the layman captions live <em>inside</em> the scene instead of floating on top —
+  auditioned with real chapter-2 content. Click a tile to replay it.</p>
+  <div class="bar"><button id="replay">&#8635; Replay all</button></div>
+
+  <div class="grid">
+
+    <!-- 1. behind the scene -->
+    <div class="tile t-behind" id="d1">
+      <img class="bg" src="assets/img/hero/frontend-obelisk.jpg" alt="">
+      <div class="cap">Your words, set like a magazine.</div>
+      <img class="fg" src="assets/img/hero/frontend-obelisk.jpg" alt="" aria-hidden="true">
+      <span class="lbl">01 · travels behind &mdash; 2.5D</span>
+      <span class="use">websites · ch.2</span>
+    </div>
+
+    <!-- 2. as code -->
+    <div class="tile t-code" id="d2">
+      <div class="sheet"><pre id="codeout"></pre></div>
+      <span class="lbl">02 · appears as code</span>
+      <span class="use">systems · ch.2</span>
+    </div>
+
+    <!-- 3. written on paper -->
+    <div class="tile t-paper" id="d3">
+      <div class="card">
+        <div class="brand">&Eacute;TUDE</div>
+        <div class="rule"></div>
+        <div class="note">
+          <span class="txt">Photos &amp; text that rearrange for any&nbsp;screen&nbsp;&mdash;</span>
+          <span class="nib"></span>
+        </div>
+        <div class="rule" style="margin-top:7%"></div>
+      </div>
+      <span class="lbl">03 · written on paper</span>
+      <span class="use">websites · ch.2</span>
+    </div>
+
+  </div>
+
+<script>
+(function () {
+  // ---- 1 & 3: CSS-driven, retriggered via class toggle ------------------------
+  var d1 = document.getElementById("d1"), d3 = document.getElementById("d3");
+  function restartCss(el) {
+    el.classList.remove("play"); void el.offsetWidth; el.classList.add("play");
+  }
+
+  // ---- 2: the query types itself; plain English arrives as its comments -------
+  var out = document.getElementById("codeout");
+  var SCRIPT = [
+    { t: "SELECT date, count(*) AS carts\n",                cls: "" },
+    { t: "FROM events WHERE kind = 'add_to_cart'\n",        cls: "" },
+    { t: "GROUP BY date;\n\n",                              cls: "" },
+    { t: "-- plain English: how many people almost bought\n", cls: "c-amber", slow: true },
+    { t: "→ 412 carts this week · 3.1% became orders\n", cls: "c-bold", pause: 400 },
+    { t: "-- we count what customers do, not what they say", cls: "c-amber", slow: true }
+  ];
+  var typing = null;
+  function typeCode() {
+    clearTimeout(typing);
+    out.innerHTML = "";
+    var caret = document.createElement("span"); caret.className = "caret";
+    out.appendChild(caret);
+    var li = 0, ci = 0;
+    (function step() {
+      if (li >= SCRIPT.length) { return; }             // done — caret keeps blinking
+      var line = SCRIPT[li];
+      if (ci === 0 && line.pause) { var p = line.pause; line.pause = 0; typing = setTimeout(step, p); return; }
+      if (ci === 0) { line.el = document.createElement("span"); if (line.cls) line.el.className = line.cls; out.insertBefore(line.el, caret); }
+      line.el.textContent += line.t[ci];
+      ci++;
+      if (ci >= line.t.length) { li++; ci = 0; }
+      typing = setTimeout(step, line.slow ? 34 : 16);
+    })();
+  }
+
+  function replayAll() { restartCss(d1); restartCss(d3); typeCode(); }
+  document.getElementById("replay").addEventListener("click", replayAll);
+  d1.addEventListener("click", function(){ restartCss(d1); });
+  d3.addEventListener("click", function(){ restartCss(d3); });
+  document.getElementById("d2").addEventListener("click", typeCode);
+  replayAll();
+  setInterval(typeCode, 14000);                        // idle loop for the code tile
+})();
+</script>
+</body>
+</html>
