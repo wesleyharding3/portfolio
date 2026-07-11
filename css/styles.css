@@ -93,21 +93,9 @@ a:hover { text-decoration-color: currentColor; }
 .enter--back  { left: 50%; right: 0; }
 .enter:focus-visible { outline: 2px solid var(--black); outline-offset: -4px; }
 .enter--back:focus-visible { outline-color: #fff; }
-.mock__tag--right { left: auto; right: clamp(18px, 2.6vw, 38px); text-align: right; }
-.mock__go {
-  display: inline-block; margin-top: 12px;
-  font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--black);
-  border-bottom: 1px solid transparent; padding-bottom: 2px;
-  opacity: 0; transform: translateY(6px);
-}
-.enter:hover .mock__go, .enter:focus-visible .mock__go { border-bottom-color: var(--black); }
-/* Systems half is dark ground — its chip reads light instead */
-.enter--back .mock__go { color: #fff; }
-.enter--back:hover .mock__go, .enter--back:focus-visible .mock__go { border-bottom-color: #fff; }
 
 /* dress-in: only after the boot settles */
 .intro.is-dressed .mock__tagBig { animation: mockIn 0.24s ease 0.35s both; }
-.intro.is-dressed .mock__go { animation: mockIn 0.2s ease 0.52s both; }
 @keyframes mockIn { to { opacity: 1; transform: none; } }
 
 /* the seam: a hairline from the nav rule down to the bottom (never above it).
@@ -433,6 +421,29 @@ html:not(.js) .tabs { display: none; }
   .row { grid-template-columns: 1fr; gap: 0.1em; }
 }
 
+/* ---- 9b. ABOUT / CONTACT — content pages on the chapters chrome ---------- */
+.about__intro { display: flex; gap: clamp(28px, 4vw, 56px); align-items: flex-start; margin-bottom: clamp(40px, 6vh, 64px); }
+.about__portrait { flex: 0 0 clamp(180px, 22vw, 260px); margin: 0; }
+.about__portrait img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 18px; }
+.about__portrait figcaption { margin-top: 10px; font-size: 11px; letter-spacing: 0.04em; color: var(--ink-3); text-align: center; }
+.about__lede { flex: 1 1 0; min-width: 0; }
+.about__title { font-size: clamp(30px, 4vw, 46px); margin: 6px 0 20px; }
+.about__lede p { margin: 0 0 1.15em; max-width: 62ch; color: var(--ink); line-height: 1.65; }
+.about__lede p.dim { color: var(--ink-2); font-size: var(--fs-small); }
+.about__section { margin-top: clamp(34px, 5vh, 50px); padding-top: 26px; border-top: 1px solid rgba(0, 0, 0, 0.14); }
+.about .label { display: block; font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 6px; }
+.about__endnote { margin-top: clamp(34px, 5vh, 50px); font-size: 13.5px; color: var(--ink-2); }
+.about__endnote a { color: var(--ink); }
+.contact__section { margin-top: clamp(28px, 5vh, 44px); }
+.contact__section .label { display: block; font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 6px; }
+.contact__steps { margin: 14px 0 0; padding-left: 1.3em; color: var(--ink-2); line-height: 1.7; }
+.contact__steps li { margin-bottom: 0.5em; }
+.contact__note { margin-top: 1.2em; font-size: 13px; color: var(--ink-3); }
+@media (max-width: 640px) {
+  .about__intro { flex-direction: column; }
+  .about__portrait { flex-basis: auto; width: min(220px, 60vw); }
+}
+
 /* ---- 10. REDUCED MOTION ------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   .modal__card, .sandbox figure.on { animation: none; }
@@ -445,7 +456,7 @@ html:not(.js) .tabs { display: none; }
      base CSS is already the finished, static state; JS skips them entirely
      under reduced motion (see js/namedraw.js) */
   /* mock dressing appears without choreography; wind loop never autoplays */
-  .mock__tagBig, .mock__go { animation: none !important; opacity: 1; transform: none; }
+  .mock__tagBig { animation: none !important; opacity: 1; transform: none; }
   .half__video { display: none; }
   .panel .reel .slide, .panel .reel .slide img,
   .viz *, .panel.is-live .viz * { animation: none !important; }
@@ -473,7 +484,10 @@ html:not(.js) .tabs { display: none; }
 .chapters-top nav a[aria-current] { color: var(--black); border-bottom: 1px solid var(--black); padding-bottom: 2px; }
 .chapters-top__navs { display: flex; align-items: center; gap: 1.6em; }
 .chapters-top__div { width: 1px; height: 14px; background: rgba(0, 0, 0, 0.18); }
-@media (max-width: 560px) { .chapters-top__util { display: none; } }
+@media (max-width: 560px) {
+  .chapters-top nav.chapters-top__util { display: none; }
+  .chapters-top__div { display: none; }
+}
 
 .chapters { max-width: 1060px; margin: 0 auto; padding: clamp(40px, 7vh, 84px) clamp(20px, 4vw, 44px) 90px; }
 .chapters__kicker { font-size: 10.5px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink-3); }
@@ -555,3 +569,23 @@ html:not(.js) .tabs { display: none; }
   .wrow--flip .wrow__meta { justify-content: flex-start; }
   .wrow--flip .wrow__desc { margin-left: 0; }
 }
+
+/* ---- 11. LIGHTBOX — chapter figures expand in-page ------------------------ */
+html.lightbox-lock { overflow: hidden; }
+.lightbox {
+  position: fixed; inset: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: center; padding: 7vh 24px;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity 0.22s ease;
+}
+.lightbox.is-open { opacity: 1; visibility: visible; pointer-events: auto; }
+.lightbox__scrim { position: absolute; inset: 0; background: rgba(10, 10, 9, 0.94); }
+.lightbox__card { position: relative; z-index: 1; margin: 0; max-width: min(94vw, 1200px); text-align: center; }
+.lightbox__img { display: block; max-width: 100%; max-height: 82vh; margin: 0 auto; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45); }
+.lightbox__cap { margin-top: 16px; font-size: 13px; letter-spacing: 0.01em; color: rgba(255, 255, 255, 0.78); }
+.lightbox__close {
+  position: fixed; top: 22px; right: 24px; z-index: 2;
+  width: 40px; height: 40px; border: 1px solid rgba(255, 255, 255, 0.3); background: none;
+  color: #fff; font-size: 22px; line-height: 1; cursor: pointer;
+}
+.lightbox__close:hover { background: #fff; color: #111; border-color: #fff; }

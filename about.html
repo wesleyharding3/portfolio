@@ -6,7 +6,6 @@
 <title>About — Wesley Harding</title>
 <meta name="description" content="About Wesley Harding — eight-plus years running restaurant and entertainment operations before writing software; now building websites, databases, and the systems that connect them.">
 <meta name="theme-color" content="#ffffff">
-
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -16,87 +15,71 @@
 <meta property="og:description" content="From running operations to building the systems that run them.">
 <meta property="og:image" content="assets/img/wes-portrait.jpg">
 
-<link rel="stylesheet" href="css/styles.css?v=12">
+<link rel="stylesheet" href="css/styles.css?v=14">
 </head>
 <body>
 <a class="skip" href="#content">Skip to content</a>
 
-<div class="frame">
-
-  <nav class="side" aria-label="Site">
-    <a class="side__name" href="index.html">Wesley Harding</a>
-    <p class="side__loc">Los Angeles</p>
-    <div class="side__group">
-      <span class="side__label">Work</span>
-      <a href="bealice.html">BEALICE</a>
-      <a href="wear-the-future.html">Wear the Future</a>
-      <a href="inventory.html">Inventory</a>
-      <a href="earth00.html">earth00</a>
-    </div>
-    <div class="side__group">
+<header class="chapters-top">
+  <a class="home" href="index.html">Wesley Harding</a>
+  <div class="chapters-top__navs">
+    <nav aria-label="Domains">
+      <a href="frontend.html">Websites</a>
+      <a href="backend.html">Systems</a>
+    </nav>
+    <span class="chapters-top__div" aria-hidden="true"></span>
+    <nav class="chapters-top__util" aria-label="Site">
       <a href="about.html" aria-current="page">About</a>
       <a href="contact.html">Contact</a>
+      <a href="mailto:wesleyharding3@gmail.com">Email</a>
+    </nav>
+  </div>
+</header>
+
+<main class="chapters about" id="content">
+  <div class="about__intro">
+    <figure class="about__portrait">
+      <img src="assets/img/wes-portrait.jpg" alt="Wesley Harding" width="1200" height="1600" fetchpriority="high">
+      <figcaption>Los Angeles, 2026.</figcaption>
+    </figure>
+    <div class="about__lede">
+      <p class="chapters__kicker">How I work</p>
+      <h1 class="chapters__title about__title">ABOUT</h1>
+      <p>Before I wrote software, I spent eight-plus years running restaurant and entertainment
+      operations across Los Angeles, Portland, and San Diego — hands-on with the spreadsheets,
+      schedules, and numbers that kept the doors open. That's where I learned to respect
+      real-world systems: a report that's wrong loses money the same night.</p>
+      <p>So I build the way I'd want a system built for my own business. I'd rather the
+      software itself prevent mistakes than count on everyone to remember the rules. And when
+      something breaks, I find the real cause and fix that — instead of rebuilding from scratch.</p>
+      <p class="dim">AWS Cloud Practitioner certified &middot; CompTIA Data+ &middot; finishing a B.S. in
+      Data Science at WGU.</p>
     </div>
-    <div class="side__foot">
-      <p>Available for projects</p>
-      <a href="mailto:wesleyharding3@gmail.com">wesleyharding3@gmail.com</a>
-      <p>&copy; 2026</p>
-    </div>
-  </nav>
+  </div>
 
-  <main class="content" id="content">
-    <header class="head">
-      <h1>About</h1>
-      <p class="meta">How I work</p>
-    </header>
+  <section class="about__section">
+    <span class="label">Tools</span>
+    <dl class="rows">
+      <div class="row"><dt>PostgreSQL</dt><dd>Schema design, row-level security, functions &amp; triggers, pgvector, purpose-built indexing</dd></div>
+      <div class="row"><dt>TypeScript / Node</dt><dd>Next.js App Router, typed database layers, Express services</dd></div>
+      <div class="row"><dt>NLP &amp; data</dt><dd>Multilingual keyword extraction, entity resolution, local transformer embeddings, Python ETL</dd></div>
+      <div class="row"><dt>Front-end</dt><dd>Hand-written CSS design systems — no UI kit — responsive layouts, Three.js visualization</dd></div>
+      <div class="row"><dt>Payments &amp; auth</dt><dd>Stripe Checkout with signature-verified webhooks; magic-link, invite, and password sign-in</dd></div>
+      <div class="row"><dt>Hosting</dt><dd>Vercel &amp; Render, cloud storage, security-header hardening, iOS packaging</dd></div>
+    </dl>
+  </section>
 
-    <p>Before I wrote software, I spent eight-plus years running restaurant and entertainment
-    operations across Los Angeles, Portland, and San Diego — hands-on with the spreadsheets,
-    schedules, and numbers that kept the doors open. That's where I learned to respect
-    real-world systems: a report that's wrong loses money the same night.</p>
+  <section class="about__section">
+    <span class="label">Beyond the code</span>
+    <dl class="rows">
+      <div class="row"><dt>Music</dt><dd>Composition, sound design, and mixing in Ableton Live</dd></div>
+      <div class="row"><dt>3D &amp; animation</dt><dd>Blender — modeling, animation, rendered motion graphics</dd></div>
+      <div class="row"><dt>Video</dt><dd>Editing and automated publishing pipelines — earth00's daily briefings earn ~50,000 impressions a week</dd></div>
+    </dl>
+  </section>
 
-    <p>So I build the way I'd want a system built for my own business. I'd rather the
-    software itself prevent mistakes than count on everyone to remember the rules. And when
-    something breaks, I find the real cause and fix that — instead of rebuilding from scratch.</p>
+  <p class="about__endnote">The code itself: <a href="https://github.com/wesleyharding3" target="_blank" rel="noopener">github.com/wesleyharding3&nbsp;&#8599;</a></p>
+</main>
 
-    <p class="dim">AWS Cloud Practitioner certified · CompTIA Data+ · finishing a B.S. in
-    Data Science at WGU.</p>
-
-    <section>
-      <span class="label">Tools</span>
-      <dl class="rows">
-        <div class="row"><dt>PostgreSQL</dt><dd>Schema design, row-level security, functions &amp; triggers, pgvector, purpose-built indexing</dd></div>
-        <div class="row"><dt>TypeScript / Node</dt><dd>Next.js App Router, typed database layers, Express services</dd></div>
-        <div class="row"><dt>NLP &amp; data</dt><dd>Multilingual keyword extraction, entity resolution, local transformer embeddings, Python ETL</dd></div>
-        <div class="row"><dt>Front-end</dt><dd>Hand-written CSS design systems — no UI kit — responsive layouts, Three.js visualization</dd></div>
-        <div class="row"><dt>Payments &amp; auth</dt><dd>Stripe Checkout with signature-verified webhooks; magic-link, invite, and password sign-in</dd></div>
-        <div class="row"><dt>Hosting</dt><dd>Vercel &amp; Render, cloud storage, security-header hardening, iOS packaging</dd></div>
-      </dl>
-    </section>
-
-    <section>
-      <span class="label">Beyond the code</span>
-      <dl class="rows">
-        <div class="row"><dt>Music</dt><dd>Composition, sound design, and mixing in Ableton Live</dd></div>
-        <div class="row"><dt>3D &amp; animation</dt><dd>Blender — modeling, animation, rendered motion graphics</dd></div>
-        <div class="row"><dt>Video</dt><dd>Editing and automated publishing pipelines — earth00's daily briefings earn ~50,000 impressions a week</dd></div>
-      </dl>
-    </section>
-
-    <p class="endnote">The code itself: <a href="https://github.com/wesleyharding3" target="_blank" rel="noopener">github.com/wesleyharding3&nbsp;&#8599;</a></p>
-  </main>
-
-  <aside class="vitrine" aria-label="Figures">
-    <div class="vitrine__stage">
-      <figure data-fig="portrait" class="on">
-        <img src="assets/img/wes-portrait.jpg" alt="Wesley Harding" fetchpriority="high">
-        <figcaption>Los Angeles, 2026.</figcaption>
-      </figure>
-    </div>
-  </aside>
-
-</div>
-
-<script src="js/vitrine.js" defer></script>
 </body>
 </html>
